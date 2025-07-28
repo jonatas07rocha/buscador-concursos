@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATA_STREAM :: PAINEL DE VAGAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Exo+2:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #030712;
+            --color-panel-bg: rgba(17, 24, 39, 0.85);
+            --color-primary: #22d3ee;
+            --color-secondary: #f8fafc;
+            --color-text: #9ca3af;
+            --font-title: 'Exo 2', sans-serif;
+            --font-body: 'Roboto Mono', monospace;
+        }
+        body { 
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            background-image: radial-gradient(var(--color-primary) 0.5px, transparent 0.5px);
+            background-size: 15px 15px;
+        }
+        .intel-panel {
+            background-color: var(--color-panel-bg);
+            border: 1px solid var(--color-primary);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        h1, h2 { font-family: var(--font-title); text-transform: uppercase; letter-spacing: 0.1em; }
+        h1 { color: var(--color-secondary); }
+        h2 { color: var(--color-primary); }
+        input[type="text"] { background: #030712; border: 1px solid var(--color-primary); color: var(--color-secondary); }
+        *:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+        .table-row-focus { background-color: rgba(34, 211, 238, 0.1) !important; border-left: 3px solid var(--color-primary); }
+        .leaflet-container { background: var(--color-bg); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: var(--color-primary); }
+    </style>
+</head>
+<body class="text-gray-400">
+    <div class="p-4 sm:p-6 lg:p-8">
+        <div class="container mx-auto">
+            <header class="text-center mb-10">
+                <h1 class="text-3xl md:text-5xl font-bold">Painel de Vagas</h1>
+                <p class="mt-2">// Dados extraídos do PCI Concursos</p>
+                <p id="last-updated" class="text-xs text-cyan-500 mt-1"></p>
+            </header>
+            <main class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <section class="lg:col-span-3 intel-panel p-4 rounded-lg">
+                    <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map"></i>Mapa de Densidade Municipal</h2>
+                    <div id="map" class="h-96 lg:h-[600px] w-full z-0 rounded bg-gray-900 border border-cyan-500/20"></div>
+                </section>
+                <section class="lg:col-span-2 intel-panel p-4 rounded-lg">
+                    <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="list-filter"></i>Vagas Encontradas (<span id="vaga-count">0</span>)</h2>
+                    <div class="relative mb-4">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400"></i>
+                        <input type="text" id="filterInput" class="w-full pl-10 pr-4 py-2 rounded focus:ring-0 focus:border-cyan-300 transition" placeholder="Filtrar por cargo, órgão, etc...">
+                    </div>
+                    <div id="table-wrapper" class="overflow-y-auto h-[524px] relative" tabindex="0">
+                        <table class="w-full text-left">
+                            <tbody id="resultsBody"></tbody>
+                        </table>
+                        <p id="noResultsMessage" class="text-center p-6" style="display: none;">// Nenhum resultado encontrado.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = __DATA_PLACEHOLDER__;
+            const brazilStatesGeoJSON = __GEOJSON_PLACEHOLDER__;
+            const municipiosCoords = __MUNICIPIOS_COORDS_PLACEHOLDER__;
+            let map; // Variável global para a instância do mapa
+
+            const sfx = {
+                synth: new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 0.1 } }).toDestination(),
+                keySynth: new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.001, decay: 0.05, sustain: 0, release: 0.1 } }).toDestination(),
+                playBoot: () => sfx.synth.triggerAttackRelease("C3", "8n"),
+                playKey: () => sfx.keySynth.triggerAttackRelease("C5", "32n"),
+                playHover: () => sfx.keySynth.triggerAttackRelease("G4", "32n"),
+                playSelect: () => sfx.synth.triggerAttackRelease("A3", "16n")
+            };
+            const startAudio = () => { Tone.start(); sfx.playBoot(); document.body.removeEventListener('click', startAudio); document.body.removeEventListener('keydown', startAudio); };
+            document.body.addEventListener('click', startAudio);
+            document.body.addEventListener('keydown', startAudio);
+
+            const resultsBody = document.getElementById('resultsBody');
+            const tableWrapper = document.getElementById('table-wrapper');
+            const filterInput = document.getElementById('filterInput');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            const lastUpdatedEl = document.getElementById('last-updated');
+            const vagaCountEl = document.getElementById('vaga-count');
+            
+            const ufCoordinates = { 'AC': [-9.02, -70.81], 'AL': [-9.75, -36.72], 'AP': [1.41, -51.77], 'AM': [-3.44, -65.85], 'BA': [-12.96, -38.51], 'CE': [-3.71, -38.54], 'DF': [-15.78, -47.92], 'ES': [-19.19, -40.33], 'GO': [-16.68, -49.25], 'MA': [-2.53, -44.30], 'MT': [-12.64, -55.42], 'MS': [-20.44, -54.64], 'MG': [-18.51, -44.55], 'PA': [-1.45, -48.50], 'PB': [-7.11, -34.86], 'PR': [-25.25, -52.02], 'PE': [-8.04, -34.89], 'PI': [-5.09, -42.80], 'RJ': [-22.90, -43.17], 'RN': [-5.79, -35.20], 'RS': [-30.01, -51.22], 'RO': [-11.50, -62.24], 'RR': [2.82, -60.67], 'SC': [-27.59, -48.54], 'SP': [-23.55, -46.63], 'SE': [-10.91, -37.07], 'TO': [-10.25, -48.25] };
+            
+            function renderAll() {
+                if (!data || !data.vagas) return;
+                lastUpdatedEl.textContent = `// Última Sincronização: ${data.data_extracao}`;
+                vagaCountEl.textContent = data.total_vagas;
+                initializeMap(data.vagas);
+                displayTable(data.vagas);
+                lucide.createIcons();
+            }
+
+            function initializeMap(vagas) {
+                map = L.map('map', { zoomControl: false }).setView([-14.235, -51.925], 4.5);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' }).addTo(map);
+                const geoJsonStyle = { color: "#22d3ee", weight: 1, opacity: 0.4, fillOpacity: 0.05 };
+                L.geoJSON(brazilStatesGeoJSON, { style: geoJsonStyle }).addTo(map);
+                
+                const heatPoints = vagas
+                    .map(v => {
+                        const key = `${v.municipio}-${v.uf}`.toLowerCase();
+                        return municipiosCoords[key] || null;
+                    })
+                    .filter(coords => coords !== null)
+                    .map(coords => [coords[0], coords[1], 0.8]); // lat, lon, intensity
+
+                if (heatPoints.length > 0) {
+                    L.heatLayer(heatPoints, { radius: 20, blur: 25, maxZoom: 12, gradient: { 0.2: '#0c4a6e', 0.5: '#22d3ee', 1: '#f8fafc' } }).addTo(map);
+                }
+            }
+            
+            function focusMapOnLocation(vaga) {
+                if(!map) return;
+                const key = `${vaga.municipio}-${vaga.uf}`.toLowerCase();
+                const municipioCoord = municipiosCoords[key];
+                
+                if (municipioCoord) {
+                    map.flyTo(municipioCoord, 9, { duration: 1.2 });
+                } else if (ufCoordinates[vaga.uf]) {
+                    map.flyTo(ufCoordinates[vaga.uf], 6.5, { duration: 1.2 });
+                }
+            }
+
+            function displayTable(vagas) {
+                resultsBody.innerHTML = '';
+                const fragment = document.createDocumentFragment();
+                vagas.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-cyan-500/10 cursor-pointer';
+                    row.dataset.item = JSON.stringify(item); // Store full item data
+                    row.innerHTML = `<td class="p-3"><p class="font-bold text-gray-200">${item.cargo}</p><a href="${item.link_orgao}" target="_blank" rel="noopener noreferrer" class="text-sm text-cyan-400 hover:text-cyan-200 hover:underline" tabindex="-1">>> ${item.orgao}</a></td><td class="p-3 text-right"><span class="font-bold text-gray-200">[${item.uf}]</span></td>`;
+                    
+                    row.addEventListener('mouseenter', () => { sfx.playHover(); focusMapOnLocation(item); });
+                    row.addEventListener('click', () => window.open(item.link_orgao, '_blank'));
+
+                    fragment.appendChild(row);
+                });
+                resultsBody.appendChild(fragment);
+                setupKeyboardNavigation();
+            }
+            
+            function setupKeyboardNavigation() {
+                let focusedIndex = -1;
+                const rows = Array.from(resultsBody.querySelectorAll('tr'));
+                if (rows.length === 0) return;
+
+                const setFocus = (index) => {
+                    if (focusedIndex > -1 && rows[focusedIndex]) rows[focusedIndex].classList.remove('table-row-focus');
+                    const visibleRows = rows.filter(r => r.style.display !== 'none');
+                    if(visibleRows.length === 0) return;
+                    
+                    const newFocusedRow = visibleRows[index];
+                    focusedIndex = rows.indexOf(newFocusedRow);
+
+                    newFocusedRow.classList.add('table-row-focus');
+                    newFocusedRow.scrollIntoView({ block: 'nearest' });
+                    sfx.playSelect();
+                    focusMapOnLocation(JSON.parse(newFocusedRow.dataset.item));
+                };
+
+                tableWrapper.addEventListener('keydown', (e) => {
+                    if (document.activeElement !== tableWrapper) return;
+                    const visibleRows = rows.filter(r => r.style.display !== 'none');
+                    if (visibleRows.length === 0) return;
+                    const currentVisibleIndex = visibleRows.indexOf(rows[focusedIndex]);
+                    
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextIndex = (currentVisibleIndex + 1) % visibleRows.length;
+                        setFocus(nextIndex);
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevIndex = (currentVisibleIndex - 1 + visibleRows.length) % visibleRows.length;
+                        setFocus(prevIndex);
+                    } else if (e.key === 'Enter' && focusedIndex > -1) {
+                        rows[focusedIndex].querySelector('a').click();
+                    }
+                });
+
+                tableWrapper.addEventListener('focus', () => { if(focusedIndex === -1) setFocus(0); });
+                tableWrapper.addEventListener('blur', () => { if(focusedIndex > -1 && rows[focusedIndex]) rows[focusedIndex].classList.remove('table-row-focus'); focusedIndex = -1; });
+            }
+            
+            function filterTable() {
+                sfx.playKey();
+                const filterText = filterInput.value.toLowerCase();
+                const rows = resultsBody.querySelectorAll('tr');
+                let visibleRows = 0;
+                rows.forEach(row => {
+                    const shouldShow = row.textContent.toLowerCase().includes(filterText);
+                    row.style.display = shouldShow ? '' : 'none';
+                    if (shouldShow) visibleRows++;
+                });
+                noResultsMessage.style.display = visibleRows === 0 && rows.length > 0 ? 'block' : 'none';
+                setupKeyboardNavigation();
+            }
+
+            filterInput.addEventListener('keyup', filterTable);
+            renderAll();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Arquivos de ambiente virtual
+/venv/
+/.venv/
+/env/
+/.env/
+__pycache__/
+*.pyc
+
+# Arquivo de saída gerado pelo script
+painel_de_vagas.html
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db

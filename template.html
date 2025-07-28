@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DATA_STREAM :: PAINEL DE VAGAS</title>
+    <title>Painel de Vagas :: Análise Geográfica</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -12,66 +12,79 @@
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Exo+2:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-bg: #030712;
-            --color-panel-bg: rgba(17, 24, 39, 0.85);
-            --color-primary: #22d3ee;
-            --color-secondary: #f8fafc;
-            --color-text: #9ca3af;
-            --font-title: 'Exo 2', sans-serif;
-            --font-body: 'Roboto Mono', monospace;
+            --color-bg: #f8fafc; /* Fundo claro */
+            --color-panel-bg: #ffffff;
+            --color-primary: #2563eb; /* Azul primário */
+            --color-secondary: #1e293b; /* Texto escuro */
+            --color-text: #475569;   /* Texto secundário */
+            --color-border: #e2e8f0;
+            --font-title: 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
         }
         body { 
             font-family: var(--font-body);
             background-color: var(--color-bg);
             color: var(--color-text);
-            background-image: radial-gradient(var(--color-primary) 0.5px, transparent 0.5px);
-            background-size: 15px 15px;
         }
-        .intel-panel {
+        .panel {
             background-color: var(--color-panel-bg);
-            border: 1px solid var(--color-primary);
-            box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-border);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-radius: 0.75rem;
         }
-        h1, h2 { font-family: var(--font-title); text-transform: uppercase; letter-spacing: 0.1em; }
-        h1 { color: var(--color-secondary); }
-        h2 { color: var(--color-primary); }
-        input[type="text"] { background: #030712; border: 1px solid var(--color-primary); color: var(--color-secondary); }
-        *:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
-        .table-row-focus { background-color: rgba(34, 211, 238, 0.1) !important; border-left: 3px solid var(--color-primary); }
-        .leaflet-container { background: var(--color-bg); }
+        h1, h2 { font-family: var(--font-title); }
+        h1 { color: var(--color-secondary); font-weight: 700; }
+        h2 { color: var(--color-primary); font-weight: 500; }
+        .monospace { font-family: var(--font-mono); }
+        input[type="text"] { 
+            background: #f8fafc; 
+            border: 1px solid var(--color-border); 
+            color: var(--color-secondary);
+        }
+        input[type="text"]:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+            outline: none;
+        }
+        .table-row-focus { 
+            background-color: rgba(37, 99, 235, 0.05) !important; 
+            border-left: 3px solid var(--color-primary);
+        }
+        .leaflet-container { background: #e2e8f0; border-radius: 0.5rem; }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #111827; }
-        ::-webkit-scrollbar-thumb { background: var(--color-primary); }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px;}
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
-<body class="text-gray-400">
+<body class="text-slate-600">
     <div class="p-4 sm:p-6 lg:p-8">
         <div class="container mx-auto">
             <header class="text-center mb-10">
-                <h1 class="text-3xl md:text-5xl font-bold">Painel de Vagas</h1>
-                <p class="mt-2">// Dados extraídos do PCI Concursos</p>
-                <p id="last-updated" class="text-xs text-cyan-500 mt-1"></p>
+                <h1 class="text-3xl md:text-5xl">Painel de Vagas</h1>
+                <p class="mt-2 monospace text-sm">Dados extraídos do PCI Concursos</p>
+                <p id="last-updated" class="text-xs text-slate-500 mt-2 monospace"></p>
             </header>
             <main class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                <section class="lg:col-span-3 intel-panel p-4 rounded-lg">
+                <section class="lg:col-span-3 panel p-4">
                     <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map"></i>Mapa de Calor Municipal</h2>
-                    <div id="map" class="h-96 lg:h-[600px] w-full z-0 rounded bg-gray-900 border border-cyan-500/20"></div>
+                    <div id="map" class="h-96 lg:h-[600px] w-full z-0 rounded-lg"></div>
                 </section>
-                <section class="lg:col-span-2 intel-panel p-4 rounded-lg">
+                <section class="lg:col-span-2 panel p-4 flex flex-col">
                     <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="list-filter"></i>Vagas Encontradas (<span id="vaga-count">0</span>)</h2>
                     <div class="relative mb-4">
-                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400"></i>
-                        <input type="text" id="filterInput" class="w-full pl-10 pr-4 py-2 rounded focus:ring-0 focus:border-cyan-300 transition" placeholder="Filtrar por cargo, órgão, etc...">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                        <input type="text" id="filterInput" class="w-full pl-10 pr-4 py-2 rounded-md transition" placeholder="Filtrar por cargo, órgão, etc...">
                     </div>
-                    <div id="table-wrapper" class="overflow-y-auto h-[524px] relative" tabindex="0">
+                    <div id="table-wrapper" class="overflow-y-auto flex-grow h-[524px] relative" tabindex="0">
                         <table class="w-full text-left">
                             <tbody id="resultsBody"></tbody>
                         </table>
-                        <p id="noResultsMessage" class="text-center p-6" style="display: none;">// Nenhum resultado encontrado.</p>
+                        <p id="noResultsMessage" class="text-center p-6" style="display: none;">Nenhum resultado encontrado.</p>
                     </div>
                 </section>
             </main>
@@ -80,13 +93,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Placeholders serão substituídos pelo script Python
             const data = __DATA_PLACEHOLDER__;
             const brazilStatesGeoJSON = __GEOJSON_PLACEHOLDER__;
             const municipiosCoords = __MUNICIPIOS_COORDS_PLACEHOLDER__;
             
-            let map; // Variável global para a instância do mapa
-
+            let map;
             const sfx = {
                 synth: new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 0.1 } }).toDestination(),
                 keySynth: new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.001, decay: 0.05, sustain: 0, release: 0.1 } }).toDestination(),
@@ -95,7 +106,7 @@
                 playHover: () => sfx.keySynth.triggerAttackRelease("G4", "32n"),
                 playSelect: () => sfx.synth.triggerAttackRelease("A3", "16n")
             };
-            const startAudio = () => { Tone.start(); sfx.playBoot(); document.body.removeEventListener('click', startAudio); document.body.removeEventListener('keydown', startAudio); };
+            const startAudio = () => { if (Tone.context.state !== 'running') { Tone.start(); sfx.playBoot(); document.body.removeEventListener('click', startAudio); document.body.removeEventListener('keydown', startAudio); }};
             document.body.addEventListener('click', startAudio);
             document.body.addEventListener('keydown', startAudio);
 
@@ -114,7 +125,7 @@
                     vagaCountEl.textContent = 'ERRO';
                     return;
                 }
-                lastUpdatedEl.textContent = `// Última Sincronização: ${data.data_extracao}`;
+                lastUpdatedEl.textContent = `Última Sincronização: ${data.data_extracao}`;
                 vagaCountEl.textContent = data.total_vagas;
                 initializeMap(data.vagas);
                 displayTable(data.vagas);
@@ -123,9 +134,9 @@
 
             function initializeMap(vagas) {
                 map = L.map('map', { zoomControl: false }).setView([-14.235, -51.925], 4.5);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' }).addTo(map);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' }).addTo(map);
                 
-                const geoJsonStyle = { color: "#22d3ee", weight: 0.5, opacity: 0.2, fillOpacity: 0.0 };
+                const geoJsonStyle = { color: "#2563eb", weight: 0.5, opacity: 0.4, fillOpacity: 0.05 };
                 L.geoJSON(brazilStatesGeoJSON, { style: geoJsonStyle }).addTo(map);
                 
                 const heatPoints = vagas
@@ -135,14 +146,14 @@
                         return municipiosCoords[key] || null;
                     })
                     .filter(coords => coords !== null)
-                    .map(coords => [coords[0], coords[1], 0.8]); // lat, lon, intensity
+                    .map(coords => [coords[0], coords[1], 1]); // lat, lon, intensity
 
                 if (heatPoints.length > 0) {
                     L.heatLayer(heatPoints, { 
-                        radius: 25, 
-                        blur: 30, 
+                        radius: 20, 
+                        blur: 25, 
                         maxZoom: 12, 
-                        gradient: { 0.2: '#0c4a6e', 0.5: '#22d3ee', 1: '#f8fafc' } 
+                        gradient: { 0.4: 'blue', 0.65: 'lime', 1: 'red' } 
                     }).addTo(map);
                 }
             }
@@ -165,12 +176,16 @@
                 const fragment = document.createDocumentFragment();
                 vagas.forEach(item => {
                     const row = document.createElement('tr');
-                    row.className = 'border-b border-cyan-500/10 cursor-pointer hover:bg-cyan-500/5';
-                    row.dataset.item = JSON.stringify(item); // Armazena todos os dados do item
-                    row.innerHTML = `<td class="p-3"><p class="font-bold text-gray-200">${item.cargo}</p><a href="${item.link_orgao}" target="_blank" rel="noopener noreferrer" class="text-sm text-cyan-400 hover:text-cyan-200 hover:underline" tabindex="-1">>> ${item.orgao}</a></td><td class="p-3 text-right"><span class="font-bold text-gray-200">[${item.uf}]</span><br><span class="text-xs">${item.municipio}</span></td>`;
+                    row.className = 'border-b border-slate-200 cursor-pointer hover:bg-blue-50/50';
+                    row.dataset.item = JSON.stringify(item);
+                    row.innerHTML = `<td class="p-3"><p class="font-semibold text-slate-700">${item.cargo}</p><a href="${item.link_orgao}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 hover:underline" tabindex="-1">${item.orgao}</a></td><td class="p-3 text-right"><span class="font-bold text-slate-700">[${item.uf}]</span><br><span class="text-xs text-slate-500">${item.municipio}</span></td>`;
                     
                     row.addEventListener('mouseenter', () => { sfx.playHover(); focusMapOnLocation(item); });
-                    row.addEventListener('click', () => window.open(item.link_orgao, '_blank'));
+                    row.addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'A') { // Apenas abre o link se não clicou no link do órgão
+                            window.open(item.link_orgao, '_blank');
+                        }
+                    });
 
                     fragment.appendChild(row);
                 });
@@ -186,13 +201,12 @@
                 const setFocus = (index) => {
                     rows.forEach(r => r.classList.remove('table-row-focus'));
                     const visibleRows = rows.filter(r => r.style.display !== 'none');
-                    if(visibleRows.length === 0) return;
+                    if(visibleRows.length === 0) { focusedIndex = -1; return; }
                     
                     const newFocusedRow = visibleRows[index];
                     if (!newFocusedRow) return;
 
                     focusedIndex = rows.indexOf(newFocusedRow);
-
                     newFocusedRow.classList.add('table-row-focus');
                     newFocusedRow.scrollIntoView({ block: 'nearest' });
                     sfx.playSelect();
@@ -200,32 +214,27 @@
                 };
 
                 tableWrapper.addEventListener('keydown', (e) => {
-                    if (document.activeElement !== filterInput && document.activeElement !== tableWrapper) return;
-                    
                     const visibleRows = rows.filter(r => r.style.display !== 'none');
                     if (visibleRows.length === 0) return;
-                    
                     const currentVisibleIndex = visibleRows.indexOf(rows[focusedIndex]);
                     
+                    let nextIndex = currentVisibleIndex;
                     if (e.key === 'ArrowDown') {
                         e.preventDefault();
-                        const nextIndex = (currentVisibleIndex + 1) % visibleRows.length;
-                        setFocus(nextIndex);
+                        nextIndex = (currentVisibleIndex + 1) % visibleRows.length;
                     } else if (e.key === 'ArrowUp') {
                         e.preventDefault();
-                        const prevIndex = (currentVisibleIndex - 1 + visibleRows.length) % visibleRows.length;
-                        setFocus(prevIndex);
+                        nextIndex = (currentVisibleIndex - 1 + visibleRows.length) % visibleRows.length;
                     } else if (e.key === 'Enter' && focusedIndex > -1) {
-                        rows[focusedIndex].querySelector('a').click();
+                        rows[focusedIndex].click();
                     }
+                    setFocus(nextIndex);
                 });
 
-                filterInput.addEventListener('focus', () => tableWrapper.focus());
                 tableWrapper.addEventListener('focus', () => { if(focusedIndex === -1) setFocus(0); });
                 tableWrapper.addEventListener('blur', () => { rows.forEach(r => r.classList.remove('table-row-focus')); focusedIndex = -1; });
             }
             
-            // CORREÇÃO: Função de filtro agora busca nos dados JSON de cada linha
             function filterTable() {
                 sfx.playKey();
                 const filterText = filterInput.value.toLowerCase();
@@ -238,11 +247,11 @@
                     row.style.display = shouldShow ? '' : 'none';
                     if (shouldShow) visibleRows++;
                 });
-                noResultsMessage.style.display = visibleRows === 0 && rows.length > 0 ? 'block' : 'none';
+                noResultsMessage.style.display = visibleRows === 0 && data.vagas.length > 0 ? 'block' : 'none';
                 setupKeyboardNavigation();
             }
 
-            filterInput.addEventListener('keyup', filterTable);
+            filterInput.addEventListener('input', filterTable); // Mudei para 'input' para uma resposta mais rápida
             renderAll();
         });
     </script>

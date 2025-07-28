@@ -5,6 +5,7 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 import os
+import unicodedata
 
 # --- Configuração ---
 OUTPUT_FILE = "painel_de_vagas.html"
@@ -24,6 +25,15 @@ TARGET_URLS = [
 ]
 
 # --- Funções Auxiliares ---
+
+def normalize_text(text: str) -> str:
+    """Remove acentos, caracteres especiais e converte para minúsculas."""
+    try:
+        # Normaliza para decompor acentos e caracteres
+        text = ''.join(c for c in unicodedata.normalize('NFD', text) if unicodedata.category(c) != 'Mn')
+    except TypeError:
+        pass
+    return text.lower()
 
 def load_file_content(filepath: str) -> str | None:
     """Carrega o conteúdo de um arquivo de texto (HTML, JSON, etc)."""
@@ -50,7 +60,7 @@ def get_uf_from_string(text: str) -> str:
 def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> list:
     """
     Extrai informações de vagas usando a lógica validada de leitura sequencial
-    (.link-d para órgãos e .link-i para cargos).
+    e uma busca aprimorada por municípios.
     """
     print(f"   > Extraindo de: {url}")
     vagas_encontradas = []
@@ -83,13 +93,15 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
                         uf = get_uf_from_string(current_orgao['text'])
                         municipio = "N/D"
                         
+                        # Lógica de busca de município corrigida
                         if uf != 'N/D':
-                            orgao_lower = current_orgao['text'].lower()
+                            orgao_normalizado = normalize_text(current_orgao['text'])
                             possible_municipios = [k for k in municipios_data if k.endswith(f'-{uf.lower()}')]
                             for key in possible_municipios:
-                                municipio_key = key.rsplit('-', 1)[0]
-                                if municipio_key in orgao_lower:
-                                    municipio = municipio_key.replace("-", " ").title()
+                                municipio_key_sem_uf = key.rsplit('-', 1)[0]
+                                termo_busca = municipio_key_sem_uf.replace('-', ' ')
+                                if termo_busca in orgao_normalizado:
+                                    municipio = termo_busca.title()
                                     break
 
                         vaga_data = {

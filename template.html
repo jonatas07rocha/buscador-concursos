@@ -124,12 +124,14 @@
             function initializeMap(vagas) {
                 map = L.map('map', { zoomControl: false }).setView([-14.235, -51.925], 4.5);
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' }).addTo(map);
-                const geoJsonStyle = { color: "#22d3ee", weight: 1, opacity: 0.4, fillOpacity: 0.05 };
+                
+                const geoJsonStyle = { color: "#22d3ee", weight: 0.5, opacity: 0.2, fillOpacity: 0.0 };
                 L.geoJSON(brazilStatesGeoJSON, { style: geoJsonStyle }).addTo(map);
                 
                 const heatPoints = vagas
                     .map(v => {
-                        const key = `${v.municipio.replace(/ /g, '-').toLowerCase()}-${v.uf.toLowerCase()}`;
+                        const municipioLimpo = v.municipio.replace(/ /g, '-').toLowerCase();
+                        const key = `${municipioLimpo}-${v.uf.toLowerCase()}`;
                         return municipiosCoords[key] || null;
                     })
                     .filter(coords => coords !== null)
@@ -137,8 +139,8 @@
 
                 if (heatPoints.length > 0) {
                     L.heatLayer(heatPoints, { 
-                        radius: 20, 
-                        blur: 25, 
+                        radius: 25, 
+                        blur: 30, 
                         maxZoom: 12, 
                         gradient: { 0.2: '#0c4a6e', 0.5: '#22d3ee', 1: '#f8fafc' } 
                     }).addTo(map);
@@ -147,7 +149,8 @@
             
             function focusMapOnLocation(vaga) {
                 if(!map) return;
-                const key = `${vaga.municipio.replace(/ /g, '-').toLowerCase()}-${vaga.uf.toLowerCase()}`;
+                const municipioLimpo = vaga.municipio.replace(/ /g, '-').toLowerCase();
+                const key = `${municipioLimpo}-${vaga.uf.toLowerCase()}`;
                 const municipioCoord = municipiosCoords[key];
                 
                 if (municipioCoord) {
@@ -222,6 +225,7 @@
                 tableWrapper.addEventListener('blur', () => { rows.forEach(r => r.classList.remove('table-row-focus')); focusedIndex = -1; });
             }
             
+            // CORREÇÃO: Função de filtro agora busca nos dados JSON de cada linha
             function filterTable() {
                 sfx.playKey();
                 const filterText = filterInput.value.toLowerCase();

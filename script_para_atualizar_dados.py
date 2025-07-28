@@ -61,7 +61,6 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
         
         soup = BeautifulSoup(response.content, 'lxml')
         
-        # Lógica de extração validada pelo script de teste
         nodes = soup.select('#pagina .link-d, #pagina .link-i')
         
         current_orgao = {'text': 'N/A', 'href': '#'}
@@ -70,7 +69,9 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
             if 'link-d' in node.get('class', []):
                 link = node.select_one('a')
                 if link and link.get_text(strip=True):
-                    current_orgao = {'text': link.get_text(strip=True), 'href': "https://www.pciconcursos.com.br" + link.get('href', '#')}
+                    href = link.get('href', '#')
+                    full_href = f"https://www.pciconcursos.com.br{href}" if href.startswith('/') else href
+                    current_orgao = {'text': link.get_text(strip=True), 'href': full_href}
             
             elif 'link-i' in node.get('class', []):
                 link = node.select_one('a')
@@ -81,14 +82,14 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
                     if id_vaga not in ids_vagas_existentes:
                         uf = get_uf_from_string(current_orgao['text'])
                         municipio = "N/D"
-                        # Procura pelo município correspondente para o mapa de calor
+                        
                         if uf != 'N/D':
                             orgao_lower = current_orgao['text'].lower()
                             possible_municipios = [k for k in municipios_data if k.endswith(f'-{uf.lower()}')]
                             for key in possible_municipios:
                                 municipio_key = key.rsplit('-', 1)[0]
                                 if municipio_key in orgao_lower:
-                                    municipio = municipio_key.title()
+                                    municipio = municipio_key.replace("-", " ").title()
                                     break
 
                         vaga_data = {
@@ -150,9 +151,9 @@ def main():
 
     # Injeta os dados no template
     print("🔄 Gerando arquivo HTML final...")
-    output_html = html_template.replace("'__DATA_PLACEHOLDER__'", json.dumps(final_data, ensure_ascii=False))
-    output_html = output_html.replace("'__GEOJSON_PLACEHOLDER__'", brazil_geojson_str)
-    output_html = output_html.replace("'__MUNICIPIOS_COORDS_PLACEHOLDER__'", municipios_coords_str)
+    output_html = html_template.replace("__DATA_PLACEHOLDER__", json.dumps(final_data, ensure_ascii=False))
+    output_html = output_html.replace("__GEOJSON_PLACEHOLDER__", brazil_geojson_str)
+    output_html = output_html.replace("__MUNICIPIOS_COORDS_PLACEHOLDER__", municipios_coords_str)
 
     # Salva o arquivo final
     try:

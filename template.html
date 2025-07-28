@@ -58,7 +58,6 @@
             </header>
             <main class="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <section class="lg:col-span-3 intel-panel p-4 rounded-lg">
-                    <!-- CORREÇÃO: Título do mapa ajustado -->
                     <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map"></i>Mapa de Calor Municipal</h2>
                     <div id="map" class="h-96 lg:h-[600px] w-full z-0 rounded bg-gray-900 border border-cyan-500/20"></div>
                 </section>
@@ -128,7 +127,6 @@
                 const geoJsonStyle = { color: "#22d3ee", weight: 1, opacity: 0.4, fillOpacity: 0.05 };
                 L.geoJSON(brazilStatesGeoJSON, { style: geoJsonStyle }).addTo(map);
                 
-                // Lógica do Mapa de Calor baseada nos municípios
                 const heatPoints = vagas
                     .map(v => {
                         const key = `${v.municipio.replace(/ /g, '-').toLowerCase()}-${v.uf.toLowerCase()}`;

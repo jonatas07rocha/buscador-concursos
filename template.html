@@ -8,7 +8,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,6 +58,37 @@
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px;}
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        /* Estilos para a "Mira" (Crosshairs) */
+        .crosshair-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 32px;
+            height: 32px;
+        }
+        .crosshair-icon::before, .crosshair-icon::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(37, 99, 235, 0.7); /* Azul primário com transparência */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+        }
+        .crosshair-icon::before { /* Linha Vertical */
+            width: 2px;
+            height: 40px;
+        }
+        .crosshair-icon::after { /* Linha Horizontal */
+            width: 40px;
+            height: 2px;
+        }
+        .crosshair-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ffffff;
+            border: 2px solid var(--color-primary);
+            border-radius: 50%;
+            z-index: 1;
+        }
     </style>
 </head>
 <body class="text-slate-600">
@@ -71,7 +101,7 @@
             </header>
             <main class="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <section class="lg:col-span-3 panel p-4">
-                    <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map"></i>Mapa de Calor Municipal</h2>
+                    <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map-pin"></i>Localização da Vaga</h2>
                     <div id="map" class="h-96 lg:h-[600px] w-full z-0 rounded-lg"></div>
                 </section>
                 <section class="lg:col-span-2 panel p-4 flex flex-col">
@@ -94,10 +124,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const data = __DATA_PLACEHOLDER__;
-            const brazilStatesGeoJSON = __GEOJSON_PLACEHOLDER__;
             const municipiosCoords = __MUNICIPIOS_COORDS_PLACEHOLDER__;
             
             let map;
+            let selectionMarker = null;
+
             const sfx = {
                 synth: new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 0.1 } }).toDestination(),
                 keySynth: new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.001, decay: 0.05, sustain: 0, release: 0.1 } }).toDestination(),
@@ -117,8 +148,6 @@
             const lastUpdatedEl = document.getElementById('last-updated');
             const vagaCountEl = document.getElementById('vaga-count');
             
-            const ufCoordinates = { 'AC': [-9.02, -70.81], 'AL': [-9.75, -36.72], 'AP': [1.41, -51.77], 'AM': [-3.44, -65.85], 'BA': [-12.96, -38.51], 'CE': [-3.71, -38.54], 'DF': [-15.78, -47.92], 'ES': [-19.19, -40.33], 'GO': [-16.68, -49.25], 'MA': [-2.53, -44.30], 'MT': [-12.64, -55.42], 'MS': [-20.44, -54.64], 'MG': [-18.51, -44.55], 'PA': [-1.45, -48.50], 'PB': [-7.11, -34.86], 'PR': [-25.25, -52.02], 'PE': [-8.04, -34.89], 'PI': [-5.09, -42.80], 'RJ': [-22.90, -43.17], 'RN': [-5.79, -35.20], 'RS': [-30.01, -51.22], 'RO': [-11.50, -62.24], 'RR': [2.82, -60.67], 'SC': [-27.59, -48.54], 'SP': [-23.55, -46.63], 'SE': [-10.91, -37.07], 'TO': [-10.25, -48.25] };
-            
             function renderAll() {
                 if (!data || !data.vagas || typeof data.vagas === 'undefined') {
                     console.error("Dados de vagas ausentes ou em formato incorreto.");
@@ -127,47 +156,44 @@
                 }
                 lastUpdatedEl.textContent = `Última Sincronização: ${data.data_extracao}`;
                 vagaCountEl.textContent = data.total_vagas;
-                initializeMap(data.vagas);
+                initializeMap();
                 displayTable(data.vagas);
                 lucide.createIcons();
             }
 
-            function initializeMap(vagas) {
+            function initializeMap() {
                 map = L.map('map', { zoomControl: false }).setView([-14.235, -51.925], 4.5);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' }).addTo(map);
-                
-                const geoJsonStyle = { color: "#2563eb", weight: 0.5, opacity: 0.4, fillOpacity: 0.05 };
-                L.geoJSON(brazilStatesGeoJSON, { style: geoJsonStyle }).addTo(map);
-                
-                const heatPoints = vagas
-                    .map(v => {
-                        const municipioLimpo = v.municipio.replace(/ /g, '-').toLowerCase();
-                        const key = `${municipioLimpo}-${v.uf.toLowerCase()}`;
-                        return municipiosCoords[key] || null;
-                    })
-                    .filter(coords => coords !== null)
-                    .map(coords => [coords[0], coords[1], 1]); // lat, lon, intensity
-
-                if (heatPoints.length > 0) {
-                    L.heatLayer(heatPoints, { 
-                        radius: 20, 
-                        blur: 25, 
-                        maxZoom: 12, 
-                        gradient: { 0.4: 'blue', 0.65: 'lime', 1: 'red' } 
-                    }).addTo(map);
-                }
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { 
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' 
+                }).addTo(map);
             }
             
             function focusMapOnLocation(vaga) {
                 if(!map) return;
+                
+                if (selectionMarker) {
+                    map.removeLayer(selectionMarker);
+                    selectionMarker = null;
+                }
+
                 const municipioLimpo = vaga.municipio.replace(/ /g, '-').toLowerCase();
                 const key = `${municipioLimpo}-${vaga.uf.toLowerCase()}`;
                 const municipioCoord = municipiosCoords[key];
                 
                 if (municipioCoord) {
-                    map.flyTo(municipioCoord, 9, { duration: 1.2 });
-                } else if (ufCoordinates[vaga.uf]) {
-                    map.flyTo(ufCoordinates[vaga.uf], 6.5, { duration: 1.2 });
+                    const crosshairIcon = L.divIcon({
+                        className: 'crosshair-icon',
+                        html: '<div class="crosshair-dot"></div>',
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+
+                    selectionMarker = L.marker(municipioCoord, { 
+                        icon: crosshairIcon,
+                        interactive: false // O marcador não captura eventos de mouse
+                    }).addTo(map);
+                    
+                    map.flyTo(municipioCoord, 10, { duration: 1.0 });
                 }
             }
 
@@ -182,14 +208,20 @@
                     
                     row.addEventListener('mouseenter', () => { sfx.playHover(); focusMapOnLocation(item); });
                     row.addEventListener('click', (e) => {
-                        if (e.target.tagName !== 'A') { // Apenas abre o link se não clicou no link do órgão
-                            window.open(item.link_orgao, '_blank');
-                        }
+                         window.open(item.link_orgao, '_blank');
                     });
 
                     fragment.appendChild(row);
                 });
                 resultsBody.appendChild(fragment);
+
+                tableWrapper.addEventListener('mouseleave', () => {
+                    if (selectionMarker) {
+                        map.removeLayer(selectionMarker);
+                        selectionMarker = null;
+                    }
+                });
+
                 setupKeyboardNavigation();
             }
             
@@ -228,11 +260,14 @@
                     } else if (e.key === 'Enter' && focusedIndex > -1) {
                         rows[focusedIndex].click();
                     }
-                    setFocus(nextIndex);
+                    if (nextIndex !== currentVisibleIndex) {
+                       setFocus(nextIndex);
+                    }
                 });
-
-                tableWrapper.addEventListener('focus', () => { if(focusedIndex === -1) setFocus(0); });
+                
+                tableWrapper.addEventListener('focus', () => { if (focusedIndex === -1 && resultsBody.querySelector('tr[style*="display: none;"]') === null) setFocus(0); });
                 tableWrapper.addEventListener('blur', () => { rows.forEach(r => r.classList.remove('table-row-focus')); focusedIndex = -1; });
+                filterInput.addEventListener('blur', () => tableWrapper.focus());
             }
             
             function filterTable() {
@@ -248,10 +283,11 @@
                     if (shouldShow) visibleRows++;
                 });
                 noResultsMessage.style.display = visibleRows === 0 && data.vagas.length > 0 ? 'block' : 'none';
+                // Reset focus logic after filtering
                 setupKeyboardNavigation();
             }
 
-            filterInput.addEventListener('input', filterTable); // Mudei para 'input' para uma resposta mais rápida
+            filterInput.addEventListener('input', filterTable);
             renderAll();
         });
     </script>

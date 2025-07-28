@@ -58,7 +58,8 @@
             </header>
             <main class="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <section class="lg:col-span-3 intel-panel p-4 rounded-lg">
-                    <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map"></i>Mapa de Densidade Municipal</h2>
+                    <!-- CORREÇÃO: Título do mapa ajustado -->
+                    <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map"></i>Mapa de Calor Municipal</h2>
                     <div id="map" class="h-96 lg:h-[600px] w-full z-0 rounded bg-gray-900 border border-cyan-500/20"></div>
                 </section>
                 <section class="lg:col-span-2 intel-panel p-4 rounded-lg">
@@ -80,9 +81,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Placeholders serão substituídos pelo script Python
             const data = __DATA_PLACEHOLDER__;
             const brazilStatesGeoJSON = __GEOJSON_PLACEHOLDER__;
             const municipiosCoords = __MUNICIPIOS_COORDS_PLACEHOLDER__;
+            
             let map; // Variável global para a instância do mapa
 
             const sfx = {
@@ -107,7 +110,11 @@
             const ufCoordinates = { 'AC': [-9.02, -70.81], 'AL': [-9.75, -36.72], 'AP': [1.41, -51.77], 'AM': [-3.44, -65.85], 'BA': [-12.96, -38.51], 'CE': [-3.71, -38.54], 'DF': [-15.78, -47.92], 'ES': [-19.19, -40.33], 'GO': [-16.68, -49.25], 'MA': [-2.53, -44.30], 'MT': [-12.64, -55.42], 'MS': [-20.44, -54.64], 'MG': [-18.51, -44.55], 'PA': [-1.45, -48.50], 'PB': [-7.11, -34.86], 'PR': [-25.25, -52.02], 'PE': [-8.04, -34.89], 'PI': [-5.09, -42.80], 'RJ': [-22.90, -43.17], 'RN': [-5.79, -35.20], 'RS': [-30.01, -51.22], 'RO': [-11.50, -62.24], 'RR': [2.82, -60.67], 'SC': [-27.59, -48.54], 'SP': [-23.55, -46.63], 'SE': [-10.91, -37.07], 'TO': [-10.25, -48.25] };
             
             function renderAll() {
-                if (!data || !data.vagas) return;
+                if (!data || !data.vagas || typeof data.vagas === 'undefined') {
+                    console.error("Dados de vagas ausentes ou em formato incorreto.");
+                    vagaCountEl.textContent = 'ERRO';
+                    return;
+                }
                 lastUpdatedEl.textContent = `// Última Sincronização: ${data.data_extracao}`;
                 vagaCountEl.textContent = data.total_vagas;
                 initializeMap(data.vagas);
@@ -121,22 +128,28 @@
                 const geoJsonStyle = { color: "#22d3ee", weight: 1, opacity: 0.4, fillOpacity: 0.05 };
                 L.geoJSON(brazilStatesGeoJSON, { style: geoJsonStyle }).addTo(map);
                 
+                // Lógica do Mapa de Calor baseada nos municípios
                 const heatPoints = vagas
                     .map(v => {
-                        const key = `${v.municipio}-${v.uf}`.toLowerCase();
+                        const key = `${v.municipio.replace(/ /g, '-').toLowerCase()}-${v.uf.toLowerCase()}`;
                         return municipiosCoords[key] || null;
                     })
                     .filter(coords => coords !== null)
                     .map(coords => [coords[0], coords[1], 0.8]); // lat, lon, intensity
 
                 if (heatPoints.length > 0) {
-                    L.heatLayer(heatPoints, { radius: 20, blur: 25, maxZoom: 12, gradient: { 0.2: '#0c4a6e', 0.5: '#22d3ee', 1: '#f8fafc' } }).addTo(map);
+                    L.heatLayer(heatPoints, { 
+                        radius: 20, 
+                        blur: 25, 
+                        maxZoom: 12, 
+                        gradient: { 0.2: '#0c4a6e', 0.5: '#22d3ee', 1: '#f8fafc' } 
+                    }).addTo(map);
                 }
             }
             
             function focusMapOnLocation(vaga) {
                 if(!map) return;
-                const key = `${vaga.municipio}-${vaga.uf}`.toLowerCase();
+                const key = `${vaga.municipio.replace(/ /g, '-').toLowerCase()}-${vaga.uf.toLowerCase()}`;
                 const municipioCoord = municipiosCoords[key];
                 
                 if (municipioCoord) {
@@ -151,9 +164,9 @@
                 const fragment = document.createDocumentFragment();
                 vagas.forEach(item => {
                     const row = document.createElement('tr');
-                    row.className = 'border-b border-cyan-500/10 cursor-pointer';
-                    row.dataset.item = JSON.stringify(item); // Store full item data
-                    row.innerHTML = `<td class="p-3"><p class="font-bold text-gray-200">${item.cargo}</p><a href="${item.link_orgao}" target="_blank" rel="noopener noreferrer" class="text-sm text-cyan-400 hover:text-cyan-200 hover:underline" tabindex="-1">>> ${item.orgao}</a></td><td class="p-3 text-right"><span class="font-bold text-gray-200">[${item.uf}]</span></td>`;
+                    row.className = 'border-b border-cyan-500/10 cursor-pointer hover:bg-cyan-500/5';
+                    row.dataset.item = JSON.stringify(item); // Armazena todos os dados do item
+                    row.innerHTML = `<td class="p-3"><p class="font-bold text-gray-200">${item.cargo}</p><a href="${item.link_orgao}" target="_blank" rel="noopener noreferrer" class="text-sm text-cyan-400 hover:text-cyan-200 hover:underline" tabindex="-1">>> ${item.orgao}</a></td><td class="p-3 text-right"><span class="font-bold text-gray-200">[${item.uf}]</span><br><span class="text-xs">${item.municipio}</span></td>`;
                     
                     row.addEventListener('mouseenter', () => { sfx.playHover(); focusMapOnLocation(item); });
                     row.addEventListener('click', () => window.open(item.link_orgao, '_blank'));
@@ -170,11 +183,13 @@
                 if (rows.length === 0) return;
 
                 const setFocus = (index) => {
-                    if (focusedIndex > -1 && rows[focusedIndex]) rows[focusedIndex].classList.remove('table-row-focus');
+                    rows.forEach(r => r.classList.remove('table-row-focus'));
                     const visibleRows = rows.filter(r => r.style.display !== 'none');
                     if(visibleRows.length === 0) return;
                     
                     const newFocusedRow = visibleRows[index];
+                    if (!newFocusedRow) return;
+
                     focusedIndex = rows.indexOf(newFocusedRow);
 
                     newFocusedRow.classList.add('table-row-focus');
@@ -184,9 +199,11 @@
                 };
 
                 tableWrapper.addEventListener('keydown', (e) => {
-                    if (document.activeElement !== tableWrapper) return;
+                    if (document.activeElement !== filterInput && document.activeElement !== tableWrapper) return;
+                    
                     const visibleRows = rows.filter(r => r.style.display !== 'none');
                     if (visibleRows.length === 0) return;
+                    
                     const currentVisibleIndex = visibleRows.indexOf(rows[focusedIndex]);
                     
                     if (e.key === 'ArrowDown') {
@@ -202,8 +219,9 @@
                     }
                 });
 
+                filterInput.addEventListener('focus', () => tableWrapper.focus());
                 tableWrapper.addEventListener('focus', () => { if(focusedIndex === -1) setFocus(0); });
-                tableWrapper.addEventListener('blur', () => { if(focusedIndex > -1 && rows[focusedIndex]) rows[focusedIndex].classList.remove('table-row-focus'); focusedIndex = -1; });
+                tableWrapper.addEventListener('blur', () => { rows.forEach(r => r.classList.remove('table-row-focus')); focusedIndex = -1; });
             }
             
             function filterTable() {
@@ -212,7 +230,9 @@
                 const rows = resultsBody.querySelectorAll('tr');
                 let visibleRows = 0;
                 rows.forEach(row => {
-                    const shouldShow = row.textContent.toLowerCase().includes(filterText);
+                    const itemData = JSON.parse(row.dataset.item);
+                    const rowText = `${itemData.cargo} ${itemData.orgao} ${itemData.uf} ${itemData.municipio}`.toLowerCase();
+                    const shouldShow = rowText.includes(filterText);
                     row.style.display = shouldShow ? '' : 'none';
                     if (shouldShow) visibleRows++;
                 });

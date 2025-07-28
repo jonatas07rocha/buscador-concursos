@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
+import os
 
 # --- Configuração ---
 OUTPUT_FILE = "painel_de_vagas.html"
@@ -24,117 +25,144 @@ TARGET_URLS = [
 
 # --- Funções Auxiliares ---
 
-def clean_text(text):
-    """Remove espaços em branco extras do início e do fim de uma string."""
-    return text.strip()
-
-def load_data_file(filepath):
-    """Carrega dados de um arquivo, tratando possíveis erros."""
+def load_file_content(filepath: str) -> str | None:
+    """Carrega o conteúdo de um arquivo de texto (HTML, JSON, etc)."""
+    if not os.path.exists(filepath):
+        print(f"❌ ERRO: Arquivo não encontrado em '{filepath}'")
+        return None
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
-            if filepath.endswith('.json'):
-                return json.load(f)
             return f.read()
-    except FileNotFoundError:
-        print(f"❌ ERRO: O arquivo essencial '{filepath}' não foi encontrado.")
-        print("   Por favor, verifique se o arquivo existe no local correto e tente novamente.")
-        return None
-    except json.JSONDecodeError:
-        print(f"❌ ERRO: O arquivo JSON '{filepath}' está mal formatado ou é inválido.")
+    except IOError as e:
+        print(f"❌ ERRO: Falha ao ler o arquivo '{filepath}': {e}")
         return None
 
-def scrape_vagas(url):
-    """Extrai as informações de vagas de uma URL do PCI Concursos."""
+def get_uf_from_string(text: str) -> str:
+    """Extrai a sigla do estado (UF) do final de uma string."""
+    match = re.search(r'\s-\s([A-Z]{2})$', text.strip())
+    if match:
+        return match.group(1)
+    match_parenteses = re.search(r'\(([A-Z]{2})\)$', text.strip())
+    if match_parenteses:
+        return match_parenteses.group(1)
+    return 'N/D'
+
+def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> list:
+    """
+    Extrai informações de vagas usando a lógica validada de leitura sequencial
+    (.link-d para órgãos e .link-i para cargos).
+    """
     print(f"   > Extraindo de: {url}")
-    vagas = []
+    vagas_encontradas = []
     try:
-        # Define um cabeçalho User-Agent para simular um navegador real
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
         response = requests.get(url, headers=headers, timeout=20)
         response.raise_for_status()
+        
         soup = BeautifulSoup(response.content, 'lxml')
+        
+        # Lógica de extração validada pelo script de teste
+        nodes = soup.select('#pagina .link-d, #pagina .link-i')
+        
+        current_orgao = {'text': 'N/A', 'href': '#'}
 
-        vagas_elements = soup.find_all('div', class_='ca')
+        for node in nodes:
+            if 'link-d' in node.get('class', []):
+                link = node.select_one('a')
+                if link and link.get_text(strip=True):
+                    current_orgao = {'text': link.get_text(strip=True), 'href': "https://www.pciconcursos.com.br" + link.get('href', '#')}
+            
+            elif 'link-i' in node.get('class', []):
+                link = node.select_one('a')
+                if link:
+                    cargo_text = link.get_text(strip=True)
+                    id_vaga = f"{current_orgao['text']}|{cargo_text}"
+                    
+                    if id_vaga not in ids_vagas_existentes:
+                        uf = get_uf_from_string(current_orgao['text'])
+                        municipio = "N/D"
+                        # Procura pelo município correspondente para o mapa de calor
+                        if uf != 'N/D':
+                            orgao_lower = current_orgao['text'].lower()
+                            possible_municipios = [k for k in municipios_data if k.endswith(f'-{uf.lower()}')]
+                            for key in possible_municipios:
+                                municipio_key = key.rsplit('-', 1)[0]
+                                if municipio_key in orgao_lower:
+                                    municipio = municipio_key.title()
+                                    break
 
-        for vaga_element in vagas_elements:
-            link_element = vaga_element.a
-            # Validação mais robusta para encontrar os elementos corretos
-            if not link_element: continue
-            orgao_element = link_element.find_next_sibling('a')
-            if not orgao_element: continue
-            local_text_element = orgao_element.find_next_sibling(string=True)
-            if not local_text_element: continue
+                        vaga_data = {
+                            'orgao': current_orgao['text'],
+                            'link_orgao': current_orgao['href'],
+                            'cargo': cargo_text,
+                            'uf': uf,
+                            'municipio': municipio
+                        }
+                        vagas_encontradas.append(vaga_data)
+                        ids_vagas_existentes.add(id_vaga)
 
-            cargo = clean_text(link_element.text)
-            link_orgao = link_element.get('href', '')
-            orgao = clean_text(orgao_element.text)
-
-            local_match = re.search(r"([^\(]+)\s+\((.+)\)", clean_text(local_text_element))
-            if local_match:
-                municipio = clean_text(local_match.group(1))
-                uf = clean_text(local_match.group(2).replace(")", ""))
-                vagas.append({
-                    "cargo": cargo,
-                    "orgao": orgao,
-                    "municipio": municipio,
-                    "uf": uf,
-                    "link_orgao": f"https://www.pciconcursos.com.br{link_orgao}"
-                })
-    except requests.exceptions.RequestException as e:
-        print(f"   ! Erro de rede ao acessar a URL {url}: {e}")
+    except requests.RequestException as e:
+        print(f"   ! Erro de conexão ao acessar a URL {url}: {e}")
     except Exception as e:
         print(f"   ! Ocorreu um erro inesperado ao processar {url}: {e}")
 
-    return vagas
+    return vagas_encontradas
 
 def main():
     """Função principal para orquestrar o scraping e a geração do HTML."""
     start_time = time.time()
-    
-    print("📂 Carregando arquivos de dados e template...")
-    
-    # Carrega todos os arquivos necessários no início
-    html_template = load_data_file(TEMPLATE_FILE)
-    municipios_coords = load_data_file(MUNICIPIOS_COORDS_FILE)
-    brazil_geojson = load_data_file(GEOJSON_FILE)
+    print("🚀 Iniciando script de atualização de vagas...")
+    print("--------------------------------------------------")
 
-    # Se qualquer arquivo essencial não for carregado, interrompe a execução
-    if not all([html_template, municipios_coords, brazil_geojson]):
-        print("\n🛑 Execução interrompida devido à falta de arquivos essenciais.")
+    # Carrega arquivos
+    print("📄 Carregando arquivos de dados e template...")
+    html_template = load_file_content(TEMPLATE_FILE)
+    brazil_geojson_str = load_file_content(GEOJSON_FILE)
+    municipios_coords_str = load_file_content(MUNICIPIOS_COORDS_FILE)
+    
+    if not all([html_template, brazil_geojson_str, municipios_coords_str]):
+        print("\n❌ Script interrompido devido à falta de arquivos essenciais.")
         return
-
-    print("✅ Arquivos carregados com sucesso.")
+        
+    municipios_coords = json.loads(municipios_coords_str)
     
-    print("\n🕸️  Iniciando extração de vagas...")
+    print("✅ Arquivos carregados com sucesso.")
+    print("--------------------------------------------------")
+
+    # Inicia extração
+    print("🕸️  Iniciando extração de vagas...")
     todas_as_vagas = []
+    ids_vagas_unicas = set()
     for url in TARGET_URLS:
-        vagas_da_url = scrape_vagas(url)
+        vagas_da_url = scrape_vagas(url, ids_vagas_unicas, municipios_coords)
         todas_as_vagas.extend(vagas_da_url)
-        time.sleep(1.5) # Pausa maior para ser mais gentil com o servidor
+        time.sleep(1) # Pausa amigável
+    print("--------------------------------------------------")
+    print(f"✨ Extração finalizada. Total de {len(todas_as_vagas)} vagas únicas encontradas.")
 
-    print(f"\n✨ Extração finalizada. Total de {len(todas_as_vagas)} vagas encontradas.")
-
+    # Prepara os dados para o template
     data_extracao = datetime.now().strftime("%d/%m/%Y às %H:%M:%S")
-
     final_data = {
         "vagas": todas_as_vagas,
         "total_vagas": len(todas_as_vagas),
         "data_extracao": data_extracao,
     }
 
-    print("📄 Gerando arquivo HTML final...")
-    
-    # Substitui os placeholders no template
-    output_html = html_template.replace("__DATA_PLACEHOLDER__", json.dumps(final_data, ensure_ascii=False))
-    output_html = output_html.replace("__GEOJSON_PLACEHOLDER__", brazil_geojson)
-    output_html = output_html.replace("__MUNICIPIOS_COORDS_PLACEHOLDER__", json.dumps(municipios_coords, ensure_ascii=False))
+    # Injeta os dados no template
+    print("🔄 Gerando arquivo HTML final...")
+    output_html = html_template.replace("'__DATA_PLACEHOLDER__'", json.dumps(final_data, ensure_ascii=False))
+    output_html = output_html.replace("'__GEOJSON_PLACEHOLDER__'", brazil_geojson_str)
+    output_html = output_html.replace("'__MUNICIPIOS_COORDS_PLACEHOLDER__'", municipios_coords_str)
 
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(output_html)
-
-    end_time = time.time()
-    print(f"\n🚀 Sucesso! O arquivo '{OUTPUT_FILE}' foi gerado em {end_time - start_time:.2f} segundos.")
-
+    # Salva o arquivo final
+    try:
+        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+            f.write(output_html)
+        end_time = time.time()
+        print("--------------------------------------------------")
+        print(f"✅ Sucesso! O arquivo '{OUTPUT_FILE}' foi gerado em {end_time - start_time:.2f} segundos.")
+    except IOError as e:
+        print(f"❌ ERRO CRÍTICO: Não foi possível escrever o arquivo '{OUTPUT_FILE}': {e}")
 
 if __name__ == "__main__":
     main()

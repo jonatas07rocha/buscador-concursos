@@ -11,103 +11,131 @@
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-bg: #f8fafc; /* Fundo claro */
-            --color-panel-bg: #ffffff;
-            --color-primary: #2563eb; /* Azul primário */
-            --color-secondary: #1e293b; /* Texto escuro */
-            --color-text: #475569;   /* Texto secundário */
-            --color-border: #e2e8f0;
-            --font-title: 'Inter', sans-serif;
-            --font-body: 'Inter', sans-serif;
+            /* Paleta de Cores Futurista */
+            --color-bg: #0d1117; /* Fundo principal (quase preto) */
+            --color-panel-bg: #161b22; /* Fundo dos painéis */
+            --color-primary: #30b4f0; /* Azul elétrico/ciano para destaque */
+            --color-primary-glow: rgba(48, 180, 240, 0.5); /* Cor para o efeito de "brilho" */
+            --color-secondary: #c9d1d9; /* Texto principal (cinza claro) */
+            --color-text: #8b949e;   /* Texto secundário (cinza mais escuro) */
+            --color-border: #30363d; /* Cor da borda */
+            --font-body: 'Roboto Mono', monospace;
             --font-mono: 'Roboto Mono', monospace;
         }
         body { 
             font-family: var(--font-body);
             background-color: var(--color-bg);
             color: var(--color-text);
+            /* Efeito de grade no fundo */
+            background-image: 
+                linear-gradient(var(--color-border) 1px, transparent 1px), 
+                linear-gradient(to right, var(--color-border) 1px, var(--color-bg) 1px);
+            background-size: 40px 40px;
         }
         .panel {
             background-color: var(--color-panel-bg);
             border: 1px solid var(--color-border);
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            border-radius: 0.75rem;
+            /* Sombra para dar profundidade e um leve brilho neon */
+            box-shadow: 0 0 15px rgba(0,0,0,0.3), 0 0 5px var(--color-primary-glow);
+            border-radius: 0.5rem;
+            backdrop-filter: blur(10px); /* Efeito de "vidro fosco" se o fundo tivesse imagem */
         }
-        h1, h2 { font-family: var(--font-title); }
-        h1 { color: var(--color-secondary); font-weight: 700; }
-        h2 { color: var(--color-primary); font-weight: 500; }
+        h1, h2 { font-family: var(--font-mono); }
+        h1 { 
+            color: var(--color-secondary); 
+            font-weight: 700;
+            /* Efeito de texto neon */
+            text-shadow: 0 0 8px var(--color-primary-glow);
+        }
+        h2 { 
+            color: var(--color-primary); 
+            font-weight: 500;
+        }
         .monospace { font-family: var(--font-mono); }
         input[type="text"] { 
-            background: #f8fafc; 
+            background: var(--color-bg); 
             border: 1px solid var(--color-border); 
             color: var(--color-secondary);
+            transition: all 0.3s ease;
         }
         input[type="text"]:focus {
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 0 0 3px rgba(48, 180, 240, 0.2);
+            background-color: var(--color-panel-bg);
             outline: none;
         }
+        /* Foco na tabela com brilho neon */
         .table-row-focus { 
-            background-color: rgba(37, 99, 235, 0.05) !important; 
+            background-color: rgba(48, 180, 240, 0.1) !important; 
             border-left: 3px solid var(--color-primary);
+            box-shadow: inset 0 0 10px var(--color-primary-glow);
+            color: var(--color-secondary);
         }
-        .leaflet-container { background: #e2e8f0; border-radius: 0.5rem; }
+        /* Tema escuro para o mapa */
+        .leaflet-container { 
+            background: #2d333b; 
+            border-radius: 0.5rem; 
+        }
+        /* Tema escuro para a barra de rolagem */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #e2e8f0; }
-        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px;}
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        ::-webkit-scrollbar-track { background: var(--color-panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px;}
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
         
-        /* Estilos para a "Mira" (Crosshairs) */
+        /* Ícone de mira (Crosshair) redesenhado */
         .crosshair-icon {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 32px;
-            height: 32px;
         }
         .crosshair-icon::before, .crosshair-icon::after {
             content: '';
             position: absolute;
-            background-color: rgba(37, 99, 235, 0.7); /* Azul primário com transparência */
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+            background-color: var(--color-primary);
+            box-shadow: 0 0 8px var(--color-primary-glow);
+            border-radius: 1px;
         }
-        .crosshair-icon::before { /* Linha Vertical */
-            width: 2px;
-            height: 40px;
-        }
-        .crosshair-icon::after { /* Linha Horizontal */
-            width: 40px;
-            height: 2px;
-        }
+        .crosshair-icon::before { width: 1px; height: 32px; }
+        .crosshair-icon::after { width: 32px; height: 1px; }
         .crosshair-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #ffffff;
-            border: 2px solid var(--color-primary);
+            width: 6px;
+            height: 6px;
+            background-color: var(--color-bg);
+            border: 1px solid var(--color-primary);
             border-radius: 50%;
             z-index: 1;
+            animation: pulse 1.5s infinite;
+        }
+        /* Animação de pulso para o marcador */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 var(--color-primary-glow); }
+            70% { box-shadow: 0 0 0 10px rgba(48, 180, 240, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(48, 180, 240, 0); }
         }
     </style>
 </head>
-<body class="text-slate-600">
+<body class="text-slate-400">
     <div class="p-4 sm:p-6 lg:p-8">
         <div class="container mx-auto">
             <header class="text-center mb-10">
                 <h1 class="text-3xl md:text-5xl">Painel de Vagas</h1>
                 <p class="mt-2 monospace text-sm">Dados extraídos do PCI Concursos</p>
-                <p id="last-updated" class="text-xs text-slate-500 mt-2 monospace"></p>
+                <p id="last-updated" class="text-xs mt-2 monospace"></p>
             </header>
             <main class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <!-- Coluna do Mapa -->
                 <section class="lg:col-span-3 panel p-4">
                     <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map-pin"></i>Localização da Vaga</h2>
                     <div id="map" class="h-96 lg:h-[600px] w-full z-0 rounded-lg"></div>
                 </section>
+                <!-- Coluna da Lista de Vagas -->
                 <section class="lg:col-span-2 panel p-4 flex flex-col">
                     <h2 class="text-xl mb-4 flex items-center gap-2"><i data-lucide="list-filter"></i>Vagas Encontradas (<span id="vaga-count">0</span>)</h2>
                     <div class="relative mb-4">
-                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
                         <input type="text" id="filterInput" class="w-full pl-10 pr-4 py-2 rounded-md transition" placeholder="Filtrar por cargo, órgão, etc...">
                     </div>
                     <div id="table-wrapper" class="overflow-y-auto flex-grow h-[524px] relative" tabindex="0">
@@ -123,19 +151,28 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Os dados e coordenadas serão injetados aqui pelo script Python
             const data = __DATA_PLACEHOLDER__;
             const municipiosCoords = __MUNICIPIOS_COORDS_PLACEHOLDER__;
             
             let map;
             let selectionMarker = null;
 
+            // Sons futuristas
             const sfx = {
                 synth: new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 0.1 } }).toDestination(),
-                keySynth: new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.001, decay: 0.05, sustain: 0, release: 0.1 } }).toDestination(),
-                playBoot: () => sfx.synth.triggerAttackRelease("C3", "8n"),
-                playKey: () => sfx.keySynth.triggerAttackRelease("C5", "32n"),
-                playHover: () => sfx.keySynth.triggerAttackRelease("G4", "32n"),
-                playSelect: () => sfx.synth.triggerAttackRelease("A3", "16n")
+                keySynth: new Tone.FMSynth({
+                    harmonicity: 8,
+                    modulationIndex: 2,
+                    oscillator: { type: 'sine' },
+                    envelope: { attack: 0.001, decay: 0.2, sustain: 0, release: 0.1 },
+                    modulation: { type: 'square' },
+                    modulationEnvelope: { attack: 0.002, decay: 0.2, sustain: 0, release: 0.1 }
+                }).toDestination(),
+                playBoot: () => sfx.synth.triggerAttackRelease("C2", "8n", Tone.now()),
+                playKey: () => sfx.keySynth.triggerAttackRelease("G5", "32n", Tone.now(), 0.5),
+                playHover: () => sfx.keySynth.triggerAttackRelease("C5", "32n", Tone.now(), 0.3),
+                playSelect: () => sfx.synth.triggerAttackRelease("A3", "16n", Tone.now())
             };
             const startAudio = () => { if (Tone.context.state !== 'running') { Tone.start(); sfx.playBoot(); document.body.removeEventListener('click', startAudio); document.body.removeEventListener('keydown', startAudio); }};
             document.body.addEventListener('click', startAudio);
@@ -163,7 +200,8 @@
 
             function initializeMap() {
                 map = L.map('map', { zoomControl: false }).setView([-14.235, -51.925], 4.5);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { 
+                // Tile layer com tema escuro
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { 
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' 
                 }).addTo(map);
             }
@@ -171,15 +209,19 @@
             function focusMapOnLocation(vaga) {
                 if(!map) return;
                 
+                // Remove o marcador anterior
                 if (selectionMarker) {
                     map.removeLayer(selectionMarker);
                     selectionMarker = null;
                 }
 
+                // Chave para buscar a coordenada
                 const municipioLimpo = vaga.municipio.replace(/ /g, '-').toLowerCase();
                 const key = `${municipioLimpo}-${vaga.uf.toLowerCase()}`;
                 const municipioCoord = municipiosCoords[key];
                 
+                // A MÁGICA ACONTECE AQUI:
+                // Se 'municipioCoord' for encontrado (ou seja, não for "N/D"), então move o mapa.
                 if (municipioCoord) {
                     const crosshairIcon = L.divIcon({
                         className: 'crosshair-icon',
@@ -190,10 +232,11 @@
 
                     selectionMarker = L.marker(municipioCoord, { 
                         icon: crosshairIcon,
-                        interactive: false // O marcador não captura eventos de mouse
+                        interactive: false 
                     }).addTo(map);
                     
-                    map.flyTo(municipioCoord, 10, { duration: 1.0 });
+                    // O flyTo funcionará para as vagas que tiverem coordenadas válidas.
+                    map.flyTo(municipioCoord, 10, { duration: 1.5 });
                 }
             }
 
@@ -202,9 +245,16 @@
                 const fragment = document.createDocumentFragment();
                 vagas.forEach(item => {
                     const row = document.createElement('tr');
-                    row.className = 'border-b border-slate-200 cursor-pointer hover:bg-blue-50/50';
+                    row.className = 'border-b border-slate-700 cursor-pointer transition-colors duration-200 hover:bg-slate-800';
                     row.dataset.item = JSON.stringify(item);
-                    row.innerHTML = `<td class="p-3"><p class="font-semibold text-slate-700">${item.cargo}</p><a href="${item.link_orgao}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 hover:underline" tabindex="-1">${item.orgao}</a></td><td class="p-3 text-right"><span class="font-bold text-slate-700">[${item.uf}]</span><br><span class="text-xs text-slate-500">${item.municipio}</span></td>`;
+                    row.innerHTML = `<td class="p-3">
+                                        <p class="font-semibold text-slate-300">${item.cargo}</p>
+                                        <a href="${item.link_orgao}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-400 hover:text-blue-300 hover:underline" tabindex="-1">${item.orgao}</a>
+                                     </td>
+                                     <td class="p-3 text-right">
+                                        <span class="font-bold text-slate-300">[${item.uf}]</span><br>
+                                        <span class="text-xs text-slate-500">${item.municipio}</span>
+                                     </td>`;
                     
                     row.addEventListener('mouseenter', () => { sfx.playHover(); focusMapOnLocation(item); });
                     row.addEventListener('click', (e) => {
@@ -283,7 +333,6 @@
                     if (shouldShow) visibleRows++;
                 });
                 noResultsMessage.style.display = visibleRows === 0 && data.vagas.length > 0 ? 'block' : 'none';
-                // Reset focus logic after filtering
                 setupKeyboardNavigation();
             }
 

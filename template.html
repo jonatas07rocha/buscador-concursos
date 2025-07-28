@@ -38,16 +38,14 @@
         .panel {
             background-color: var(--color-panel-bg);
             border: 1px solid var(--color-border);
-            /* Sombra para dar profundidade e um leve brilho neon */
             box-shadow: 0 0 15px rgba(0,0,0,0.3), 0 0 5px var(--color-primary-glow);
             border-radius: 0.5rem;
-            backdrop-filter: blur(10px); /* Efeito de "vidro fosco" se o fundo tivesse imagem */
+            backdrop-filter: blur(10px);
         }
         h1, h2 { font-family: var(--font-mono); }
         h1 { 
             color: var(--color-secondary); 
             font-weight: 700;
-            /* Efeito de texto neon */
             text-shadow: 0 0 8px var(--color-primary-glow);
         }
         h2 { 
@@ -67,54 +65,20 @@
             background-color: var(--color-panel-bg);
             outline: none;
         }
-        /* Foco na tabela com brilho neon */
         .table-row-focus { 
             background-color: rgba(48, 180, 240, 0.1) !important; 
             border-left: 3px solid var(--color-primary);
             box-shadow: inset 0 0 10px var(--color-primary-glow);
             color: var(--color-secondary);
         }
-        /* Tema escuro para o mapa */
         .leaflet-container { 
             background: #2d333b; 
             border-radius: 0.5rem; 
         }
-        /* Tema escuro para a barra de rolagem */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--color-panel-bg); }
         ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px;}
         ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
-        
-        /* Ícone de mira (Crosshair) redesenhado */
-        .crosshair-icon {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .crosshair-icon::before, .crosshair-icon::after {
-            content: '';
-            position: absolute;
-            background-color: var(--color-primary);
-            box-shadow: 0 0 8px var(--color-primary-glow);
-            border-radius: 1px;
-        }
-        .crosshair-icon::before { width: 1px; height: 32px; }
-        .crosshair-icon::after { width: 32px; height: 1px; }
-        .crosshair-dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--color-bg);
-            border: 1px solid var(--color-primary);
-            border-radius: 50%;
-            z-index: 1;
-            animation: pulse 1.5s infinite;
-        }
-        /* Animação de pulso para o marcador */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 var(--color-primary-glow); }
-            70% { box-shadow: 0 0 0 10px rgba(48, 180, 240, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(48, 180, 240, 0); }
-        }
     </style>
 </head>
 <body class="text-slate-400">
@@ -151,30 +115,27 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Os dados e coordenadas serão injetados aqui pelo script Python
             const data = __DATA_PLACEHOLDER__;
-            const municipiosCoords = __MUNICIPIOS_COORDS_PLACEHOLDER__;
             
-            // --- NOVO: Coordenadas e zoom para cada estado (fallback) ---
+            // Coordenadas e zoom para cada estado
             const stateInfo = {
-                'AC': { coords: [-9.0238, -70.8120], zoom: 7 }, 'AL': { coords: [-9.5713, -36.7820], zoom: 8 },
-                'AP': { coords: [1.4133, -51.8744], zoom: 7 },  'AM': { coords: [-3.4168, -65.8561], zoom: 6 },
+                'AC': { coords: [-9.0238, -70.8120], zoom: 6 }, 'AL': { coords: [-9.5713, -36.7820], zoom: 8 },
+                'AP': { coords: [1.4133, -51.8744], zoom: 6 },  'AM': { coords: [-3.4168, -65.8561], zoom: 5 },
                 'BA': { coords: [-12.9714, -38.5014], zoom: 6 }, 'CE': { coords: [-5.4984, -39.3206], zoom: 7 },
                 'DF': { coords: [-15.7797, -47.9297], zoom: 9 }, 'ES': { coords: [-19.1834, -40.3089], zoom: 8 },
-                'GO': { coords: [-15.8270, -49.8362], zoom: 7 }, 'MA': { coords: [-5.4244, -45.4428], zoom: 6 },
-                'MT': { coords: [-12.6819, -56.9219], zoom: 6 }, 'MS': { coords: [-20.4486, -54.6295], zoom: 6 },
-                'MG': { coords: [-18.5122, -44.5550], zoom: 6 }, 'PA': { coords: [-5.5333, -52.2917], zoom: 6 },
+                'GO': { coords: [-15.8270, -49.8362], zoom: 6 }, 'MA': { coords: [-5.4244, -45.4428], zoom: 6 },
+                'MT': { coords: [-12.6819, -56.9219], zoom: 5 }, 'MS': { coords: [-20.4486, -54.6295], zoom: 6 },
+                'MG': { coords: [-18.5122, -44.5550], zoom: 6 }, 'PA': { coords: [-5.5333, -52.2917], zoom: 5 },
                 'PB': { coords: [-7.1195, -36.8784], zoom: 8 },  'PR': { coords: [-25.2521, -52.0215], zoom: 7 },
                 'PE': { coords: [-8.3405, -37.8463], zoom: 7 },  'PI': { coords: [-7.7183, -42.7289], zoom: 6 },
-                'RJ': { coords: [-22.9068, -43.1729], zoom: 8 }, 'RN': { coords: [-5.7945, -36.9541], zoom: 8 },
-                'RS': { coords: [-30.0346, -51.2177], zoom: 7 }, 'RO': { coords: [-10.8340, -63.3421], zoom: 7 },
-                'RR': { coords: [1.9912, -61.3235], zoom: 7 },  'SC': { coords: [-27.2423, -50.2189], zoom: 7 },
-                'SP': { coords: [-23.5505, -46.6333], zoom: 7 }, 'SE': { coords: [-10.9472, -37.0731], zoom: 9 },
-                'TO': { coords: [-10.1844, -48.3336], zoom: 7 }
+                'RJ': { coords: [-22.9068, -43.1729], zoom: 7 }, 'RN': { coords: [-5.7945, -36.9541], zoom: 8 },
+                'RS': { coords: [-30.0346, -51.2177], zoom: 6 }, 'RO': { coords: [-10.8340, -63.3421], zoom: 6 },
+                'RR': { coords: [1.9912, -61.3235], zoom: 6 },  'SC': { coords: [-27.2423, -50.2189], zoom: 7 },
+                'SP': { coords: [-22.5505, -48.6333], zoom: 7 }, 'SE': { coords: [-10.9472, -37.0731], zoom: 8 },
+                'TO': { coords: [-10.1844, -48.3336], zoom: 6 }
             };
 
             let map;
-            let selectionMarker = null;
 
             // Sons futuristas
             const sfx = {
@@ -221,36 +182,13 @@
                 }).addTo(map);
             }
             
-            // --- ATUALIZADO: Função de foco no mapa com fallback para o estado ---
+            // --- ATUALIZADO: Foco apenas no Estado (UF) ---
             function focusMapOnLocation(vaga) {
-                if(!map) return;
+                if(!map || !vaga.uf) return;
                 
-                if (selectionMarker) {
-                    map.removeLayer(selectionMarker);
-                    selectionMarker = null;
-                }
-
-                // 1. Tenta encontrar as coordenadas do MUNICÍPIO
-                const municipioLimpo = vaga.municipio.replace(/ /g, '-').toLowerCase();
-                const key = `${municipioLimpo}-${vaga.uf.toLowerCase()}`;
-                const municipioCoord = municipiosCoords[key];
-                
-                if (municipioCoord) {
-                    // MUNICÍPIO ENCONTRADO: Foca com zoom alto e adiciona marcador
-                    const crosshairIcon = L.divIcon({
-                        className: 'crosshair-icon', html: '<div class="crosshair-dot"></div>',
-                        iconSize: [32, 32], iconAnchor: [16, 16]
-                    });
-                    selectionMarker = L.marker(municipioCoord, { icon: crosshairIcon, interactive: false }).addTo(map);
-                    map.flyTo(municipioCoord, 10, { duration: 1.5 });
-
-                } else {
-                    // 2. MUNICÍPIO NÃO ENCONTRADO: Usa o fallback para o ESTADO
-                    const stateData = stateInfo[vaga.uf];
-                    if (stateData) {
-                        // Foca no centro do estado com zoom mais baixo
-                        map.flyTo(stateData.coords, stateData.zoom, { duration: 1.5 });
-                    }
+                const stateData = stateInfo[vaga.uf];
+                if (stateData) {
+                    map.flyTo(stateData.coords, stateData.zoom, { duration: 1.5 });
                 }
             }
 
@@ -267,7 +205,7 @@
                                      </td>
                                      <td class="p-3 text-right">
                                         <span class="font-bold text-slate-300">[${item.uf}]</span><br>
-                                        <span class="text-xs text-slate-500">${item.municipio}</span>
+                                        <span class="text-xs text-slate-500">${item.municipio || ''}</span>
                                      </td>`;
                     
                     row.addEventListener('mouseenter', () => { sfx.playHover(); focusMapOnLocation(item); });
@@ -280,12 +218,7 @@
                 resultsBody.appendChild(fragment);
 
                 tableWrapper.addEventListener('mouseleave', () => {
-                    if (selectionMarker) {
-                        map.removeLayer(selectionMarker);
-                        selectionMarker = null;
-                    }
-                     // Opcional: Voltar para a visão geral do Brasil ao sair da lista
-                    // map.flyTo([-14.235, -51.925], 4.5, { duration: 1.0 });
+                     map.flyTo([-14.235, -51.925], 4.5, { duration: 1.0 });
                 });
 
                 setupKeyboardNavigation();
@@ -343,7 +276,7 @@
                 let visibleRows = 0;
                 rows.forEach(row => {
                     const itemData = JSON.parse(row.dataset.item);
-                    const rowText = `${itemData.cargo} ${itemData.orgao} ${itemData.uf} ${itemData.municipio}`.toLowerCase();
+                    const rowText = `${itemData.cargo} ${itemData.orgao} ${itemData.uf} ${itemData.municipio || ''}`.toLowerCase();
                     const shouldShow = rowText.includes(filterText);
                     row.style.display = shouldShow ? '' : 'none';
                     if (shouldShow) visibleRows++;

@@ -59,10 +59,10 @@ def get_uf_from_string(text: str) -> str:
         
     return 'N/D'
 
-def scrape_vagas(url: str, ids_vagas_existentes: set) -> list:
+def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_coords: dict) -> list:
     """
-    Extrai informações de vagas de uma URL do PCI Concursos, usando a lógica
-    sequencial de encontrar órgão e depois as vagas associadas.
+    Extrai informações de vagas de uma URL do PCI Concursos, focando na estrutura
+    correta das páginas de cargos e usando uma lógica robusta para identificar o município.
     """
     print(f"   > Extraindo de: {url}")
     vagas_encontradas = []
@@ -73,46 +73,45 @@ def scrape_vagas(url: str, ids_vagas_existentes: set) -> list:
         
         soup = BeautifulSoup(response.content, 'lxml')
         
-        # Seleciona todos os links de órgãos e de vagas na ordem em que aparecem
-        nodes = soup.select('#pagina .link-d, #pagina .link-i')
+        # A estrutura correta nas páginas de cargo é uma 'div' com a classe 'ca'
+        vaga_elements = soup.find_all('div', class_='ca')
         
-        orgao_atual = {'text': 'N/A', 'href': '#'}
+        for element in vaga_elements:
+            links = element.find_all('a')
+            if len(links) < 2:
+                continue
 
-        for node in nodes:
-            # Se o nó é um órgão, atualiza o órgão atual
-            if 'link-d' in node.get('class', []):
-                link = node.select_one('a')
-                if link and link.get_text(strip=True):
-                    orgao_atual = {
-                        'text': link.get_text(strip=True), 
-                        'href': f"https://www.pciconcursos.com.br{link.get('href', '#')}"
-                    }
-            # Se o nó é uma vaga, processa a vaga com o último órgão encontrado
-            elif 'link-i' in node.get('class', []):
-                link = node.select_one('a')
-                if link:
-                    cargo_text = link.get_text(strip=True)
-                    # Cria um ID único para evitar duplicatas na sessão
-                    id_vaga = f"{orgao_atual['text']}|{cargo_text}"
-                    
-                    if id_vaga not in ids_vagas_existentes:
-                        municipio_uf_match = re.search(r'([^\(]+)\s+\(([A-Z]{2})\)', orgao_atual['text'])
-                        municipio = "N/D"
-                        uf = get_uf_from_string(orgao_atual['text'])
+            cargo_text = links[0].get_text(strip=True)
+            orgao_text = links[1].get_text(strip=True)
+            link_concurso = f"https://www.pciconcursos.com.br{links[1].get('href', '#')}"
+            
+            id_vaga = f"{orgao_text}|{cargo_text}"
+            if id_vaga in ids_vagas_existentes:
+                continue
 
-                        if municipio_uf_match:
-                            municipio = municipio_uf_match.group(1).strip()
-                        
-                        vaga_data = {
-                            'orgao': orgao_atual['text'],
-                            'link_orgao': orgao_atual['href'],
-                            'cargo': cargo_text,
-                            'link_cargo': f"https://www.pciconcursos.com.br{link.get('href', '#')}",
-                            'uf': uf,
-                            'municipio': municipio
-                        }
-                        vagas_encontradas.append(vaga_data)
-                        ids_vagas_existentes.add(id_vaga)
+            uf = get_uf_from_string(orgao_text)
+            municipio_encontrado = "N/D"
+
+            if uf != 'N/D':
+                # Lógica para encontrar o município de forma mais confiável
+                orgao_lower = orgao_text.lower()
+                # Filtra os municípios da UF correspondente para otimizar a busca
+                possible_municipios = [k for k in municipios_coords if k.endswith(f'-{uf.lower()}')]
+                for key in possible_municipios:
+                    municipio_key = key.rsplit('-', 1)[0]
+                    if municipio_key in orgao_lower:
+                        municipio_encontrado = municipio_key.title()
+                        break
+            
+            vaga_data = {
+                'orgao': orgao_text,
+                'cargo': cargo_text,
+                'link_orgao': link_concurso,
+                'uf': uf,
+                'municipio': municipio_encontrado
+            }
+            vagas_encontradas.append(vaga_data)
+            ids_vagas_existentes.add(id_vaga)
 
     except requests.RequestException as e:
         print(f"   ! Erro de conexão ao acessar a URL {url}: {e}")
@@ -142,11 +141,12 @@ def main():
     # Inicia extração
     print("🕸️  Iniciando extração de vagas...")
     todas_as_vagas = []
-    ids_vagas_unicas = set() # Conjunto para garantir vagas únicas em toda a execução
+    ids_vagas_unicas = set() # Garante vagas únicas em toda a execução
     for url in TARGET_URLS:
-        vagas_da_url = scrape_vagas(url, ids_vagas_unicas)
+        # Passa a lista de coordenadas para a função de scraping
+        vagas_da_url = scrape_vagas(url, ids_vagas_unicas, municipios_coords)
         todas_as_vagas.extend(vagas_da_url)
-        time.sleep(1) # Pausa educada para não sobrecarregar o servidor
+        time.sleep(1) # Pausa para não sobrecarregar o servidor
     print("--------------------------------------------------")
     print(f"✨ Extração finalizada. Total de {len(todas_as_vagas)} vagas encontradas.")
 

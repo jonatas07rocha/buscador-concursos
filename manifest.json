@@ -1,0 +1,21 @@
+{
+  "name": "Painel de Vagas",
+  "short_name": "Vagas",
+  "description": "Análise Geográfica de Vagas de Concursos Públicos",
+  "start_url": "/painel_de_vagas.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff00",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

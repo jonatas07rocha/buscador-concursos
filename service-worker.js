@@ -1,19 +1,20 @@
-const CACHE_NAME = 'painel-de-vagas-cache-v1';
+// ATENÇÃO: CACHE_NAME foi incrementado para forçar a atualização do cache.
+const CACHE_NAME = 'painel-de-vagas-cache-v2'; // Alterado de v1 para v2
 const urlsToCache = [
-  '/', // A raiz do seu site
-  '/painel_de_vagas.html', // O arquivo HTML gerado
+  '/',
+  '/painel_de_vagas.html',
   '/manifest.json',
-  '/service-worker.js', // O próprio service worker
+  '/service-worker.js',
   'https://cdn.tailwindcss.com',
   'https://unpkg.com/lucide@latest',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
   'https://unpkg.com/tone@14.7.77/build/Tone.js',
   'https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap',
-  'https://fonts.gstatic.com', // Importante para as fontes do Google Fonts
-  // Caminhos para seus arquivos de dados e ícones, conforme a estrutura do seu repositório:
+  'https://fonts.gstatic.com',
   '/dados/brazil.geojson',
   '/dados/municipios_brasileiros.json',
+  '/icons/icon-180x180.png', // Adicionado
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png'
 ];
@@ -32,7 +33,6 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // Cache hit - return response
         if (response) {
           return response;
         }
@@ -55,3 +55,4 @@ self.addEventListener('activate', (event) => {
     })
   );
 });
+

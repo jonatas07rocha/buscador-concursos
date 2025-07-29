@@ -1,8 +1,8 @@
 // ATENÇÃO: CACHE_NAME foi incrementado para forçar a atualização do cache.
-const CACHE_NAME = 'painel-de-vagas-cache-v2'; // Alterado de v1 para v2
+const CACHE_NAME = 'painel-de-vagas-cache-v3'; // Alterado de v2 para v3
 const urlsToCache = [
   '/',
-  '/painel_de_vagas.html',
+  '/index.html', // Alterado de /painel_de_vagas.html para /index.html
   '/manifest.json',
   '/service-worker.js',
   'https://cdn.tailwindcss.com',
@@ -14,7 +14,7 @@ const urlsToCache = [
   'https://fonts.gstatic.com',
   '/dados/brazil.geojson',
   '/dados/municipios_brasileiros.json',
-  '/icons/icon-180x180.png', // Adicionado
+  '/icons/icon-180x180.png',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png'
 ];

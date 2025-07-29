@@ -2,7 +2,7 @@
   "name": "Painel de Vagas",
   "short_name": "Vagas",
   "description": "Análise Geográfica de Vagas de Concursos Públicos",
-  "start_url": "/painel_de_vagas.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#00ff00",
@@ -24,3 +24,4 @@
     }
   ]
 }
+

@@ -1,0 +1,53 @@
+name: Atualização Diária de Vagas
+
+on:
+  schedule:
+    # Executa todos os dias às 08:00 AM UTC.
+    # Para 05:00 AM no horário de Brasília (BRT/BRST), que é UTC-3,
+    # precisamos agendar para 08:00 AM UTC (05:00 AM + 3 horas).
+    # Ajuste o cron para o seu fuso horário se for diferente.
+    - cron: '0 8 * * *' # Minuto 0, Hora 8 (08:00 AM) UTC, todos os dias
+
+  workflow_dispatch: # Permite executar manualmente o workflow a partir do GitHub UI
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest # Usa a última versão do Ubuntu
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4 # Clona o repositório
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x' # Usa a versão mais recente do Python 3
+
+      - name: Instalar Dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # Instala as bibliotecas listadas em requirements.txt
+
+      - name: Executar Script de Atualização
+        run: |
+          # Certifique-se de que o script Python gere o index.html na raiz
+          # ou ajuste o caminho de saída no script Python se for diferente.
+          python3 script_para_atualizar_dados.py
+
+      - name: Configurar Credenciais do Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Verificar e Commitar Alterações
+        id: commit_changes
+        run: |
+          git add .
+          git diff --staged --quiet || git commit -m "feat: Atualização automática de vagas [skip ci]"
+          # O "[skip ci]" é para evitar que este commit dispare outro workflow, criando um loop.
+
+      - name: Enviar Alterações para o GitHub
+        if: steps.commit_changes.outputs.changes_committed # Apenas envia se houveram mudanças
+        run: |
+          git push
+

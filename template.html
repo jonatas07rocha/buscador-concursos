@@ -14,90 +14,70 @@
      <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
      <style>
          :root {
-             /* Paleta de Cores Profissional/Futurista (adaptada) */
-             --color-bg: #000000; /* Fundo preto clássico de terminal */
-             --color-panel-bg: #111111; /* Painéis ligeiramente mais claros */
-             --color-primary: #00ff00; /* Verde brilhante para o "hacker look" */
-             --color-primary-glow: transparent; /* Removido: Efeito de brilho */
-             --color-secondary: #ffffff; /* Texto principal branco */
-             --color-text: #00cc00;   /* Texto secundário verde mais escuro */
-             --color-border: #222222; /* Bordas escuras */
+             --color-bg: #000000;
+             --color-panel-bg: #111111;
+             --color-primary: #00ff00;
+             --color-secondary: #ffffff;
+             --color-text: #00cc00;
+             --color-border: #222222;
              --font-body: 'Roboto Mono', monospace;
              --font-mono: 'Roboto Mono', monospace;
-             --scanline-color: rgba(0, 255, 0, 0.05); /* Verde transparente para scanlines, reduzido */
          }
          body {
              font-family: var(--font-body);
              background-color: var(--color-bg);
              color: var(--color-text);
-             overflow: hidden; /* Esconde barras de rolagem padrão para o efeito */
+             overflow-x: hidden;
              position: relative;
-             /* Adicionado: Efeito de grid de pontos no fundo */
              background-image: radial-gradient(circle at 1px 1px, var(--color-border) 1px, transparent 0);
              background-size: 20px 20px;
              background-attachment: fixed;
-             zoom: 0.8; /* Reduz a página para 80% do tamanho */
-             -moz-transform: scale(0.8); /* Para Firefox */
-             -moz-transform-origin: top left; /* Para Firefox */
          }
          body::before {
              content: '';
              position: fixed;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
+             top: 0; left: 0;
+             width: 100%; height: 100%;
              background: linear-gradient(to bottom, transparent 0%, var(--color-bg) 98%, var(--color-bg) 100%);
-             pointer-events: none; /* Permite interagir com o conteúdo */
-             z-index: 2; /* Acima do conteúdo para o efeito de scanline */
-             opacity: 0.5; /* Reduzida a opacidade */
+             pointer-events: none;
+             z-index: 2;
+             opacity: 0.5;
              background-size: 100% 6px;
              background-repeat: repeat-y;
-             animation: scanlines 0.5s linear infinite; /* Velocidade ajustada */
+             animation: scanlines 0.5s linear infinite;
          }
-         @keyframes scanlines {
-             0% { background-position: 0 0; }
-             100% { background-position: 0 100%; }
-         }
+         @keyframes scanlines { from { background-position: 0 0; } to { background-position: 0 100%; } }
          .panel {
              background-color: var(--color-panel-bg);
              border: 1px solid var(--color-border);
-             box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); /* Sombra verde suave */
+             box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
              border-radius: 0.2rem;
              backdrop-filter: blur(5px);
          }
-         h1, h2 { font-family: var(--font-mono); }
-         h1 {
-             color: var(--color-primary);
-             font-weight: 700;
-             text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
-         }
-         h2 {
-             color: var(--color-primary);
-             font-weight: 500;
-         }
+         h1, h2 { font-family: var(--font-mono); color: var(--color-primary); }
+         h1 { font-weight: 700; text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); }
+         h2 { font-weight: 500; }
          .monospace { font-family: var(--font-mono); }
-         input::selection {
-             background-color: rgba(0, 255, 0, 0.8);
-             color: var(--color-bg);
-         }
-         input::-moz-selection {
-             background-color: rgba(0, 255, 0, 0.8);
-             color: var(--color-bg);
-         }
-         input {
+         input, select {
              font-family: var(--font-mono);
              background: var(--color-bg);
              border: 1px solid var(--color-primary);
              color: var(--color-secondary);
              transition: all 0.2s ease;
-             caret-color: var(--color-primary); /* Cursor verde piscante */
+             caret-color: var(--color-primary);
          }
-         input:focus {
+         input:focus, select:focus {
              border-color: var(--color-primary);
              box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
              background-color: #0a0a0a;
              outline: none;
+         }
+         select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300ff00' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
          }
          .table-row-focus {
              background-color: rgba(0, 255, 0, 0.1) !important;
@@ -105,278 +85,38 @@
              box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.1);
              color: var(--color-secondary);
          }
-         .leaflet-container {
-             background: #111111;
-             border-radius: 0.2rem;
-             border: 1px solid var(--color-border);
-         }
+         .leaflet-container { background: #111111; border-radius: 0.2rem; border: 1px solid var(--color-border); }
          ::-webkit-scrollbar { width: 6px; }
          ::-webkit-scrollbar-track { background: var(--color-panel-bg); }
          ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px;}
          ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
- 
-         /* Estilo para os ícones Lucide */
-         i {
-             color: var(--color-primary);
-         }
- 
-         /* Estilo para a mensagem de loading */
-         #loading-message {
-             position: fixed;
-             top: 50%;
-             left: 50%;
-             transform: translate(-50%, -50%);
-             color: var(--color-primary);
-             font-size: 1.2em;
-             font-weight: bold;
-             z-index: 10;
-             text-shadow: 0 0 8px rgba(0,255,0,0.7);
-         }
- 
-         /* Efeitos adicionais de terminal hacker */
-         .glitch {
-             /* Animação de glitch mais sutil */
-             animation: glitch-anim 4s infinite alternate linear; /* Aumentado o tempo para ser mais sutil */
-         }
- 
+         i { color: var(--color-primary); }
+         #loading-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-primary); font-size: 1.2em; font-weight: bold; z-index: 10; text-shadow: 0 0 8px rgba(0,255,0,0.7); }
+         .glitch { animation: glitch-anim 4s infinite alternate linear; }
          @keyframes glitch-anim {
-             0% {
-                 text-shadow: 0.02em 0 0 var(--color-primary), -0.02em 0 0 var(--color-text);
-                 transform: translate(0, 0);
-             }
-             25% {
-                 text-shadow: 0.01em 0 0 var(--color-primary), -0.01em 0 0 var(--color-text);
-                 transform: translate(-0.05em, 0.05em);
-             }
-             50% {
-                 text-shadow: -0.01em 0 0 var(--color-primary), 0.01em 0 0 var(--color-text);
-                 transform: translate(0.05em, -0.05em);
-             }
-             75% {
-                 text-shadow: 0.01em 0 0 var(--color-primary), -0.01em 0 0 var(--color-text);
-                 transform: translate(-0.02em, 0.02em);
-             }
-             100% {
-                 text-shadow: 0.02em 0 0 var(--color-primary), -0.02em 0 0 var(--color-text);
-                 transform: translate(0, 0);
-             }
+             0% { text-shadow: 0.02em 0 0 var(--color-primary), -0.02em 0 0 var(--color-text); transform: translate(0, 0); }
+             25% { text-shadow: 0.01em 0 0 var(--color-primary), -0.01em 0 0 var(--color-text); transform: translate(-0.05em, 0.05em); }
+             50% { text-shadow: -0.01em 0 0 var(--color-primary), 0.01em 0 0 var(--color-text); transform: translate(0.05em, -0.05em); }
+             75% { text-shadow: 0.01em 0 0 var(--color-primary), -0.01em 0 0 var(--color-text); transform: translate(-0.02em, 0.02em); }
+             100% { text-shadow: 0.02em 0 0 var(--color-primary), -0.02em 0 0 var(--color-text); transform: translate(0, 0); }
          }
- 
-         /* Removido: .matrix-stream */
-         /* Removido: .code-line */
- 
-         /* Gráfico de Linha Animado */
-         .line-graph-container {
-             position: relative;
-             width: 100%;
-             height: 50px; /* Altura do gráfico */
-             overflow: hidden;
-             border: 1px solid var(--color-border);
-             background-color: var(--color-bg);
-             margin-top: 1rem;
-         }
- 
-         .line-graph {
-             position: absolute;
-             width: 200%; /* Para permitir rolagem */
-             height: 100%;
-             background: linear-gradient(to right,
-                 transparent 0%,
-                 var(--color-primary) 5%,
-                 transparent 10%,
-                 var(--color-primary) 15%,
-                 transparent 20%,
-                 var(--color-primary) 25%,
-                 transparent 30%,
-                 var(--color-primary) 35%,
-                 transparent 40%,
-                 var(--color-primary) 45%,
-                 transparent 50%,
-                 var(--color-primary) 55%,
-                 transparent 60%,
-                 var(--color-primary) 65%,
-                 transparent 70%,
-                 var(--color-primary) 75%,
-                 transparent 80%,
-                 var(--color-primary) 85%,
-                 transparent 90%,
-                 var(--color-primary) 95%,
-                 transparent 100%
-             );
-             background-size: 20px 50px; /* Tamanho dos picos */
-             animation: scroll-graph 5s linear infinite;
-         }
- 
-         @keyframes scroll-graph {
-             0% { background-position: 0 0; }
-             100% { background-position: -100% 0; }
-         }
- 
-         /* Monitor de Atividade (Osciloscópio) */
-         .oscilloscope {
-             width: 100%;
-             height: 80px;
-             border: 1px solid var(--color-border);
-             background-color: var(--color-bg);
-             position: relative;
-             overflow: hidden;
-             margin-bottom: 1rem;
-         }
- 
-         .scope-line {
-             position: absolute;
-             width: 100%;
-             height: 2px;
-             background-color: var(--color-primary);
-             box-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary);
-             transform-origin: left center;
-             animation: oscilloscope-anim 2s linear infinite;
-         }
- 
+         .oscilloscope { width: 100%; height: 80px; border: 1px solid var(--color-border); background-color: var(--color-bg); position: relative; overflow: hidden; margin-bottom: 1rem; }
+         .scope-line { position: absolute; width: 100%; height: 2px; background-color: var(--color-primary); box-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary); transform-origin: left center; animation: oscilloscope-anim 2s linear infinite; }
          @keyframes oscilloscope-anim {
              0%, 100% { transform: translateY(50%) scaleX(0.1); opacity: 0.7; }
              25% { transform: translateY(20%) scaleX(1); opacity: 1; }
              50% { transform: translateY(80%) scaleX(0.5); opacity: 0.8; }
              75% { transform: translateY(30%) scaleX(0.8); opacity: 0.9; }
          }
- 
-         .static-overlay {
-             position: absolute;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             background: repeating-linear-gradient(
-                 transparent 0%,
-                 rgba(0, 255, 0, 0.02) 50%, /* Opacidade reduzida */
-                 transparent 100%
-             );
-             background-size: 100% 2px;
-             pointer-events: none;
-             animation: static-noise 0.5s steps(2) infinite; /* Velocidade ajustada */
-         }
- 
-         @keyframes static-noise {
-             0% { background-position: 0 0; }
-             100% { background-position: 0 100%; }
-         }
- 
-         /* Estilos para o terminal Linux */
-         .terminal-commands {
-             background-color: #0a0a0a;
-             border: 1px solid var(--color-border);
-             border-radius: 0.2rem;
-             padding: 1rem;
-             font-family: var(--font-mono);
-             font-size: 0.9em;
-             color: var(--color-primary);
-             white-space: pre-wrap;
-             overflow: hidden;
-             min-height: 100px;
-             position: relative;
-             margin-top: 1rem; /* Adiciona margem para separar do mapa */
-         }
- 
-         .terminal-commands::before {
-             content: 'user@host:~# ';
-             color: var(--color-text);
-         }
- 
-         .typing-cursor {
-             display: inline-block;
-             width: 8px;
-             height: 1em;
-             background-color: var(--color-primary);
-             vertical-align: middle;
-             animation: blink-cursor 1s steps(1) infinite;
-         }
- 
-         @keyframes blink-cursor {
-             0%, 100% { opacity: 1; }
-             50% { opacity: 0; }
-         }
- 
-         /* Efeito de desembaralhamento */
-         .unscramble {
-             display: inline-block;
-         }
-
-         /* Estilos para Ondas de Rádio Fictícias */
-         .radio-waves-container {
-             position: absolute;
-             bottom: 1rem; /* Posição inferior */
-             left: 50%;
-             transform: translateX(-50%);
-             width: 100px;
-             height: 100px;
-             display: flex;
-             justify-content: center;
-             align-items: center;
-             z-index: 1; /* Abaixo do conteúdo principal */
-         }
- 
-         .radio-wave {
-             position: absolute;
-             border: 2px solid var(--color-primary);
-             border-radius: 50%;
-             opacity: 0;
-             animation: pulse-wave 3s ease-out infinite;
-         }
- 
-         .radio-wave:nth-child(1) { animation-delay: 0s; }
-         .radio-wave:nth-child(2) { animation-delay: 0.5s; }
-         .radio-wave:nth-child(3) { animation-delay: 1s; }
- 
-         @keyframes pulse-wave {
-             0% {
-                 width: 0;
-                 height: 0;
-                 opacity: 0.5;
-                 transform: translate(-50%, -50%) scale(0);
-             }
-             100% {
-                 width: 100%;
-                 height: 100%;
-                 opacity: 0;
-                 transform: translate(-50%, -50%) scale(1);
-             }
-         }
-
-         /* Estilos para o Overlay do Iframe */
-         #iframe-overlay {
-             transition: background-color 0.1s ease-in-out;
-         }
-         .flash-effect {
-             background-color: rgba(0, 255, 0, 0.5) !important; /* Verde piscando */
-         }
-         #password-input {
-             border: none;
-             border-bottom: 1px solid var(--color-primary);
-             background-color: transparent;
-             color: var(--color-primary);
-             font-family: var(--font-mono);
-             text-align: center;
-         }
-         #back-to-map-btn {
-             position: absolute;
-             top: 1rem;
-             right: 1rem;
-             background-color: var(--color-panel-bg);
-             border: 1px solid var(--color-border);
-             color: var(--color-primary);
-             padding: 0.5rem 1rem;
-             border-radius: 0.2rem;
-             cursor: pointer;
-             font-family: var(--font-mono);
-             transition: all 0.2s ease;
-             z-index: 10; /* Acima do iframe */
-         }
-         #back-to-map-btn:hover {
-             background-color: var(--color-primary);
-             color: var(--color-bg);
-             box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
-         }
- 
+         .terminal-commands { background-color: #0a0a0a; border: 1px solid var(--color-border); border-radius: 0.2rem; padding: 1rem; font-family: var(--font-mono); font-size: 0.9em; color: var(--color-primary); white-space: pre-wrap; overflow: hidden; min-height: 100px; position: relative; margin-top: 1rem; }
+         .terminal-commands::before { content: 'user@host:~# '; color: var(--color-text); }
+         .typing-cursor { display: inline-block; width: 8px; height: 1em; background-color: var(--color-primary); vertical-align: middle; animation: blink-cursor 1s steps(1) infinite; }
+         @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+         #iframe-overlay { transition: background-color 0.1s ease-in-out; }
+         .flash-effect { background-color: rgba(0, 255, 0, 0.5) !important; }
+         #password-input { border: none; border-bottom: 1px solid var(--color-primary); background-color: transparent; color: var(--color-primary); font-family: var(--font-mono); text-align: center; }
+         #back-to-map-btn { position: absolute; top: 1rem; right: 1rem; background-color: var(--color-panel-bg); border: 1px solid var(--color-border); color: var(--color-primary); padding: 0.5rem 1rem; border-radius: 0.2rem; cursor: pointer; font-family: var(--font-mono); transition: all 0.2s ease; z-index: 10; }
+         #back-to-map-btn:hover { background-color: var(--color-primary); color: var(--color-bg); box-shadow: 0 0 8px rgba(0, 255, 0, 0.5); }
      </style>
  </head>
  <body class="text-slate-400">
@@ -391,9 +131,9 @@
              <section class="lg:col-span-3 panel p-4 relative">
                  <h2 id="map-title" class="text-xl mb-4 flex items-center gap-2"><i data-lucide="map-pin"></i>LOCALIZAÇÃO DA VAGA</h2>
                  <button id="back-to-map-btn" class="hidden">VOLTAR AO MAPA</button>
-                 <div id="map-container" class="h-96 lg:h-[600px] w-full z-0 rounded-lg relative">
+                 <div id="map-container" class="h-[50vh] lg:h-[600px] w-full z-0 rounded-lg relative">
                      <div id="map" class="absolute inset-0"></div>
-                     <div id="iframe-overlay" class="absolute inset-0 bg-black flex flex-col items-center justify-center hidden overflow-hidden">
+                     <div id="iframe-overlay" class="absolute inset-0 bg-black flex-col items-center justify-center hidden overflow-hidden">
                          <div id="password-prompt" class="text-lg text-green-400 mb-4 hidden">
                              <span class="mr-2">INSERT PASSWORD:</span>
                              <input type="text" id="password-input" class="w-48 text-center" readonly />
@@ -404,34 +144,32 @@
                          <iframe id="content-iframe" class="w-full h-full border-none hidden"></iframe>
                      </div>
                  </div>
-                 <!-- Nova seção de comandos de terminal Linux -->
                  <div class="terminal-commands" id="terminal-output">
                      <span id="typed-command"></span><span class="typing-cursor"></span>
-                 </div>
-                 <!-- Ondas de Rádio Fictícias -->
-                 <div class="radio-waves-container">
-                     <div class="radio-wave"></div>
-                     <div class="radio-wave"></div>
-                     <div class="radio-wave"></div>
                  </div>
              </section>
              <section class="lg:col-span-2 panel p-4 flex flex-col">
                  <h2 id="vagas-title" class="text-xl mb-4 flex items-center gap-2"><i data-lucide="list-filter"></i>VAGAS ENCONTRADAS (<span id="vaga-count">0</span>)</h2>
-                 <div class="relative mb-4">
-                     <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
-                     <input type="text" id="filterInput" class="w-full pl-10 pr-4 py-2 rounded-md transition" placeholder="FILTRAR POR CARGO, ÓRGÃO, ETC...">
+                 <div id="filter-controls" class="flex flex-col sm:flex-row gap-4 mb-4">
+                     <div class="relative flex-grow">
+                         <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+                         <input type="text" id="filterInput" class="w-full pl-10 pr-4 py-2 rounded-md" placeholder="FILTRAR POR CARGO...">
+                     </div>
+                     <div class="relative">
+                         <i data-lucide="map" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 pointer-events-none"></i>
+                         <select id="ufFilter" class="w-full sm:w-48 pl-10 py-2 rounded-md appearance-none">
+                             <option value="">TODOS OS ESTADOS</option>
+                         </select>
+                     </div>
+                     <button id="clearFiltersBtn" class="bg-transparent border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-500 hover:text-black transition-colors flex items-center justify-center gap-2 shrink-0">
+                         <i data-lucide="x-circle" class="w-5 h-5"></i>
+                         <span class="hidden sm:inline">LIMPAR</span>
+                     </button>
                  </div>
-                 
-                 <!-- Elementos de Cliche de Terminal Hacker -->
                  <div class="oscilloscope">
                      <div class="scope-line"></div>
-                     <div class="static-overlay"></div>
                  </div>
-                 <div class="line-graph-container">
-                     <div class="line-graph"></div>
-                 </div>
-                 
-                 <div id="table-wrapper" class="overflow-y-auto flex-grow h-[524px] relative mt-4" tabindex="0">
+                 <div id="table-wrapper" class="overflow-y-auto flex-grow h-[calc(100vh-550px)] min-h-[250px] lg:h-[524px] relative" tabindex="0">
                      <table class="w-full text-left">
                          <tbody id="resultsBody"></tbody>
                      </table>
@@ -443,11 +181,11 @@
  
      <script>
          document.addEventListener('DOMContentLoaded', () => {
+             // O script Python irá substituir o placeholder abaixo pelos dados reais
              const rawData = __DATA_PLACEHOLDER__;
              const brazilStatesGeoJSON = __GEOJSON_PLACEHOLDER__;
              const municipiosCoords = __MUNICIPIOS_COORDS_PLACEHOLDER__;
  
-             // Este objeto define o centro e zoom para cada estado, usado para focar o mapa.
              const stateInfo = {
                  'AC': { coords: [-9.0238, -70.8120], zoom: 6 }, 'AL': { coords: [-9.5713, -36.7820], zoom: 8 },
                  'AP': { coords: [1.4133, -51.8744], zoom: 6 },  'AM': { coords: [-3.4168, -65.8561], zoom: 5 },
@@ -465,55 +203,37 @@
                  'TO': { coords: [-10.1844, -48.3336], zoom: 6 }
              };
  
-             const data = rawData; /* Os dados de vagas extraídos pelo Python */
+             const data = rawData;
              let mapInstance;
  
-             /* Sons futuristas (agora com mais opções de terminal) */
              const sfx = {
                  synth: new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 0.1 } }).toDestination(),
-                 keySynth: new Tone.FMSynth({
-                     harmonicity: 8, modulationIndex: 2, oscillator: { type: 'sine' },
-                     envelope: { attack: 0.001, decay: 0.2, sustain: 0, release: 0.1 },
-                     modulation: { type: 'square' },
-                     modulationEnvelope: { attack: 0.002, decay: 0.2, sustain: 0, release: 0.1 }
-                 }).toDestination(),
-                 radioHum: new Tone.Oscillator(50, "sine").toDestination(), // Novo: Zumbido de rádio
+                 keySynth: new Tone.FMSynth({ harmonicity: 8, modulationIndex: 2, oscillator: { type: 'sine' }, envelope: { attack: 0.001, decay: 0.2, sustain: 0, release: 0.1 }, modulation: { type: 'square' }, modulationEnvelope: { attack: 0.002, decay: 0.2, sustain: 0, release: 0.1 } }).toDestination(),
                  playBoot: () => sfx.synth.triggerAttackRelease("C2", "8n", Tone.now()),
-                 playKey: () => {
-                     const notes = ["C5", "D#4", "G4", "A#4"];
-                     const note = notes[[Math.floor(Math.random() * notes.length)]];
-                     sfx.keySynth.triggerAttackRelease(note, "32n", Tone.now(), Math.random() * 0.6 + 0.4);
-                 },
+                 playKey: () => { const note = ["C5", "D#4", "G4", "A#4"][[Math.floor(Math.random() * 4)]]; sfx.keySynth.triggerAttackRelease(note, "32n", Tone.now(), Math.random() * 0.6 + 0.4); },
                  playHover: () => sfx.keySynth.triggerAttackRelease("E5", "32n", Tone.now(), 0.3),
                  playSelect: () => sfx.synth.triggerAttackRelease("A3", "16n", Tone.now()),
                  playError: () => sfx.synth.triggerAttackRelease(["C3", "Eb3", "G3"], "16n", Tone.now()),
-                 startRadioHum: () => {
-                     sfx.radioHum.start();
-                     sfx.radioHum.volume.value = -30; // Volume baixo
-                 },
-                 stopRadioHum: () => sfx.radioHum.stop()
              };
-             const startAudio = () => { if (Tone.context.state !== 'running') { Tone.start(); sfx.playBoot(); sfx.startRadioHum(); document.body.removeEventListener('click', startAudio); document.body.removeEventListener('keydown', startAudio); }};
+             const startAudio = () => { if (Tone.context.state !== 'running') { Tone.start(); sfx.playBoot(); document.body.removeEventListener('click', startAudio); document.body.removeEventListener('keydown', startAudio); }};
              document.body.addEventListener('click', startAudio);
              document.body.addEventListener('keydown', startAudio);
  
              const resultsBody = document.getElementById('resultsBody');
              const tableWrapper = document.getElementById('table-wrapper');
              const filterInput = document.getElementById('filterInput');
+             const ufFilter = document.getElementById('ufFilter');
+             const clearFiltersBtn = document.getElementById('clearFiltersBtn');
              const noResultsMessage = document.getElementById('noResultsMessage');
              const lastUpdatedEl = document.getElementById('last-updated');
              const vagaCountEl = document.getElementById('vaga-count');
              const loadingMessageEl = document.getElementById('loading-message');
              const contentWrapperEl = document.getElementById('content-wrapper');
-             const terminalOutputEl = document.getElementById('terminal-output');
              const typedCommandEl = document.getElementById('typed-command');
- 
              const mainTitleEl = document.getElementById('main-title');
              const mapTitleEl = document.getElementById('map-title');
              const vagasTitleEl = document.getElementById('vagas-title');
              const subtitleEl = document.getElementById('subtitle');
- 
-             // Novos elementos para a funcionalidade de iframe
              const mapDivEl = document.getElementById('map');
              const iframeOverlayEl = document.getElementById('iframe-overlay');
              const passwordPromptEl = document.getElementById('password-prompt');
@@ -523,7 +243,7 @@
              const backToMapBtn = document.getElementById('back-to-map-btn');
  
              function renderAll() {
-                 if (!data || !data.vagas || typeof data.vagas === 'undefined') {
+                 if (!data || !data.vagas) {
                      console.error("ERRO: Dados de vagas ausentes ou em formato incorreto.");
                      vagaCountEl.textContent = 'ERRO';
                      loadingMessageEl.textContent = 'ERRO AO CARREGAR OS DADOS.';
@@ -532,16 +252,15 @@
                  }
                  lastUpdatedEl.textContent = `Última Sincronização: ${data.data_extracao}`;
                  vagaCountEl.textContent = data.total_vagas;
-                 initializeMap(); // Inicializa o mapa por padrão
+                 initializeMap();
+                 populateUfFilter();
                  displayTable(data.vagas);
                  lucide.createIcons();
                  
                  setTimeout(() => {
                      loadingMessageEl.style.display = 'none';
                      contentWrapperEl.style.display = 'block';
-                     if (mapInstance) {
-                         mapInstance.invalidateSize(); 
-                     }
+                     if (mapInstance) mapInstance.invalidateSize(); 
                      applyUnscrambleEffect(mainTitleEl, mainTitleEl.textContent);
                      applyUnscrambleEffect(mapTitleEl, mapTitleEl.textContent);
                      applyUnscrambleEffect(vagasTitleEl, vagasTitleEl.textContent);
@@ -551,39 +270,42 @@
              }
  
              function initializeMap() {
-                 if (mapInstance) { // Evita reinicializar o mapa se já existir
-                     mapInstance.remove();
-                 }
+                 if (mapInstance) mapInstance.remove();
                  mapInstance = L.map('map', { zoomControl: false }).setView([-14.235, -51.925], 4.5);
- 
                  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
                      maxZoom: 19
                  }).addTo(mapInstance);
+                 addMarkersToMap(data.vagas);
+             }
  
-                 data.vagas.forEach(vaga => {
-                     if (vaga.municipio_lat && vaga.municipio_lng) {
-                         const marker = L.circleMarker([vaga.municipio_lat, vaga.municipio_lng], {
-                             radius: 6,
-                             fillColor: "var(--color-primary)",
-                             color: "#006400",
-                             weight: 1,
-                             opacity: 0.8,
-                             fillOpacity: 0.6
+             function addMarkersToMap(vagas) {
+                 mapInstance.eachLayer(layer => {
+                     if (layer instanceof L.CircleMarker) mapInstance.removeLayer(layer);
+                 });
+                 vagas.forEach(vaga => {
+                     const coords = findCoords(vaga.municipio, vaga.uf);
+                     if (coords) {
+                         const marker = L.circleMarker(coords, {
+                             radius: 6, fillColor: "var(--color-primary)", color: "#006400",
+                             weight: 1, opacity: 0.8, fillOpacity: 0.6
                          }).addTo(mapInstance);
- 
                          marker.bindPopup(`<strong>${vaga.cargo}</strong><br>${vaga.orgao}<br>${vaga.municipio} - ${vaga.uf}`);
                      }
                  });
              }
  
+             function findCoords(municipio, uf) {
+                if (!municipio || !uf || !municipiosCoords) return null;
+                const key = `${municipio.toLowerCase().replace(/ /g, '-')}-${uf.toLowerCase()}`;
+                const data = municipiosCoords[key];
+                return data ? [data.lat, data.lon] : null;
+             }
+ 
              function focusMapOnLocation(vaga) {
                  if(!mapInstance || !vaga.uf) return;
- 
                  const stateData = stateInfo?.[vaga.uf];
-                 if (stateData) {
-                     mapInstance.flyTo(stateData.coords, stateData.zoom, { duration: 1.5 });
-                 }
+                 if (stateData) mapInstance.flyTo(stateData.coords, stateData.zoom, { duration: 1.5 });
              }
  
              function displayTable(vagas) {
@@ -601,23 +323,12 @@
                                          <span class="font-bold text-slate-300">[${item.uf}]</span><br>
                                          <span class="text-xs text-slate-500">${item.municipio || ''}</span>
                                       </td>`;
- 
                      row.addEventListener('mouseenter', () => { sfx.playHover(); focusMapOnLocation(item); });
-                     // Modificado para usar a nova função de visualização interna
-                     row.querySelector('.view-link').addEventListener('click', (e) => {
-                         e.preventDefault(); // Impede o comportamento padrão do link
-                         sfx.playSelect();
-                         viewLinkInIframe(e.target.dataset.url);
-                     });
- 
+                     row.querySelector('.view-link').addEventListener('click', (e) => { e.preventDefault(); sfx.playSelect(); viewLinkInIframe(e.target.dataset.url); });
                      fragment.appendChild(row);
                  });
                  resultsBody.appendChild(fragment);
- 
-                 tableWrapper.addEventListener('mouseleave', () => {
-                      mapInstance.flyTo([-14.235, -51.925], 4.5, { duration: 1.0 });
-                 });
- 
+                 tableWrapper.addEventListener('mouseleave', () => mapInstance.flyTo([-14.235, -51.925], 4.5, { duration: 1.0 }));
                  setupKeyboardNavigation();
              }
  
@@ -630,10 +341,8 @@
                      rows.forEach(r => r.classList.remove('table-row-focus'));
                      const visibleRows = rows.filter(r => r.style.display !== 'none');
                      if(visibleRows.length === 0) { focusedIndex = -1; return; }
- 
                      const newFocusedRow = visibleRows?.[index];
                      if (!newFocusedRow) return;
- 
                      focusedIndex = rows.indexOf(newFocusedRow);
                      newFocusedRow.classList.add('table-row-focus');
                      newFocusedRow.scrollIntoView({ block: 'nearest' });
@@ -645,25 +354,14 @@
                      const visibleRows = rows.filter(r => r.style.display !== 'none');
                      if (visibleRows.length === 0) return;
                      const currentVisibleIndex = visibleRows.indexOf(rows?.[focusedIndex]);
- 
                      let nextIndex = currentVisibleIndex;
-                     if (e.key === 'ArrowDown') {
-                         e.preventDefault();
-                         nextIndex = (currentVisibleIndex + 1) % visibleRows.length;
-                     } else if (e.key === 'ArrowUp') {
-                         e.preventDefault();
-                         nextIndex = (currentVisibleIndex - 1 + visibleRows.length) % visibleRows.length;
-                     } else if (e.key === 'Enter' && focusedIndex > -1) {
-                         // Modificado para abrir o link no iframe ao pressionar Enter
+                     if (e.key === 'ArrowDown') { e.preventDefault(); nextIndex = (currentVisibleIndex + 1) % visibleRows.length; } 
+                     else if (e.key === 'ArrowUp') { e.preventDefault(); nextIndex = (currentVisibleIndex - 1 + visibleRows.length) % visibleRows.length; } 
+                     else if (e.key === 'Enter' && focusedIndex > -1) {
                          const linkElement = rows?.[focusedIndex]?.querySelector('.view-link');
-                         if (linkElement) {
-                             sfx.playSelect();
-                             viewLinkInIframe(linkElement.dataset.url);
-                         }
+                         if (linkElement) { sfx.playSelect(); viewLinkInIframe(linkElement.dataset.url); }
                      }
-                     if (nextIndex !== currentVisibleIndex) {
-                        setFocus(nextIndex);
-                     }
+                     if (nextIndex !== currentVisibleIndex) setFocus(nextIndex);
                  });
  
                  tableWrapper.addEventListener('focus', () => { if (focusedIndex === -1 && resultsBody.querySelector('tr:not([style*="display: none;"])')) setFocus(0); });
@@ -671,67 +369,77 @@
                  filterInput.addEventListener('blur', () => tableWrapper.focus());
              }
  
+             function populateUfFilter() {
+                 const ufs = [...new Set(data.vagas.map(v => v.uf))].sort();
+                 const fragment = document.createDocumentFragment();
+                 ufs.forEach(uf => {
+                     const option = document.createElement('option');
+                     option.value = uf;
+                     option.textContent = uf;
+                     fragment.appendChild(option);
+                 });
+                 ufFilter.appendChild(fragment);
+             }
+ 
              function filterTable() {
                  const filterText = filterInput.value.toLowerCase();
+                 const selectedUf = ufFilter.value;
                  const rows = resultsBody.querySelectorAll('tr');
                  let visibleRows = 0;
+                 const filteredVagas = [];
+ 
                  rows.forEach(row => {
                      const itemData = JSON.parse(row.dataset.item);
-                     const rowText = `${itemData.cargo} ${itemData.orgao} ${itemData.uf} ${itemData.municipio || ''}`.toLowerCase();
-                     const shouldShow = rowText.includes(filterText);
+                     const rowText = `${itemData.cargo} ${itemData.orgao} ${itemData.municipio || ''}`.toLowerCase();
+                     const textMatch = rowText.includes(filterText);
+                     const ufMatch = selectedUf ? itemData.uf === selectedUf : true;
+                     const shouldShow = textMatch && ufMatch;
                      row.style.display = shouldShow ? '' : 'none';
-                     if (shouldShow) visibleRows++;
+                     if (shouldShow) {
+                         visibleRows++;
+                         filteredVagas.push(itemData);
+                     }
                  });
+ 
                  noResultsMessage.style.display = visibleRows === 0 && data?.vagas?.length > 0 ? 'block' : 'none';
+                 addMarkersToMap(filteredVagas);
                  setupKeyboardNavigation();
              }
  
-             filterInput.addEventListener('input', () => {
-                 sfx.playKey();
+             filterInput.addEventListener('input', () => { sfx.playKey(); filterTable(); });
+             ufFilter.addEventListener('change', () => { sfx.playSelect(); filterTable(); });
+             clearFiltersBtn.addEventListener('click', () => {
+                 sfx.playError();
+                 filterInput.value = '';
+                 ufFilter.value = '';
                  filterTable();
+                 mapInstance.flyTo([-14.235, -51.925], 4.5, { duration: 1.0 });
              });
- 
-             // --- Funções para os Cliches de Terminal Hacker (Revisado) ---
  
              const chars = '!@#$%^&*()_+{}[]|:;"<>,.?/~`';
              const randomChar = () => chars[Math.floor(Math.random() * chars.length)];
  
              function applyUnscrambleEffect(element, originalText) {
-                 let scrambledText = Array.from(originalText).map(() => randomChar()).join('');
                  let currentIndex = 0;
                  const interval = setInterval(() => {
                      if (currentIndex < originalText.length) {
-                         scrambledText = Array.from(originalText).map((char, i) => {
-                             if (i < currentIndex) return char;
-                             return randomChar();
-                         }).join('');
-                         element.textContent = scrambledText;
+                         element.textContent = Array.from(originalText).map((char, i) => i < currentIndex ? char : randomChar()).join('');
                          currentIndex++;
                      } else {
                          element.textContent = originalText;
                          clearInterval(interval);
                      }
-                 }, 50); // Velocidade do desembaralhamento
+                 }, 50);
              }
  
-             const terminalCommandsList = [
-                 "ls -la /var/log",
-                 "grep 'ERROR' /var/log/syslog",
-                 "netstat -tuln | grep LISTEN",
-                 "ps aux | grep python",
-                 "df -h",
-                 "cat /etc/passwd"
-             ];
+             const terminalCommandsList = ["ls -la /var/log", "grep 'ERROR' syslog", "netstat -tuln", "ps aux | grep python", "df -h"];
              let currentCommandIndex = 0;
-             let charIndex = 0;
              let typingInterval;
  
              function startTypingEffect() {
                  if (typingInterval) clearInterval(typingInterval);
-                 typedCommandEl.textContent = '';
-                 charIndex = 0;
+                 let charIndex = 0;
                  const currentCommand = terminalCommandsList[currentCommandIndex];
- 
                  typingInterval = setInterval(() => {
                      if (charIndex < currentCommand.length) {
                          typedCommandEl.textContent += currentCommand.charAt(charIndex);
@@ -741,27 +449,19 @@
                          setTimeout(() => {
                              currentCommandIndex = (currentCommandIndex + 1) % terminalCommandsList.length;
                              startTypingEffect();
-                         }, 2000); // Pausa antes de digitar o próximo comando
+                         }, 2000);
                      }
-                 }, 80); // Velocidade da digitação
+                 }, 80);
              }
  
-             // --- Nova funcionalidade: Visualizar link no iframe ---
              function viewLinkInIframe(url) {
-                 // 1. Piscar o fundo
                  iframeOverlayEl.classList.add('flash-effect');
-                 setTimeout(() => {
-                     iframeOverlayEl.classList.remove('flash-effect');
-                 }, 200); // Duração da piscada
- 
-                 // 2. Esconder mapa e mostrar overlay do iframe
+                 setTimeout(() => iframeOverlayEl.classList.remove('flash-effect'), 200);
                  mapDivEl.style.display = 'none';
                  iframeOverlayEl.style.display = 'flex';
-                 backToMapBtn.classList.remove('hidden'); // Mostra o botão de voltar
- 
-                 // 3. Exibir "insert password" e digitar automaticamente
+                 backToMapBtn.classList.remove('hidden');
                  passwordPromptEl.classList.remove('hidden');
-                 passwordInputEl.value = ''; // Limpa o input
+                 passwordInputEl.value = '';
                  iframeLoadingEl.classList.add('hidden');
                  contentIframeEl.classList.add('hidden');
  
@@ -770,7 +470,7 @@
                  const typePasswordInterval = setInterval(() => {
                      if (passwordCharIndex < password.length) {
                          passwordInputEl.value += password.charAt(passwordCharIndex);
-                         sfx.playKey(); // Som de digitação
+                         sfx.playKey();
                          passwordCharIndex++;
                      } else {
                          clearInterval(typePasswordInterval);
@@ -778,56 +478,43 @@
                              passwordPromptEl.classList.add('hidden');
                              iframeLoadingEl.classList.remove('hidden');
                              startLoadingDots(iframeLoadingEl.querySelector('.loading-dots'));
-                             
-                             // 4. Carregar a página no iframe
                              contentIframeEl.src = url;
                              contentIframeEl.onload = () => {
                                  iframeLoadingEl.classList.add('hidden');
                                  contentIframeEl.classList.remove('hidden');
                              };
-                         }, 500); // Pequena pausa após digitar a senha
+                         }, 500);
                      }
-                 }, 100); // Velocidade da digitação da senha
+                 }, 100);
              }
  
              function resetToMap() {
                  iframeOverlayEl.style.display = 'none';
-                 contentIframeEl.src = 'about:blank'; // Limpa o iframe
+                 contentIframeEl.src = 'about:blank';
                  mapDivEl.style.display = 'block';
-                 backToMapBtn.classList.add('hidden'); // Esconde o botão de voltar
-                 if (mapInstance) {
-                     mapInstance.invalidateSize(); // Garante que o mapa seja redimensionado corretamente
-                 }
+                 backToMapBtn.classList.add('hidden');
+                 if (mapInstance) mapInstance.invalidateSize();
              }
  
-             // Listener para o botão "Voltar ao Mapa"
              backToMapBtn.addEventListener('click', resetToMap);
  
-             // Função para os dots de loading (reutilizada)
              function startLoadingDots(element) {
                  let dots = '';
-                 element.textContent = ''; // Limpa dots anteriores
+                 element.textContent = '';
                  const interval = setInterval(() => {
                      dots = dots.length < 3 ? dots + '.' : '';
                      element.textContent = dots;
                  }, 500);
-                 // Armazena o intervalo para poder limpá-lo quando o loading terminar
                  element.dataset.loadingInterval = interval;
              }
  
-             // Modifica o loading inicial para usar a nova função
              const initialLoadingDots = loadingMessageEl.querySelector('.loading-dots');
-             if (initialLoadingDots) {
-                 startLoadingDots(initialLoadingDots);
-             }
- 
-             // ---------------------------------------------------
+             if (initialLoadingDots) startLoadingDots(initialLoadingDots);
  
              renderAll();
  
-             // Adicionado para garantir que o mapa seja redimensionado ao mudar o tamanho da janela
              window.addEventListener('resize', () => {
-                 if (mapInstance && mapDivEl.style.display !== 'none') { // Apenas se o mapa estiver visível
+                 if (mapInstance && mapDivEl.style.display !== 'none') {
                      mapInstance.invalidateSize();
                  }
              });

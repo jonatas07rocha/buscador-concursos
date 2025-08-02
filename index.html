@@ -130,7 +130,6 @@
 
             let allVagasData = [];
             let map;
-            let geojsonLayer;
             let markers = [];
             let debounceTimer;
 
@@ -144,25 +143,17 @@
 
             async function loadData() {
                 try {
-                    const [vagasResponse, geojsonResponse] = await Promise.all([
-                        fetch('dados/vagas.json'),
-                        fetch('dados/brazil.geojson')
-                    ]);
+                    // Carrega apenas o arquivo de vagas
+                    const vagasResponse = await fetch('dados/vagas.json');
 
                     if (!vagasResponse.ok) throw new Error(`Falha ao carregar vagas.json: ${vagasResponse.statusText}`);
-                    if (!geojsonResponse.ok) throw new Error(`Falha ao carregar brazil.geojson: ${geojsonResponse.statusText}`);
-
+                    
                     const vagasData = await vagasResponse.json();
-                    const geojsonData = await geojsonResponse.json();
 
                     allVagasData = vagasData.vagas;
                     displayStats(vagasData.total_vagas, vagasData.data_extracao);
                     renderVagas(allVagasData);
                     addMarkersToMap(allVagasData);
-                    
-                    geojsonLayer = L.geoJson(geojsonData, {
-                        style: { color: "#3b82f6", weight: 1, opacity: 0.5, fillOpacity: 0.05 }
-                    }).addTo(map);
 
                 } catch (error) {
                     console.error("Erro ao carregar dados:", error);
@@ -209,9 +200,15 @@
                     
                     if (vaga.lat && vaga.lng) {
                         vagaEl.addEventListener('click', () => {
-                            map.setView([vaga.lat, vaga.lng], 11);
+                            // Usa flyTo para uma animação suave
+                            map.flyTo([vaga.lat, vaga.lng], 11);
                             const marker = markers.find(m => m.options.vagaData.link_orgao === vaga.link_orgao && m.options.vagaData.cargo === vaga.cargo);
-                            if (marker) marker.openPopup();
+                            if (marker) {
+                                // Abre o popup após um pequeno atraso para sincronizar com a animação
+                                setTimeout(() => {
+                                    marker.openPopup();
+                                }, 800);
+                            }
                             if (window.innerWidth < 768) showMapView();
                         });
                     }

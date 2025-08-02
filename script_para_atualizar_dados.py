@@ -78,7 +78,7 @@ def save_vagas_to_json(data: dict, filename: str):
 
 def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> list:
     """
-    Extrai informações de vagas usando a lógica validada de leitura sequencial
+    Extrai informações de vagas, incluindo coordenadas geográficas,
     e uma busca aprimorada por municípios.
     """
     print(f"   > Extraindo de: {url}")
@@ -111,24 +111,36 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
                     if id_vaga not in ids_vagas_existentes:
                         uf = get_uf_from_string(current_orgao['text'])
                         municipio = "N/D"
+                        lat, lng = None, None # Inicia coordenadas como nulas
                         
-                        # Lógica de busca de município
+                        # Lógica de busca de município aprimorada
                         if uf != 'N/D':
                             orgao_normalizado = normalize_text(current_orgao['text'])
                             possible_municipios = [k for k in municipios_data if k.endswith(f'-{uf.lower()}')]
+                            
+                            found_key = None
                             for key in possible_municipios:
                                 municipio_key_sem_uf = key.rsplit('-', 1)[0]
                                 termo_busca = municipio_key_sem_uf.replace('-', ' ')
                                 if termo_busca in orgao_normalizado:
                                     municipio = termo_busca.title()
+                                    found_key = key
                                     break
+                            
+                            # Se um município foi encontrado, busca suas coordenadas
+                            if found_key and found_key in municipios_data:
+                                coords = municipios_data[found_key]
+                                lat = coords.get("lat")
+                                lng = coords.get("lon") # O arquivo original usa 'lon'
 
                         vaga_data = {
                             'orgao': current_orgao['text'],
                             'link_orgao': current_orgao['href'],
                             'cargo': cargo_text,
                             'uf': uf,
-                            'municipio': municipio
+                            'municipio': municipio,
+                            'lat': lat,
+                            'lng': lng
                         }
                         vagas_encontradas.append(vaga_data)
                         ids_vagas_existentes.add(id_vaga)

@@ -143,17 +143,14 @@
 
             async function loadData() {
                 try {
-                    // Carrega apenas o arquivo de vagas
                     const vagasResponse = await fetch('dados/vagas.json');
-
                     if (!vagasResponse.ok) throw new Error(`Falha ao carregar vagas.json: ${vagasResponse.statusText}`);
                     
                     const vagasData = await vagasResponse.json();
-
                     allVagasData = vagasData.vagas;
+                    
                     displayStats(vagasData.total_vagas, vagasData.data_extracao);
                     renderVagas(allVagasData);
-                    addMarkersToMap(allVagasData);
 
                 } catch (error) {
                     console.error("Erro ao carregar dados:", error);
@@ -178,14 +175,43 @@
 
             function renderVagas(vagas) {
                 listaVagasEl.innerHTML = '';
+                // Limpa marcadores antigos antes de renderizar novos
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
+
                 if (vagas.length === 0) {
                     listaVagasEl.innerHTML = `<div class="p-4 text-center text-gray-400">Nenhuma vaga encontrada para sua busca.</div>`;
                     return;
                 }
+                
                 vagas.forEach((vaga, index) => {
+                    const vagaId = `vaga-${index}`; // ID único para cada vaga
+                    
+                    // Adiciona o marcador ao mapa
+                    if (vaga.lat && vaga.lng) {
+                        const lat = parseFloat(vaga.lat);
+                        const lng = parseFloat(vaga.lng);
+
+                        if (!isNaN(lat) && !isNaN(lng)) {
+                             const marker = L.marker([lat, lng], { vagaId: vagaId });
+                            const popupContent = `
+                                <div class="text-sm font-sans">
+                                    <strong class="text-base text-blue-300">${vaga.cargo}</strong><br>
+                                    <strong class="text-gray-400">Órgão:</strong> ${vaga.orgao}<br>
+                                    <strong class="text-gray-400">Local:</strong> ${vaga.municipio} - ${vaga.uf}<br>
+                                    <a href="${vaga.link_orgao}" target="_blank" class="font-semibold mt-2 block">Acessar página do concurso &rarr;</a>
+                                </div>
+                            `;
+                            marker.bindPopup(popupContent);
+                            markers.push(marker);
+                            marker.addTo(map);
+                        }
+                    }
+
+                    // Cria o card na lista
                     const vagaEl = document.createElement('div');
                     vagaEl.className = 'bg-gray-800 border border-gray-700 rounded-lg p-4 mb-3 mx-2 md:mx-0 hover:bg-gray-700/50 transition-colors duration-200 cursor-pointer';
-                    vagaEl.dataset.index = index;
+                    vagaEl.dataset.vagaId = vagaId;
                     
                     let localInfo = vaga.municipio !== 'N/D' ? `${vaga.municipio} - ${vaga.uf}` : vaga.uf;
 
@@ -198,56 +224,22 @@
                         </div>
                     `;
                     
-                    if (vaga.lat && vaga.lng) {
-                        vagaEl.addEventListener('click', () => {
-                            // Usa flyTo para uma animação suave
-                            map.flyTo([vaga.lat, vaga.lng], 11);
-                            const marker = markers.find(m => m.options.vagaData.link_orgao === vaga.link_orgao && m.options.vagaData.cargo === vaga.cargo);
-                            if (marker) {
-                                // Abre o popup após um pequeno atraso para sincronizar com a animação
-                                setTimeout(() => {
-                                    marker.openPopup();
-                                }, 800);
-                            }
+                    // Adiciona o evento de clique para o flyTo
+                    vagaEl.addEventListener('click', () => {
+                        const marker = markers.find(m => m.options.vagaId === vagaId);
+                        if (marker) {
+                            map.flyTo(marker.getLatLng(), 11);
+                            setTimeout(() => marker.openPopup(), 800);
                             if (window.innerWidth < 768) showMapView();
-                        });
-                    }
+                        }
+                    });
                     
                     listaVagasEl.appendChild(vagaEl);
                 });
             }
 
-            function addMarkersToMap(vagas) {
-                markers.forEach(marker => map.removeLayer(marker));
-                markers = [];
-
-                vagas.forEach(vaga => {
-                    if (vaga.lat && vaga.lng) {
-                        const marker = L.marker([vaga.lat, vaga.lng], { vagaData: vaga });
-                        const popupContent = `
-                            <div class="text-sm font-sans">
-                                <strong class="text-base text-blue-300">${vaga.cargo}</strong><br>
-                                <strong class="text-gray-400">Órgão:</strong> ${vaga.orgao}<br>
-                                <strong class="text-gray-400">Local:</strong> ${vaga.municipio} - ${vaga.uf}<br>
-                                <a href="${vaga.link_orgao}" target="_blank" class="font-semibold mt-2 block">Acessar página do concurso &rarr;</a>
-                            </div>
-                        `;
-                        marker.bindPopup(popupContent);
-                        markers.push(marker);
-                        marker.addTo(map);
-                    }
-                });
-            }
-
             function handleSearch() {
                 const searchTerm = normalizeText(searchBarEl.value);
-                
-                if (!searchTerm) {
-                    renderVagas(allVagasData);
-                    addMarkersToMap(allVagasData);
-                    return;
-                }
-
                 const filteredVagas = allVagasData.filter(vaga => {
                     const cargo = normalizeText(vaga.cargo);
                     const orgao = normalizeText(vaga.orgao);
@@ -259,9 +251,7 @@
                            municipio.includes(searchTerm) ||
                            uf.includes(searchTerm);
                 });
-
                 renderVagas(filteredVagas);
-                addMarkersToMap(filteredVagas);
             }
 
             function showListView() {

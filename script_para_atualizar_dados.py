@@ -8,7 +8,6 @@ import os
 import unicodedata
 
 # --- Configuração ---
-# O script agora gera um arquivo JSON com os dados das vagas.
 OUTPUT_FILE = "dados/vagas.json" 
 MUNICIPIOS_COORDS_FILE = "dados/municipios_brasileiros.json"
 
@@ -28,14 +27,12 @@ TARGET_URLS = [
 def normalize_text(text: str) -> str:
     """Remove acentos, caracteres especiais e converte para minúsculas."""
     try:
-        # Normaliza para decompor acentos e caracteres
         text = ''.join(c for c in unicodedata.normalize('NFD', text) if unicodedata.category(c) != 'Mn')
-    except TypeError:
-        pass
-    return text.lower()
+    except (TypeError, AttributeError):
+        return ""
+    return text.lower().strip()
 
 def load_file_content(filepath: str) -> str | None:
-    """Carrega o conteúdo de um arquivo de texto (JSON, etc.)."""
     if not os.path.exists(filepath):
         print(f"❌ ERRO: Arquivo não encontrado em '{filepath}'")
         return None
@@ -47,7 +44,6 @@ def load_file_content(filepath: str) -> str | None:
         return None
 
 def get_uf_from_string(text: str) -> str:
-    """Extrai a sigla do estado (UF) do final de uma string."""
     match = re.search(r'\s-\s([A-Z]{2})$', text.strip())
     if match:
         return match.group(1)
@@ -57,30 +53,54 @@ def get_uf_from_string(text: str) -> str:
     return 'N/D'
 
 def save_vagas_to_json(data: dict, filename: str):
-    """
-    Salva os dados extraídos em um arquivo JSON formatado.
-    Garante que o diretório de destino exista antes de salvar.
-    """
     print(f"🔄 Gerando arquivo JSON final em '{filename}'...")
     try:
-        # Garante que o diretório de saída exista
         output_dir = os.path.dirname(filename)
         if output_dir:
             os.makedirs(output_dir, exist_ok=True)
-            
         with open(filename, "w", encoding="utf-8") as f:
-            # Usa indent=4 para um arquivo JSON legível
             json.dump(data, f, ensure_ascii=False, indent=4)
-            
         print(f"✅ Sucesso! O arquivo '{filename}' foi gerado.")
     except IOError as e:
         print(f"❌ ERRO CRÍTICO: Não foi possível escrever o arquivo '{filename}': {e}")
 
+def find_municipio_and_coords(orgao_text: str, link_orgao: str, uf: str, municipios_data: dict) -> tuple:
+    """
+    Lógica aprimorada para encontrar o município e suas coordenadas.
+    Tenta encontrar no nome do órgão e também na URL do link.
+    """
+    municipio_encontrado = "N/D"
+    lat, lng = None, None
+    
+    if uf == 'N/D':
+        return municipio_encontrado, lat, lng
+
+    possible_municipios = [k for k, v in municipios_data.items() if v.get('uf', '').lower() == uf.lower()]
+    
+    # Concatena os textos onde a busca será feita para maior abrangência
+    text_to_search_in = normalize_text(orgao_text) + " " + normalize_text(link_orgao)
+    
+    # Prioriza municípios com mais palavras para evitar correspondências erradas (ex: "Silva" em "Silva Jardim")
+    possible_municipios.sort(key=lambda name: len(name.split('-')), reverse=True)
+
+    found_key = None
+    for key in possible_municipios:
+        municipio_key_sem_uf = key.rsplit('-', 1)[0]
+        termo_busca = municipio_key_sem_uf.replace('-', ' ')
+        
+        if termo_busca in text_to_search_in:
+            municipio_encontrado = termo_busca.title()
+            found_key = key
+            break
+
+    if found_key and found_key in municipios_data:
+        coords = municipios_data[found_key]
+        lat = coords.get("lat")
+        lng = coords.get("lon")
+        
+    return municipio_encontrado, lat, lng
+
 def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> list:
-    """
-    Extrai informações de vagas, incluindo coordenadas geográficas,
-    e uma busca aprimorada por municípios.
-    """
     print(f"   > Extraindo de: {url}")
     vagas_encontradas = []
     try:
@@ -89,9 +109,7 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
         response.raise_for_status()
         
         soup = BeautifulSoup(response.content, 'lxml')
-        
         nodes = soup.select('#pagina .link-d, #pagina .link-i')
-        
         current_orgao = {'text': 'N/A', 'href': '#'}
 
         for node in nodes:
@@ -110,28 +128,13 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
                     
                     if id_vaga not in ids_vagas_existentes:
                         uf = get_uf_from_string(current_orgao['text'])
-                        municipio = "N/D"
-                        lat, lng = None, None # Inicia coordenadas como nulas
                         
-                        # Lógica de busca de município aprimorada
-                        if uf != 'N/D':
-                            orgao_normalizado = normalize_text(current_orgao['text'])
-                            possible_municipios = [k for k in municipios_data if k.endswith(f'-{uf.lower()}')]
-                            
-                            found_key = None
-                            for key in possible_municipios:
-                                municipio_key_sem_uf = key.rsplit('-', 1)[0]
-                                termo_busca = municipio_key_sem_uf.replace('-', ' ')
-                                if termo_busca in orgao_normalizado:
-                                    municipio = termo_busca.title()
-                                    found_key = key
-                                    break
-                            
-                            # Se um município foi encontrado, busca suas coordenadas
-                            if found_key and found_key in municipios_data:
-                                coords = municipios_data[found_key]
-                                lat = coords.get("lat")
-                                lng = coords.get("lon") # O arquivo original usa 'lon'
+                        municipio, lat, lng = find_municipio_and_coords(
+                            current_orgao['text'], 
+                            current_orgao['href'], 
+                            uf, 
+                            municipios_data
+                        )
 
                         vaga_data = {
                             'orgao': current_orgao['text'],
@@ -153,50 +156,52 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
     return vagas_encontradas
 
 def main():
-    """Função principal para orquestrar o scraping e a geração do arquivo JSON."""
     start_time = time.time()
     print("🚀 Iniciando script de atualização de vagas...")
     print("--------------------------------------------------")
-
-    # Carrega arquivos
     print("📄 Carregando arquivo de coordenadas dos municípios...")
-    municipios_coords_str = load_file_content(MUNICIPIOS_COORDS_FILE)
     
+    municipios_coords_str = load_file_content(MUNICIPIOS_COORDS_FILE)
     if not municipios_coords_str:
         print("\n❌ Script interrompido devido à falta do arquivo de municípios.")
         return
         
-    municipios_coords = json.loads(municipios_coords_str)
+    # Transforma o JSON de { "lat": ..., "lon": ..., "nome": ..., "uf": ... } para { "nome-uf": {lat:..., lon:...} }
+    raw_municipios = json.loads(municipios_coords_str)
+    municipios_data = {
+        f"{normalize_text(mun['nome']).replace(' ', '-')}-{mun['uf'].lower()}": {
+            "lat": mun.get("latitude"), 
+            "lon": mun.get("longitude"),
+            "uf": mun.get("uf")
+        }
+        for mun in raw_municipios
+    }
     
-    print("✅ Arquivo carregado com sucesso.")
+    print("✅ Arquivo de coordenadas carregado e processado.")
     print("--------------------------------------------------")
 
-    # Inicia extração
     print("🕸️  Iniciando extração de vagas...")
     todas_as_vagas = []
     ids_vagas_unicas = set()
     for url in TARGET_URLS:
-        vagas_da_url = scrape_vagas(url, ids_vagas_unicas, municipios_coords)
+        vagas_da_url = scrape_vagas(url, ids_vagas_unicas, municipios_data)
         todas_as_vagas.extend(vagas_da_url)
-        time.sleep(1) # Pausa amigável para não sobrecarregar o servidor
+        time.sleep(1) 
         
     print("--------------------------------------------------")
     print(f"✨ Extração finalizada. Total de {len(todas_as_vagas)} vagas únicas encontradas.")
 
-    # Prepara os dados para o arquivo JSON
     final_data = {
         "data_extracao": datetime.now().strftime("%d/%m/%Y às %H:%M:%S"),
         "total_vagas": len(todas_as_vagas),
         "vagas": todas_as_vagas,
     }
 
-    # Salva o arquivo final no formato JSON
     save_vagas_to_json(final_data, OUTPUT_FILE)
     
     end_time = time.time()
     print("--------------------------------------------------")
     print(f"✅ Script finalizado em {end_time - start_time:.2f} segundos.")
-
 
 if __name__ == "__main__":
     main()

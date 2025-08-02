@@ -8,9 +8,8 @@ import os
 import unicodedata
 
 # --- Configuração ---
-OUTPUT_FILE = "painel_de_vagas.html"
-TEMPLATE_FILE = "template.html"
-GEOJSON_FILE = "dados/brazil.geojson"
+# O script agora gera um arquivo JSON com os dados das vagas.
+OUTPUT_FILE = "dados/vagas.json" 
 MUNICIPIOS_COORDS_FILE = "dados/municipios_brasileiros.json"
 
 TARGET_URLS = [
@@ -36,7 +35,7 @@ def normalize_text(text: str) -> str:
     return text.lower()
 
 def load_file_content(filepath: str) -> str | None:
-    """Carrega o conteúdo de um arquivo de texto (HTML, JSON, etc)."""
+    """Carrega o conteúdo de um arquivo de texto (JSON, etc.)."""
     if not os.path.exists(filepath):
         print(f"❌ ERRO: Arquivo não encontrado em '{filepath}'")
         return None
@@ -56,6 +55,26 @@ def get_uf_from_string(text: str) -> str:
     if match_parenteses:
         return match_parenteses.group(1)
     return 'N/D'
+
+def save_vagas_to_json(data: dict, filename: str):
+    """
+    Salva os dados extraídos em um arquivo JSON formatado.
+    Garante que o diretório de destino exista antes de salvar.
+    """
+    print(f"🔄 Gerando arquivo JSON final em '{filename}'...")
+    try:
+        # Garante que o diretório de saída exista
+        output_dir = os.path.dirname(filename)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
+            
+        with open(filename, "w", encoding="utf-8") as f:
+            # Usa indent=4 para um arquivo JSON legível
+            json.dump(data, f, ensure_ascii=False, indent=4)
+            
+        print(f"✅ Sucesso! O arquivo '{filename}' foi gerado.")
+    except IOError as e:
+        print(f"❌ ERRO CRÍTICO: Não foi possível escrever o arquivo '{filename}': {e}")
 
 def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> list:
     """
@@ -93,7 +112,7 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
                         uf = get_uf_from_string(current_orgao['text'])
                         municipio = "N/D"
                         
-                        # Lógica de busca de município corrigida
+                        # Lógica de busca de município
                         if uf != 'N/D':
                             orgao_normalizado = normalize_text(current_orgao['text'])
                             possible_municipios = [k for k in municipios_data if k.endswith(f'-{uf.lower()}')]
@@ -122,24 +141,22 @@ def scrape_vagas(url: str, ids_vagas_existentes: set, municipios_data: dict) -> 
     return vagas_encontradas
 
 def main():
-    """Função principal para orquestrar o scraping e a geração do HTML."""
+    """Função principal para orquestrar o scraping e a geração do arquivo JSON."""
     start_time = time.time()
     print("🚀 Iniciando script de atualização de vagas...")
     print("--------------------------------------------------")
 
     # Carrega arquivos
-    print("📄 Carregando arquivos de dados e template...")
-    html_template = load_file_content(TEMPLATE_FILE)
-    brazil_geojson_str = load_file_content(GEOJSON_FILE)
+    print("📄 Carregando arquivo de coordenadas dos municípios...")
     municipios_coords_str = load_file_content(MUNICIPIOS_COORDS_FILE)
     
-    if not all([html_template, brazil_geojson_str, municipios_coords_str]):
-        print("\n❌ Script interrompido devido à falta de arquivos essenciais.")
+    if not municipios_coords_str:
+        print("\n❌ Script interrompido devido à falta do arquivo de municípios.")
         return
         
     municipios_coords = json.loads(municipios_coords_str)
     
-    print("✅ Arquivos carregados com sucesso.")
+    print("✅ Arquivo carregado com sucesso.")
     print("--------------------------------------------------")
 
     # Inicia extração
@@ -149,33 +166,25 @@ def main():
     for url in TARGET_URLS:
         vagas_da_url = scrape_vagas(url, ids_vagas_unicas, municipios_coords)
         todas_as_vagas.extend(vagas_da_url)
-        time.sleep(1) # Pausa amigável
+        time.sleep(1) # Pausa amigável para não sobrecarregar o servidor
+        
     print("--------------------------------------------------")
     print(f"✨ Extração finalizada. Total de {len(todas_as_vagas)} vagas únicas encontradas.")
 
-    # Prepara os dados para o template
-    data_extracao = datetime.now().strftime("%d/%m/%Y às %H:%M:%S")
+    # Prepara os dados para o arquivo JSON
     final_data = {
-        "vagas": todas_as_vagas,
+        "data_extracao": datetime.now().strftime("%d/%m/%Y às %H:%M:%S"),
         "total_vagas": len(todas_as_vagas),
-        "data_extracao": data_extracao,
+        "vagas": todas_as_vagas,
     }
 
-    # Injeta os dados no template
-    print("🔄 Gerando arquivo HTML final...")
-    output_html = html_template.replace("__DATA_PLACEHOLDER__", json.dumps(final_data, ensure_ascii=False))
-    output_html = output_html.replace("__GEOJSON_PLACEHOLDER__", brazil_geojson_str)
-    output_html = output_html.replace("__MUNICIPIOS_COORDS_PLACEHOLDER__", municipios_coords_str)
+    # Salva o arquivo final no formato JSON
+    save_vagas_to_json(final_data, OUTPUT_FILE)
+    
+    end_time = time.time()
+    print("--------------------------------------------------")
+    print(f"✅ Script finalizado em {end_time - start_time:.2f} segundos.")
 
-    # Salva o arquivo final
-    try:
-        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            f.write(output_html)
-        end_time = time.time()
-        print("--------------------------------------------------")
-        print(f"✅ Sucesso! O arquivo '{OUTPUT_FILE}' foi gerado em {end_time - start_time:.2f} segundos.")
-    except IOError as e:
-        print(f"❌ ERRO CRÍTICO: Não foi possível escrever o arquivo '{OUTPUT_FILE}': {e}")
 
 if __name__ == "__main__":
     main()

@@ -1,27 +1,21 @@
 {
-  "name": "Painel de Vagas",
-  "short_name": "Vagas",
-  "description": "Análise Geográfica de Vagas de Concursos Públicos",
+  "name": "Buscador de Concursos",
+  "short_name": "Concursos",
+  "description": "Uma ferramenta para buscar e visualizar vagas de concursos públicos no Brasil.",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#00ff00",
+  "background_color": "#111827",
+  "theme_color": "#111827",
   "icons": [
     {
-      "src": "/icons/icon-180x180.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "src": "icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     },
     {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }
-

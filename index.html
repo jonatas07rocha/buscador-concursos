@@ -35,13 +35,10 @@
         .toggle-btn-active { background-color: #3b82f6; color: #ffffff; }
         input[type="search"]::-webkit-search-cancel-button { -webkit-appearance:none; }
         
-        /* Estilos para vagas marcadas */
-        .vaga-marcada {
-            opacity: 0.5;
-        }
-        .vaga-marcada h3, .vaga-marcada p {
-            text-decoration: line-through;
-        }
+        /* Estilos para vagas marcadas e favoritadas */
+        .vaga-marcada { opacity: 0.5; }
+        .vaga-marcada h3, .vaga-marcada p { text-decoration: line-through; }
+        .favorite-btn.favorited svg { fill: #facc15; color: #facc15; } /* Amarelo para favorito */
 
         @media (min-width: 768px) {
             #map-container, #lista-container { height: 100vh; }
@@ -69,6 +66,7 @@
                         <label for="sort-by" class="sr-only">Classificar por</label>
                         <select id="sort-by" class="w-full text-sm py-2 pl-3 pr-8 bg-gray-800 border-gray-600 rounded-md focus:outline-none focus:border-blue-500">
                             <option value="padrao">Classificação Padrão</option>
+                            <option value="favoritos">Mostrar Favoritos</option>
                             <option value="estado">Estado (A-Z)</option>
                             <option value="municipio">Município (A-Z)</option>
                             <option value="cargo">Cargo (A-Z)</option>
@@ -97,9 +95,7 @@
     <div id="uf-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
         <div class="bg-gray-800 rounded-lg shadow-xl p-6 w-11/12 max-w-md">
             <h3 class="text-xl font-semibold mb-4">Filtrar por Estado (UF)</h3>
-            <div id="uf-checkboxes" class="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-64 overflow-y-auto custom-scrollbar">
-                <!-- Checkboxes de UF serão inseridos aqui -->
-            </div>
+            <div id="uf-checkboxes" class="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-64 overflow-y-auto custom-scrollbar"></div>
             <div class="mt-6 flex justify-end space-x-3">
                 <button id="clear-uf-filter" class="px-4 py-2 text-sm rounded-md bg-gray-600 hover:bg-gray-500">Limpar</button>
                 <button id="apply-uf-filter" class="px-4 py-2 text-sm rounded-md bg-blue-600 hover:bg-blue-500">Aplicar</button>
@@ -111,8 +107,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Elementos da UI
             const elements = {
-                listaContainer: document.getElementById('lista-container'),
-                mapContainer: document.getElementById('map-container'),
                 listaVagas: document.getElementById('lista-vagas'),
                 stats: document.getElementById('stats'),
                 searchBar: document.getElementById('search-bar'),
@@ -133,21 +127,28 @@
                 markers: [],
                 debounceTimer: null,
                 markedVagaIds: new Set(),
+                favoritedVagaIds: new Set(),
                 selectedUfs: new Set()
             };
 
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(elements.map);
 
             // --- Gerenciamento de Estado (LocalStorage) ---
-            const STORAGE_KEY = 'markedVagaIds';
+            const MARKED_STORAGE_KEY = 'markedVagaIds';
+            const FAVORITE_STORAGE_KEY = 'favoritedVagaIds';
 
-            function loadMarkedVagasFromStorage() {
-                const storedIds = localStorage.getItem(STORAGE_KEY);
-                state.markedVagaIds = new Set(storedIds ? JSON.parse(storedIds) : []);
+            function loadStateFromStorage() {
+                const storedMarked = localStorage.getItem(MARKED_STORAGE_KEY);
+                state.markedVagaIds = new Set(storedMarked ? JSON.parse(storedMarked) : []);
+                const storedFavorited = localStorage.getItem(FAVORITE_STORAGE_KEY);
+                state.favoritedVagaIds = new Set(storedFavorited ? JSON.parse(storedFavorited) : []);
             }
 
             function saveMarkedVagasToStorage() {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify([...state.markedVagaIds]));
+                localStorage.setItem(MARKED_STORAGE_KEY, JSON.stringify([...state.markedVagaIds]));
+            }
+            function saveFavoritedVagasToStorage() {
+                localStorage.setItem(FAVORITE_STORAGE_KEY, JSON.stringify([...state.favoritedVagaIds]));
             }
 
             function getVagaId(vaga) {
@@ -156,17 +157,21 @@
 
             // --- Lógica Principal de Renderização ---
             async function initializeApp() {
-                loadMarkedVagasFromStorage();
+                loadStateFromStorage();
                 try {
                     const response = await fetch('dados/vagas.json');
                     if (!response.ok) throw new Error('Falha ao carregar vagas.json');
                     const data = await response.json();
                     
-                    state.allVagas = data.vagas.map(vaga => ({
-                        ...vaga,
-                        id: getVagaId(vaga),
-                        isMarked: state.markedVagaIds.has(getVagaId(vaga))
-                    }));
+                    state.allVagas = data.vagas.map(vaga => {
+                        const id = getVagaId(vaga);
+                        return {
+                            ...vaga,
+                            id: id,
+                            isMarked: state.markedVagaIds.has(id),
+                            isFavorited: state.favoritedVagaIds.has(id)
+                        };
+                    });
                     
                     elements.stats.innerHTML = `<p><strong class="font-semibold text-white">${data.total_vagas}</strong> vagas encontradas.</p><p>Última atualização: <span class="font-semibold text-white">${data.data_extracao}</span></p>`;
                     populateUfFilterModal();
@@ -187,18 +192,17 @@
                         normalizeText(vaga.municipio).includes(searchTerm);
                     
                     const matchesUf = state.selectedUfs.size === 0 || state.selectedUfs.has(vaga.uf);
+                    
+                    const sortValue = elements.sortBy.value;
+                    const matchesFavorite = sortValue !== 'favoritos' || vaga.isFavorited;
 
-                    return matchesSearch && matchesUf;
+                    return matchesSearch && matchesUf && matchesFavorite;
                 });
 
                 // 2. Classificar
                 const sortValue = elements.sortBy.value;
-                if (sortValue !== 'padrao') {
-                    filteredVagas.sort((a, b) => {
-                        const fieldA = a[sortValue] || '';
-                        const fieldB = b[sortValue] || '';
-                        return fieldA.localeCompare(fieldB);
-                    });
+                if (sortValue !== 'padrao' && sortValue !== 'favoritos') {
+                    filteredVagas.sort((a, b) => (a[sortValue] || '').localeCompare(b[sortValue] || ''));
                 }
 
                 // 3. Particionar e Mover Marcados para o Final
@@ -243,7 +247,12 @@
                                 <h3 class="font-semibold text-lg text-blue-400">${vaga.cargo}</h3>
                                 <p class="text-sm text-gray-300 mt-1">${vaga.orgao}</p>
                             </div>
-                            <input type="checkbox" ${vaga.isMarked ? 'checked' : ''} class="ml-4 mt-1 h-5 w-5 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500">
+                            <div class="flex items-center space-x-3 ml-4">
+                                <button class="favorite-btn ${vaga.isFavorited ? 'favorited' : ''}" title="Marcar como favorito">
+                                    <svg class="w-6 h-6 text-gray-500 stroke-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                                </button>
+                                <input type="checkbox" ${vaga.isMarked ? 'checked' : ''} class="h-5 w-5 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500">
+                            </div>
                         </div>
                         <div class="flex justify-between items-center mt-3">
                            <span class="text-xs font-medium bg-blue-900/50 text-blue-300 px-2.5 py-1 rounded-full">${localInfo}</span>
@@ -253,16 +262,21 @@
                     
                     // Eventos
                     const checkbox = vagaEl.querySelector('input[type="checkbox"]');
-                    checkbox.addEventListener('click', (e) => {
+                    checkbox.addEventListener('click', e => {
                         e.stopPropagation();
                         vaga.isMarked = e.target.checked;
-                        if (vaga.isMarked) {
-                            state.markedVagaIds.add(vaga.id);
-                        } else {
-                            state.markedVagaIds.delete(vaga.id);
-                        }
+                        if (vaga.isMarked) state.markedVagaIds.add(vaga.id); else state.markedVagaIds.delete(vaga.id);
                         saveMarkedVagasToStorage();
                         updateDisplay();
+                    });
+
+                    const favoriteBtn = vagaEl.querySelector('.favorite-btn');
+                    favoriteBtn.addEventListener('click', e => {
+                        e.stopPropagation();
+                        vaga.isFavorited = !vaga.isFavorited;
+                        if (vaga.isFavorited) state.favoritedVagaIds.add(vaga.id); else state.favoritedVagaIds.delete(vaga.id);
+                        saveFavoritedVagasToStorage();
+                        favoriteBtn.classList.toggle('favorited');
                     });
 
                     const marker = state.markers.find(m => m.options.vagaId === vaga.id);
@@ -282,12 +296,7 @@
 
             function populateUfFilterModal() {
                 const ufs = [...new Set(state.allVagas.map(v => v.uf))].filter(uf => uf !== 'N/D').sort();
-                elements.ufCheckboxes.innerHTML = ufs.map(uf => `
-                    <label class="flex items-center space-x-2 text-sm">
-                        <input type="checkbox" value="${uf}" class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500">
-                        <span>${uf}</span>
-                    </label>
-                `).join('');
+                elements.ufCheckboxes.innerHTML = ufs.map(uf => `<label class="flex items-center space-x-2 text-sm"><input type="checkbox" value="${uf}" class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500"><span>${uf}</span></label>`).join('');
             }
 
             function normalizeText(text) {
@@ -295,42 +304,15 @@
             }
 
             // --- Handlers de Eventos ---
-            elements.searchBar.addEventListener('input', () => {
-                clearTimeout(state.debounceTimer);
-                state.debounceTimer = setTimeout(updateDisplay, 300);
-            });
+            elements.searchBar.addEventListener('input', () => { clearTimeout(state.debounceTimer); state.debounceTimer = setTimeout(updateDisplay, 300); });
             elements.sortBy.addEventListener('change', updateDisplay);
-
             elements.filterUfBtn.addEventListener('click', () => elements.ufModal.classList.remove('hidden'));
-            elements.ufModal.addEventListener('click', (e) => { if (e.target === elements.ufModal) elements.ufModal.classList.add('hidden'); });
+            elements.ufModal.addEventListener('click', e => { if (e.target === elements.ufModal) elements.ufModal.classList.add('hidden'); });
+            elements.applyUfFilterBtn.addEventListener('click', () => { state.selectedUfs.clear(); elements.ufCheckboxes.querySelectorAll('input:checked').forEach(input => state.selectedUfs.add(input.value)); elements.ufModal.classList.add('hidden'); updateDisplay(); });
+            elements.clearUfFilterBtn.addEventListener('click', () => { elements.ufCheckboxes.querySelectorAll('input:checked').forEach(input => input.checked = false); state.selectedUfs.clear(); elements.ufModal.classList.add('hidden'); updateDisplay(); });
             
-            elements.applyUfFilterBtn.addEventListener('click', () => {
-                state.selectedUfs.clear();
-                elements.ufCheckboxes.querySelectorAll('input:checked').forEach(input => state.selectedUfs.add(input.value));
-                elements.ufModal.classList.add('hidden');
-                updateDisplay();
-            });
-
-            elements.clearUfFilterBtn.addEventListener('click', () => {
-                elements.ufCheckboxes.querySelectorAll('input:checked').forEach(input => input.checked = false);
-                state.selectedUfs.clear();
-                elements.ufModal.classList.add('hidden');
-                updateDisplay();
-            });
-            
-            function showMapView() {
-                elements.listaContainer.classList.add('hidden');
-                elements.mapContainer.classList.remove('hidden');
-                elements.toggleMapBtn.classList.add('toggle-btn-active');
-                elements.toggleListBtn.classList.remove('toggle-btn-active');
-                setTimeout(() => elements.map.invalidateSize(), 100);
-            }
-            function showListView() {
-                elements.listaContainer.classList.remove('hidden');
-                elements.mapContainer.classList.add('hidden');
-                elements.toggleListBtn.classList.add('toggle-btn-active');
-                elements.toggleMapBtn.classList.remove('toggle-btn-active');
-            }
+            function showMapView() { document.getElementById('lista-container').classList.add('hidden'); document.getElementById('map-container').classList.remove('hidden'); elements.toggleMapBtn.classList.add('toggle-btn-active'); elements.toggleListBtn.classList.remove('toggle-btn-active'); setTimeout(() => elements.map.invalidateSize(), 100); }
+            function showListView() { document.getElementById('lista-container').classList.remove('hidden'); document.getElementById('map-container').classList.add('hidden'); elements.toggleListBtn.classList.add('toggle-btn-active'); elements.toggleMapBtn.classList.remove('toggle-btn-active'); }
 
             elements.toggleListBtn.addEventListener('click', showListView);
             elements.toggleMapBtn.addEventListener('click', showMapView);
@@ -338,11 +320,7 @@
             initializeApp();
         });
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js');
-            });
-        }
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/service-worker.js'); }); }
     </script>
 </body>
 </html>

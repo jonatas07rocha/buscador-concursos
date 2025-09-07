@@ -1,6 +1,6 @@
 {
-    "data_extracao": "31/08/2025 às 12:57:45",
-    "total_vagas": 295,
+    "data_extracao": "07/09/2025 às 13:12:08",
+    "total_vagas": 315,
     "vagas": [
         {
             "orgao": "BRDE - Banco Regional de Desenvolvimento do Extremo Sul",
@@ -31,7 +31,7 @@
         },
         {
             "orgao": "Prefeitura de Varginha - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-varginha-mg-divulga-retificacoes-de-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-varginha-mg-prorroga-inscricoes-de-concurso-publico",
             "cargo": "ADMINISTRADOR",
             "uf": "MG",
             "municipio": "Varginha",
@@ -48,19 +48,10 @@
             "lng": -48.649996
         },
         {
-            "orgao": "UFG - Universidade Federal de Goiás - GO",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufg-abre-concurso-publico-com-33-vagas",
-            "cargo": "ADMINISTRADOR",
-            "uf": "GO",
-            "municipio": "Goias",
-            "lat": -15.935743,
-            "lng": -50.141384
-        },
-        {
-            "orgao": "SESPA - Secretaria de Estado de Saúde Pública - PA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/sespa-pa-abre-46-vagas-em-novo-processo-seletivo",
-            "cargo": "ADMINISTRADOR",
-            "uf": "PA",
+            "orgao": "ALE - Assembleia Legislativa do Estado do Amazonas - AM",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/ale-am-promove-concurso-publico-com-100-vagas",
+            "cargo": "ANALISTA LEGISLATIVO ADMINISTRADOR DE EMPRESA",
+            "uf": "AM",
             "municipio": "N/D",
             "lat": null,
             "lng": null
@@ -78,15 +69,6 @@
             "orgao": "Cremepe - Conselho Regional de Medicina do Estado de Pernambuco - PE",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/cremepe-lanca-edital-de-concurso-publico-para-cargos-de-niveis-medio-e-superior",
             "cargo": "PROFISSIONAL ANALISTA SUPERIOR - PAS ADMINISTRADOR",
-            "uf": "PE",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "orgao": "IFPE - Instituto Federal de Educação, Ciência e Tecnologia de Pernambuco - PE",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ifpe-publica-concurso-publico-com-77-vagas",
-            "cargo": "ADMINISTRADOR",
             "uf": "PE",
             "municipio": "N/D",
             "lat": null,
@@ -112,7 +94,7 @@
         },
         {
             "orgao": "Prefeitura de Indaiatuba - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-abre-concurso-publico-com-203-vagas",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-retifica-concurso-publico-com-203-vagas",
             "cargo": "AGENTE DE SERVIÇOS ADMINISTRATIVOS",
             "uf": "SP",
             "municipio": "Indaiatuba",
@@ -121,7 +103,7 @@
         },
         {
             "orgao": "Prefeitura de Miracatu - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-miracatu-sp-informa-abertura-de-processo-seletivo-com-diversos-cargos",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-miracatu-sp-publica-retificacao-de-processo-seletivo",
             "cargo": "AGENTE ADMINISTRATIVO",
             "uf": "SP",
             "municipio": "Miracatu",
@@ -184,7 +166,7 @@
         },
         {
             "orgao": "Prefeitura de Imbé de Minas - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-abre-213-vagas-em-novo-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-publica-retificacao-de-concurso-publico",
             "cargo": "AGENTE ADMINISTRATIVO",
             "uf": "MG",
             "municipio": "Imbe De Minas",
@@ -193,7 +175,7 @@
         },
         {
             "orgao": "Prefeitura de Imbé de Minas - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-abre-213-vagas-em-novo-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-publica-retificacao-de-concurso-publico",
             "cargo": "AGENTE ADMINISTRATIVO DO CRAS",
             "uf": "MG",
             "municipio": "Imbe De Minas",
@@ -219,6 +201,15 @@
             "lng": -45.075361
         },
         {
+            "orgao": "Câmara de Miraselva - PR",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-miraselva-pr-abre-concurso-publico-para-agente-administrativo",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "PR",
+            "municipio": "Miraselva",
+            "lat": -22.966093,
+            "lng": -51.485707
+        },
+        {
             "orgao": "Prefeitura de Douradina - PR",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-douradina-pr-divulga-retificacoes-de-concursos-publicos",
             "cargo": "AGENTE ADMINISTRATIVO",
@@ -226,6 +217,15 @@
             "municipio": "Douradina",
             "lat": -23.381907,
             "lng": -53.296449
+        },
+        {
+            "orgao": "Prefeitura de Leópolis - PR",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-leopolis-pr-anuncia-concurso-publico-com-25-vagas-e-salarios-de-ate-13-8-mil",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "PR",
+            "municipio": "Leopolis",
+            "lat": -23.079922,
+            "lng": -50.755125
         },
         {
             "orgao": "Prefeitura de Mauá da Serra - PR",
@@ -255,15 +255,6 @@
             "lng": -51.226463
         },
         {
-            "orgao": "Prefeitura de Arroio do Padre - RS",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-arroio-do-padre-rs-abre-inscricoes-para-tres-processos-seletivos",
-            "cargo": "AGENTE ADMINISTRATIVO",
-            "uf": "RS",
-            "municipio": "Arroio Do Padre",
-            "lat": -31.440644,
-            "lng": -52.433302
-        },
-        {
             "orgao": "Prefeitura de Arroio do Tigre - RS",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-arroio-do-tigre-rs-publica-editais-de-concurso-publico-e-processo-seletivo",
             "cargo": "AGENTE ADMINISTRATIVO",
@@ -273,15 +264,6 @@
             "lng": -53.086396
         },
         {
-            "orgao": "Prefeitura de Forquetinha - RS",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-forquetinha-rs-divulga-retificacao-de-concurso-publico",
-            "cargo": "AGENTE ADMINISTRATIVO",
-            "uf": "RS",
-            "municipio": "Forquetinha",
-            "lat": -29.380634,
-            "lng": -52.096917
-        },
-        {
             "orgao": "Prefeitura de Sapiranga - RS",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sapiranga-rs-abre-46-vagas-em-novo-concurso-publico",
             "cargo": "AGENTE ADMINISTRATIVO",
@@ -289,15 +271,6 @@
             "municipio": "Sapiranga",
             "lat": -29.638554,
             "lng": -51.003623
-        },
-        {
-            "orgao": "Prefeitura de Águas de Chapecó - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-aguas-de-chapeco-sc-retifica-um-de-dois-concursos-publicos-com-salarios-de-ate-18-9-mil",
-            "cargo": "AGENTE ADMINISTRATIVO",
-            "uf": "SC",
-            "municipio": "Aguas De Chapeco",
-            "lat": -27.076213,
-            "lng": -52.987251
         },
         {
             "orgao": "Prefeitura de Braço do Trombudo - SC",
@@ -345,6 +318,42 @@
             "lng": -56.110005
         },
         {
+            "orgao": "Prefeitura de Nova Santa Helena - MT",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-nova-santa-helena-mt-abre-33-vagas-em-novo-concurso-publico",
+            "cargo": "AGENTE ADMINISTRATIVO I",
+            "uf": "MT",
+            "municipio": "Nova Santa Helena",
+            "lat": -10.851,
+            "lng": -55.183686
+        },
+        {
+            "orgao": "Prefeitura de Nova Santa Helena - MT",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-nova-santa-helena-mt-abre-33-vagas-em-novo-concurso-publico",
+            "cargo": "AGENTE ADMINISTRATIVO II",
+            "uf": "MT",
+            "municipio": "Nova Santa Helena",
+            "lat": -10.851,
+            "lng": -55.183686
+        },
+        {
+            "orgao": "ALE - Assembleia Legislativa do Estado do Amazonas - AM",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/ale-am-promove-concurso-publico-com-100-vagas",
+            "cargo": "AGENTE LEGISLATIVO ASSISTENTE TÉCNICO ADMINISTRATIVO",
+            "uf": "AM",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
+        },
+        {
+            "orgao": "CPSMA - Consórcio Público de Saúde da Microrregião do Acaraú CE - CE",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/cpsma-ce-publica-concurso-publico-com-mais-de-100-vagas",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "CE",
+            "municipio": "Acarau",
+            "lat": -2.885311,
+            "lng": -40.118241
+        },
+        {
             "orgao": "Prefeitura de Lavras da Mangabeira - CE",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-lavras-da-mangabeira-ce-lanca-edital-de-concurso-publico-com-diversas-vagas",
             "cargo": "AGENTE ADMINISTRATIVO",
@@ -372,6 +381,42 @@
             "lng": -38.271941
         },
         {
+            "orgao": "Prefeitura de Lima Campos - MA",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-lima-campos-ma-lanca-edital-de-concurso-publico-com-diversas-vagas",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "MA",
+            "municipio": "Lima Campos",
+            "lat": -4.517046,
+            "lng": -44.46934
+        },
+        {
+            "orgao": "Prefeitura de Bonito de Santa Fé - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bonito-de-santa-fe-pb-lanca-edital-de-concurso-publico-com-diversas-vagas",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "PB",
+            "municipio": "Bonito De Santa Fe",
+            "lat": -7.310763,
+            "lng": -38.516495
+        },
+        {
+            "orgao": "Prefeitura de Boqueirão - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boqueirao-pb-publica-concurso-publico-com-103-vagas",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "PB",
+            "municipio": "Boqueirao",
+            "lat": -7.482648,
+            "lng": -36.133405
+        },
+        {
+            "orgao": "Prefeitura de Brejo do Cruz - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-brejo-do-cruz-pb-lanca-edital-de-concurso-publico-com-diversas-vagas",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "PB",
+            "municipio": "Brejo Do Cruz",
+            "lat": -6.347708,
+            "lng": -37.500163
+        },
+        {
             "orgao": "Prefeitura de Mataraca - PB",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-mataraca-pb-publica-edital-retificado-de-concurso-publico",
             "cargo": "AGENTE ADMINISTRATIVO",
@@ -379,6 +424,24 @@
             "municipio": "Mataraca",
             "lat": -6.600519,
             "lng": -35.048558
+        },
+        {
+            "orgao": "Prefeitura de Monteiro - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-monteiro-pb-promove-concurso-publico-com-mais-de-100-vagas",
+            "cargo": "AGENTE ADMINISTRATIVO ESCOLAR",
+            "uf": "PB",
+            "municipio": "Monteiro",
+            "lat": -7.892217,
+            "lng": -37.122681
+        },
+        {
+            "orgao": "Prefeitura de Olivedos - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-olivedos-pb-abre-37-vagas-em-novo-concurso-publico",
+            "cargo": "AGENTE ADMINISTRATIVO",
+            "uf": "PB",
+            "municipio": "Olivedos",
+            "lat": -6.988226,
+            "lng": -36.243665
         },
         {
             "orgao": "Prefeitura de São Bentinho - PB",
@@ -417,15 +480,6 @@
             "lng": null
         },
         {
-            "orgao": "CPRM - Companhia de Pesquisa de Recursos Minerais",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/cprm-retifica-concurso-publico-com-115-vagas",
-            "cargo": "TÉCNICO EM GEOCIÊNCIAS-ASSISTENTE ADMINISTRATIVO",
-            "uf": "N/D",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
             "orgao": "CRBio - Conselho Regional de Biologia - 5ª Região",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/crbio-5-regiao-publica-edital-de-concurso-publico-para-cargos-de-niveis-medio-e-superior",
             "cargo": "ASSISTENTE ADMINISTRATIVO",
@@ -435,8 +489,17 @@
             "lng": null
         },
         {
+            "orgao": "Câmara de Floreal - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-floreal-sp-promove-concurso-publico-com-salarios-de-ate-7-mil",
+            "cargo": "ASSISTENTE ADMINISTRATIVO-LEGISLATIVO",
+            "uf": "SP",
+            "municipio": "Floreal",
+            "lat": -20.674031,
+            "lng": -50.145689
+        },
+        {
             "orgao": "Prefeitura de Indaiatuba - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-abre-concurso-publico-com-203-vagas",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-retifica-concurso-publico-com-203-vagas",
             "cargo": "ASSISTENTE DE SERVIÇOS ADMINISTRATIVOS",
             "uf": "SP",
             "municipio": "Indaiatuba",
@@ -462,13 +525,13 @@
             "lng": -48.723677
         },
         {
-            "orgao": "Unesp - Universidade Estadual Paulista - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/unesp-de-botucatu-sp-abre-concurso-publico-para-cargo-de-assistente-tecnico-administrativo-i",
-            "cargo": "ASSISTENTE TÉCNICO ADMINISTRATIVO I - MATERIAIS",
-            "uf": "SP",
-            "municipio": "Botucatu",
-            "lat": -22.888382,
-            "lng": -48.441289
+            "orgao": "Câmara de Itaú de Minas - MG",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-itau-de-minas-mg-abre-concurso-publico-para-assistente-administrativo",
+            "cargo": "ASSISTENTE ADMINISTRATIVO I - NÍVEL IV",
+            "uf": "MG",
+            "municipio": "Itau De Minas",
+            "lat": -20.738189,
+            "lng": -46.752954
         },
         {
             "orgao": "Câmara de Papagaios - MG",
@@ -478,15 +541,6 @@
             "municipio": "Papagaios",
             "lat": -19.455537,
             "lng": -44.744702
-        },
-        {
-            "orgao": "CISALV - Consórcio Intermunicipal de Saúde Alto das Vertentes - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/cisalv-mg-abre-processo-seletivo-para-assistente-tecnico-administrativo",
-            "cargo": "ASSISTENTE TÉCNICO ADMINISTRATIVO",
-            "uf": "MG",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
         },
         {
             "orgao": "Prefeitura de Brasilândia de Minas - MG",
@@ -516,15 +570,6 @@
             "lng": -42.800817
         },
         {
-            "orgao": "Prefeitura de Pedro Leopoldo - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-pedro-leopoldo-mg-abre-processo-seletivo-com-salarios-de-ate-4-5-mil",
-            "cargo": "ASSISTENTE ADMINISTRATIVO",
-            "uf": "MG",
-            "municipio": "Pedro Leopoldo",
-            "lat": -19.618396,
-            "lng": -44.045884
-        },
-        {
             "orgao": "Prefeitura de Rodeiro - MG",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-rodeiro-mg-lanca-edital-de-concurso-publico-com-136-vagas",
             "cargo": "ASSISTENTE ADMINISTRATIVO",
@@ -532,6 +577,15 @@
             "municipio": "Rodeiro",
             "lat": -21.200705,
             "lng": -42.868676
+        },
+        {
+            "orgao": "CIM Guandu - Consórcio Intermunicipal Multifinalitário Guandu - ES",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/cim-guandu-es-publica-edital-de-processo-seletivo",
+            "cargo": "ASSISTENTE ADMINISTRATIVO TÉCNICO EM ADMINISTRAÇÃO, CONTABILIDADE, INFORMÁTICA, SERVIÇOS JURÍDICOS OU FORMAÇÃO SUPERIOR",
+            "uf": "ES",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
         },
         {
             "orgao": "Câmara de Pinhais - PR",
@@ -543,15 +597,6 @@
             "lng": -49.199197
         },
         {
-            "orgao": "Prefeitura de Boa Vista da Aparecida - PR",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boa-vista-da-aparecida-pr-informa-abertura-das-inscricoes-para-concurso-publico",
-            "cargo": "ASSISTENTE ADMINISTRATIVO",
-            "uf": "PR",
-            "municipio": "Boa Vista Da Aparecida",
-            "lat": -25.430405,
-            "lng": -53.411736
-        },
-        {
             "orgao": "Prefeitura de Xangri-lá - RS",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-xangri-la-rs-abre-inscricoes-para-dois-concursos-publicos",
             "cargo": "ASSISTENTE ADMINISTRATIVO",
@@ -559,15 +604,6 @@
             "municipio": "N/D",
             "lat": null,
             "lng": null
-        },
-        {
-            "orgao": "FAHECE - Fundação de Apoio ao Hemosc/Cepon - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/fahece-publica-edital-de-processo-seletivo-para-o-cargo-de-assistente-administrativo",
-            "cargo": "ASSISTENTE ADMINISTRATIVO - REGISTRO E AGENDAMENTO",
-            "uf": "SC",
-            "municipio": "Ita",
-            "lat": -27.281779,
-            "lng": -52.329183
         },
         {
             "orgao": "Prefeitura de Fraiburgo - SC",
@@ -588,15 +624,6 @@
             "lng": -50.925079
         },
         {
-            "orgao": "CRM - Conselho Regional de Medicina do Distrito Federal - DF",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/crm-df-divulga-retificacao-de-concurso-publico",
-            "cargo": "ASSISTENTE ADMINISTRATIVO",
-            "uf": "DF",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
             "orgao": "Prefeitura de Senador Canedo - GO",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-senador-canedo-go-abre-536-vagas-em-novo-processo-seletivo-retificado",
             "cargo": "ASSISTENTE ADMINISTRATIVO",
@@ -604,6 +631,15 @@
             "municipio": "Senador Canedo",
             "lat": -16.718575,
             "lng": -49.087967
+        },
+        {
+            "orgao": "CREA - Conselho Regional de Engenharia e Agronomia - MT",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/crea-mt-lanca-edital-de-concurso-publico-com-29-vagas",
+            "cargo": "ASSISTENTE ADMINISTRATIVO",
+            "uf": "MT",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
         },
         {
             "orgao": "Prefeitura de Araputanga - MT",
@@ -633,13 +669,22 @@
             "lng": -52.361193
         },
         {
-            "orgao": "Prefeitura de Boa Vista - RR",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boa-vista-rr-lanca-edital-de-concurso-publico-com-diversas-vagas",
-            "cargo": "ASSISTENTE ESPECIALIDADE: ASSISTENTE ADMINISTRATIVO",
-            "uf": "RR",
-            "municipio": "Boa Vista",
-            "lat": 2.816682,
-            "lng": -60.670533
+            "orgao": "Prefeitura de Laranjal do Jari - AP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-laranjal-do-jari-ap-abre-79-vagas-em-novo-concurso-publico",
+            "cargo": "ASSISTENTE ADMINISTRATIVO",
+            "uf": "AP",
+            "municipio": "Laranjal Do Jari",
+            "lat": -0.855665,
+            "lng": -52.539021
+        },
+        {
+            "orgao": "Fundação Parapáz - PA",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/fundacao-parapaz-abre-edital-de-processo-seletivo-com-63-vagas",
+            "cargo": "ASSISTENTE ADMINISTRATIVO",
+            "uf": "PA",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
         },
         {
             "orgao": "Prefeitura de Santanópolis - BA",
@@ -676,24 +721,6 @@
             "municipio": "N/D",
             "lat": null,
             "lng": null
-        },
-        {
-            "orgao": "Câmara de Turmalina - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-turmalina-sp-divulga-retificacao-de-concurso-publico",
-            "cargo": "AUXILIAR ADMINISTRATIVO LEGISLATIVO",
-            "uf": "SP",
-            "municipio": "Turmalina",
-            "lat": -20.051269,
-            "lng": -50.477729
-        },
-        {
-            "orgao": "Funcamp - Fundação de Desenvolvimento da Unicamp - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/funcamp-sp-abre-quatro-editais-de-processos-seletivos",
-            "cargo": "AUXILIAR ADMINISTRATIVO",
-            "uf": "SP",
-            "municipio": "Itai",
-            "lat": -23.419055,
-            "lng": -49.081032
         },
         {
             "orgao": "FUNCAMP - Fundação de Desenvolvimento da Unicamp - SP",
@@ -759,6 +786,15 @@
             "lng": -49.439149
         },
         {
+            "orgao": "Prefeitura de Rio Bonito - RJ",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-rio-bonito-rj-lanca-edital-de-processo-seletivo-com-diversas-vagas",
+            "cargo": "AUXILIAR ADMINISTRATIVO",
+            "uf": "RJ",
+            "municipio": "Rio Bonito",
+            "lat": -22.711272,
+            "lng": -42.625998
+        },
+        {
             "orgao": "Câmara de Doresópolis - MG",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-doresopolis-mg-publica-retificacao-de-concurso-publico",
             "cargo": "AUXILIAR ADMINISTRATIVO",
@@ -766,6 +802,15 @@
             "municipio": "Doresopolis",
             "lat": -20.288451,
             "lng": -45.905197
+        },
+        {
+            "orgao": "Câmara de Santa Cruz do Escalvado - MG",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/edital-de-concurso-publico-e-divulgado-pela-camara-de-santa-cruz-do-escalvado-mg",
+            "cargo": "AUXILIAR ADMINISTRATIVO",
+            "uf": "MG",
+            "municipio": "Santa Cruz Do Escalvado",
+            "lat": -20.238277,
+            "lng": -42.818453
         },
         {
             "orgao": "CIDES - Consórcio Público Intermunicipal de Desenvolvimento Sustentável do Triângulo Mineiro e Alto Paranaíba - MG",
@@ -777,8 +822,17 @@
             "lng": null
         },
         {
+            "orgao": "Cisleste - Consórcio Intermunicipal de Saúde da Mata Leste - MG",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/cisleste-mg-lanca-processo-seletivo-para-cargos-de-niveis-medio-e-superior",
+            "cargo": "AUXILIAR ADMINISTRATIVO I",
+            "uf": "MG",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
+        },
+        {
             "orgao": "Prefeitura de Bom Sucesso - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bom-sucesso-mg-abre-concurso-publico-com-64-vagas",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bom-sucesso-mg-retifica-edital-de-concurso-publico",
             "cargo": "AUXILIAR ADMINISTRATIVO",
             "uf": "MG",
             "municipio": "Bom Sucesso",
@@ -858,24 +912,6 @@
             "lng": -45.075361
         },
         {
-            "orgao": "SPDM - Associação Paulista para Desenvolvimento da Medicina (UAICN e UAISO de Uberlândia) - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/spdm-de-uberlandia-mg-publica-retificacao-de-processo-seletivo",
-            "cargo": "AUXILIAR ADMINISTRATIVO",
-            "uf": "MG",
-            "municipio": "Uberlandia",
-            "lat": -18.918999,
-            "lng": -48.27795
-        },
-        {
-            "orgao": "SAAE - Serviço Autônomo de Água e Esgoto de João Neiva - ES",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/edital-de-processo-seletivo-e-divulgado-pelo-saae-de-joao-neiva-es",
-            "cargo": "AUXILIAR ADMINISTRATIVO",
-            "uf": "ES",
-            "municipio": "Joao Neiva",
-            "lat": -19.752959,
-            "lng": -40.38088
-        },
-        {
             "orgao": "Câmara de Piraquara - PR",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-piraquara-pr-informa-abertura-das-inscricoes-para-edital-de-concurso-publico",
             "cargo": "AUXILIAR PARLAMENTAR - AUXILIAR ADMINISTRATIVO",
@@ -894,13 +930,13 @@
             "lng": null
         },
         {
-            "orgao": "Prefeitura de Mandaguaçu - PR",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-mandaguacu-pr-divulga-sete-vagas-em-novo-processo-seletivo",
+            "orgao": "Prefeitura de Itaipulândia - PR",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itaipulandia-pr-abre-inscricoes-para-dois-editais-de-processo-seletivo",
             "cargo": "AUXILIAR ADMINISTRATIVO",
             "uf": "PR",
-            "municipio": "Mandaguacu",
-            "lat": -23.342789,
-            "lng": -52.094253
+            "municipio": "Itaipulandia",
+            "lat": -25.138481,
+            "lng": -54.305001
         },
         {
             "orgao": "IPAM - Farmácia do IPAM - RS",
@@ -921,17 +957,8 @@
             "lng": -53.488943
         },
         {
-            "orgao": "CIGAMVALI - Consórcio Intermunicipal de Gestão Pública do Vale do Itapocu - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/cigamvali-sc-prorroga-inscricoes-para-processo-seletivo-com-salarios-de-ate-6-9-mil",
-            "cargo": "AUXILIAR ADMINISTRATIVO",
-            "uf": "SC",
-            "municipio": "Ita",
-            "lat": -27.281779,
-            "lng": -52.329183
-        },
-        {
             "orgao": "Prefeitura de Araranguá - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-ararangua-sc-divulga-dois-editais-de-processos-seletivos",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-ararangua-sc-divulga-retifica-um-de-dois-editais-de-processos-seletivos",
             "cargo": "AUXILIAR ADMINISTRATIVO I",
             "uf": "SC",
             "municipio": "Ararangua",
@@ -939,13 +966,22 @@
             "lng": -49.480967
         },
         {
-            "orgao": "Prefeitura de Camboriú - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-camboriu-sc-publica-edital-de-concurso-publico-com-diversas-vagas",
+            "orgao": "Prefeitura de Calmon - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-calmon-sc-divulga-retificacao-de-processo-seletivo",
             "cargo": "AUXILIAR ADMINISTRATIVO",
             "uf": "SC",
-            "municipio": "Camboriu",
-            "lat": -27.026456,
-            "lng": -48.649996
+            "municipio": "Calmon",
+            "lat": -26.604677,
+            "lng": -51.096635
+        },
+        {
+            "orgao": "Prefeitura de Tangará - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/edital-de-processo-seletivo-e-publicado-pela-prefeitura-de-tangara-sc",
+            "cargo": "AUXILIAR TÉCNICO ADMINISTRATIVO",
+            "uf": "SC",
+            "municipio": "Tangara",
+            "lat": -27.101011,
+            "lng": -51.245914
         },
         {
             "orgao": "Prefeitura de Catalão - GO",
@@ -984,13 +1020,13 @@
             "lng": -39.261131
         },
         {
-            "orgao": "Prefeitura de São Francisco do Conde - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-francisco-do-conde-ba-anuncia-processo-seletivo-com-223-vagas",
+            "orgao": "CRP - Conselho Regional de Psicologia da 13ª Região - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/crp-13-pb-divulga-edital-de-concurso-publico",
             "cargo": "AUXILIAR ADMINISTRATIVO",
-            "uf": "BA",
-            "municipio": "Sao Francisco Do Conde",
-            "lat": -12.629983,
-            "lng": -38.675798
+            "uf": "PB",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
         },
         {
             "orgao": "Prefeitura de Boa Vista - PB",
@@ -1000,6 +1036,15 @@
             "municipio": "Boa Vista",
             "lat": -7.257913,
             "lng": -36.235374
+        },
+        {
+            "orgao": "Prefeitura de Monteiro - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-monteiro-pb-promove-concurso-publico-com-mais-de-100-vagas",
+            "cargo": "AUXILIAR ADMINISTRATIVO",
+            "uf": "PB",
+            "municipio": "Monteiro",
+            "lat": -7.892217,
+            "lng": -37.122681
         },
         {
             "orgao": "AESGA - Autarquia de Ensino Superior de Garanhuns - PE",
@@ -1020,15 +1065,6 @@
             "lng": -36.284814
         },
         {
-            "orgao": "Prefeitura de Gravatá - PE",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-gravata-pe-abre-edital-de-processo-seletivo-com-154-vagas",
-            "cargo": "AUXILIAR ADMINISTRATIVO",
-            "uf": "PE",
-            "municipio": "Gravata",
-            "lat": -8.206,
-            "lng": -35.571492
-        },
-        {
             "orgao": "Câmara da Estância Turística de Piraju - SP",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-piraju-sp-abre-processo-seletivo-para-controlador-interno",
             "cargo": "CONTROLADOR INTERNO",
@@ -1036,6 +1072,15 @@
             "municipio": "Piraju",
             "lat": -23.192991,
             "lng": -49.383974
+        },
+        {
+            "orgao": "Câmara de Barra do Chapéu - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-barra-do-chapeu-sp-publica-concurso-publico-para-contador-e-controlador-interno",
+            "cargo": "CONTROLADOR INTERNO",
+            "uf": "SP",
+            "municipio": "Barra Do Chapeu",
+            "lat": -24.471426,
+            "lng": -49.027139
         },
         {
             "orgao": "Câmara de Cerquilho - SP",
@@ -1056,24 +1101,6 @@
             "lng": -48.052685
         },
         {
-            "orgao": "Câmara de Ribeirão Corrente - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-ribeirao-corrente-sp-divulga-concurso-publico-para-controlador-interno",
-            "cargo": "CONTROLADOR INTERNO",
-            "uf": "SP",
-            "municipio": "Ribeirao Corrente",
-            "lat": -20.46066,
-            "lng": -47.590705
-        },
-        {
-            "orgao": "Prefeitura de Itatinga - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itatinga-sp-anuncia-abertura-de-concurso-publico-com-diversos-cargos",
-            "cargo": "CONTROLADOR INTERNO",
-            "uf": "SP",
-            "municipio": "Itatinga",
-            "lat": -23.104273,
-            "lng": -48.61338
-        },
-        {
             "orgao": "Prefeitura de Jarinu - SP",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-jarinu-sp-retifica-edital-de-concurso-publico",
             "cargo": "CONTROLADOR INTERNO",
@@ -1081,6 +1108,15 @@
             "municipio": "Jarinu",
             "lat": -23.103063,
             "lng": -46.738271
+        },
+        {
+            "orgao": "Prefeitura de Lourdes - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-lourdes-sp-abre-inscricoes-para-concurso-publico-e-processo-seletivo",
+            "cargo": "CONTROLADOR INTERNO",
+            "uf": "SP",
+            "municipio": "Lourdes",
+            "lat": -20.965391,
+            "lng": -50.22666
         },
         {
             "orgao": "Prefeitura de Nova Guataporanga - SP",
@@ -1128,31 +1164,22 @@
             "lng": -43.558949
         },
         {
-            "orgao": "Prefeitura de Águas de Chapecó - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-aguas-de-chapeco-sc-retifica-um-de-dois-concursos-publicos-com-salarios-de-ate-18-9-mil",
+            "orgao": "Câmara de Santa Cruz do Escalvado - MG",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/edital-de-concurso-publico-e-divulgado-pela-camara-de-santa-cruz-do-escalvado-mg",
             "cargo": "CONTROLADOR INTERNO",
-            "uf": "SC",
-            "municipio": "Aguas De Chapeco",
-            "lat": -27.076213,
-            "lng": -52.987251
+            "uf": "MG",
+            "municipio": "Santa Cruz Do Escalvado",
+            "lat": -20.238277,
+            "lng": -42.818453
         },
         {
-            "orgao": "Prefeitura de Camboriú - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-camboriu-sc-publica-edital-de-concurso-publico-com-diversas-vagas",
+            "orgao": "Prefeitura de Imbé de Minas - MG",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-publica-retificacao-de-concurso-publico",
             "cargo": "CONTROLADOR INTERNO",
-            "uf": "SC",
-            "municipio": "Camboriu",
-            "lat": -27.026456,
-            "lng": -48.649996
-        },
-        {
-            "orgao": "Prefeitura de Gaspar - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-gaspar-sc-divulga-tres-vagas-em-novo-concurso-publico",
-            "cargo": "CONTROLADOR INTERNO",
-            "uf": "SC",
-            "municipio": "Gaspar",
-            "lat": -26.918369,
-            "lng": -48.967707
+            "uf": "MG",
+            "municipio": "Imbe De Minas",
+            "lat": -19.595876,
+            "lng": -41.962481
         },
         {
             "orgao": "CISMA - Consórcio Intermunicipal de Saúde do Médio Araguaia - MT",
@@ -1171,6 +1198,15 @@
             "municipio": "Lucas Do Rio Verde",
             "lat": -13.070465,
             "lng": -55.921771
+        },
+        {
+            "orgao": "Famesp - Fundação para o Desenvolvimento Médico e Hospitalar - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/famesp-abre-inscricoes-para-21-processos-seletivos",
+            "cargo": "OFICIAL ADMINISTRATIVO",
+            "uf": "SP",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
         },
         {
             "orgao": "Câmara de Arceburgo - MG",
@@ -1227,6 +1263,15 @@
             "lng": -50.749309
         },
         {
+            "orgao": "Prefeitura de Itaipulândia - PR",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itaipulandia-pr-abre-inscricoes-para-dois-editais-de-processo-seletivo",
+            "cargo": "OFICIAL ADMINISTRATIVO",
+            "uf": "PR",
+            "municipio": "Itaipulandia",
+            "lat": -25.138481,
+            "lng": -54.305001
+        },
+        {
             "orgao": "Prefeitura de Condor - RS",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-condor-rs-abre-inscricoes-para-edital-de-concurso-publico",
             "cargo": "OFICIAL ADMINISTRATIVO",
@@ -1245,8 +1290,26 @@
             "lng": -52.122157
         },
         {
+            "orgao": "Prefeitura de Witmarsum - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-witmarsum-sc-abre-concurso-publico-e-processo-seletivo-com-30-vagas",
+            "cargo": "OFICIAL ADMINISTRATIVO",
+            "uf": "SC",
+            "municipio": "Witmarsum",
+            "lat": -26.926743,
+            "lng": -49.804203
+        },
+        {
+            "orgao": "Etec - Escola Técnica - Apiaí - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/etec-de-apiai-sp-abre-inscricoes-para-tres-novos-processos-seletivos",
+            "cargo": "PROFESSOR DE ENSINO MÉDIO E TÉCNICO - PLANEJAMENTO E ORGANIZAÇÃO DE ROTINAS ADMINISTRATIVAS",
+            "uf": "SP",
+            "municipio": "Apiai",
+            "lat": -24.513316,
+            "lng": -48.84866
+        },
+        {
             "orgao": "Prefeitura de Indaiatuba - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-abre-concurso-publico-com-203-vagas",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-retifica-concurso-publico-com-203-vagas",
             "cargo": "TÉCNICO DE SERVIÇOS ADMINISTRATIVOS",
             "uf": "SP",
             "municipio": "Indaiatuba",
@@ -1270,15 +1333,6 @@
             "municipio": "Candeias",
             "lat": -20.77035,
             "lng": -45.276857
-        },
-        {
-            "orgao": "Câmara de Maripá de Minas - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/camara-de-maripa-de-minas-mg-informa-abertura-de-edital-de-concurso-publico",
-            "cargo": "TÉCNICO ADMINISTRATIVO",
-            "uf": "MG",
-            "municipio": "Maripa De Minas",
-            "lat": -21.692263,
-            "lng": -42.96835
         },
         {
             "orgao": "Prefeitura de Ipanema - MG",
@@ -1315,6 +1369,24 @@
             "municipio": "N/D",
             "lat": null,
             "lng": null
+        },
+        {
+            "orgao": "Prefeitura de Santa Helena - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-santa-helena-sc-divulga-retificacao-de-processo-seletivo",
+            "cargo": "TÉCNICO ADMINISTRATIVO",
+            "uf": "SC",
+            "municipio": "Santa Helena",
+            "lat": -26.939844,
+            "lng": -53.619988
+        },
+        {
+            "orgao": "Prefeitura de Tangará - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-tangara-sc-informa-abertura-de-concurso-publico-com-diversos-cargos",
+            "cargo": "TÉCNICO ADMINISTRATIVO EDUCACIONAL",
+            "uf": "SC",
+            "municipio": "Tangara",
+            "lat": -27.101011,
+            "lng": -51.245914
         },
         {
             "orgao": "Prefeitura de Jauru - MT",
@@ -1389,6 +1461,33 @@
             "lng": null
         },
         {
+            "orgao": "Prefeitura de Monteiro - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-monteiro-pb-promove-concurso-publico-com-mais-de-100-vagas",
+            "cargo": "TÉCNICO ADMINISTRATIVO",
+            "uf": "PB",
+            "municipio": "Monteiro",
+            "lat": -7.892217,
+            "lng": -37.122681
+        },
+        {
+            "orgao": "Prefeitura de Monteiro - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-monteiro-pb-promove-concurso-publico-com-mais-de-100-vagas",
+            "cargo": "TÉCNICO ADMINISTRATIVO-PLANTONISTA",
+            "uf": "PB",
+            "municipio": "Monteiro",
+            "lat": -7.892217,
+            "lng": -37.122681
+        },
+        {
+            "orgao": "FAMERP - Faculdade de Medicina de São José do Rio Preto - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/famerp-abre-inscricoes-para-dois-editais-de-concurso-publico",
+            "cargo": "PROFESSOR - TRATAMENTO E PREVENÇÃO PSICOLÓGICA",
+            "uf": "SP",
+            "municipio": "Sao Jose Do Rio Preto",
+            "lat": -20.812636,
+            "lng": -49.381348
+        },
+        {
             "orgao": "Fatec - Faculdade de Tecnologia - Itapevi - SP",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/fatec-de-itapevi-sp-publica-processo-seletivo-para-docente-de-ensino-superior",
             "cargo": "PROFESSOR DE ENSINO SUPERIOR - COMPORTAMENTO NAS ORGANIZAÇÕES, ESPECIFICAMENTE NA ÁREA DE ADMINISTRAÇÃO E NEGÓCIOS/PSICOLOGIA, NO CURSO DE GESTÃO DA QUALIDADE",
@@ -1407,6 +1506,15 @@
             "lng": -46.837558
         },
         {
+            "orgao": "OSAAS - Organização Santo Antônio Ação Social - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/osaas-de-macatuba-sp-divulga-abertura-de-processo-seletivo",
+            "cargo": "PSICÓLOGO",
+            "uf": "SP",
+            "municipio": "Macatuba",
+            "lat": -22.50555,
+            "lng": -48.711405
+        },
+        {
             "orgao": "Prefeitura de Águas da Prata - SP",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-aguas-da-prata-sp-divulga-retificacao-de-concurso-publico",
             "cargo": "PSICÓLOGO",
@@ -1416,31 +1524,40 @@
             "lng": -46.716767
         },
         {
-            "orgao": "Prefeitura de Florínea - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-florinea-sp-reabre-inscricoes-de-processo-seletivo",
+            "orgao": "Prefeitura de Artur Nogueira - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-artur-nogueira-sp-abre-processo-seletivo-para-formar-cadastro-reserva",
             "cargo": "PSICÓLOGO",
             "uf": "SP",
-            "municipio": "Itu",
-            "lat": -23.265442,
-            "lng": -47.29975
+            "municipio": "Artur Nogueira",
+            "lat": -22.571343,
+            "lng": -47.164301
+        },
+        {
+            "orgao": "Prefeitura de Iepê e Hospital Municipal de Iepê - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-e-o-hospital-municipal-de-iepe-sp-anunciam-abertura-de-dois-processos-seletivos",
+            "cargo": "PSICÓLOGO",
+            "uf": "SP",
+            "municipio": "Iepe",
+            "lat": -22.663101,
+            "lng": -51.077414
+        },
+        {
+            "orgao": "Prefeitura de Iepê e Hospital Municipal de Iepê - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-e-o-hospital-municipal-de-iepe-sp-anunciam-abertura-de-dois-processos-seletivos",
+            "cargo": "PSICÓLOGO ESCOLAR",
+            "uf": "SP",
+            "municipio": "Iepe",
+            "lat": -22.663101,
+            "lng": -51.077414
         },
         {
             "orgao": "Prefeitura de Indaiatuba - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-abre-concurso-publico-com-203-vagas",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-indaiatuba-sp-retifica-concurso-publico-com-203-vagas",
             "cargo": "PSICÓLOGO ESCOLAR (1 VAGA); ANALISTA CLÍNICO",
             "uf": "SP",
             "municipio": "Indaiatuba",
             "lat": -23.081646,
             "lng": -47.212309
-        },
-        {
-            "orgao": "Prefeitura de Itatinga - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itatinga-sp-anuncia-abertura-de-concurso-publico-com-diversos-cargos",
-            "cargo": "PSICÓLOGO",
-            "uf": "SP",
-            "municipio": "Itatinga",
-            "lat": -23.104273,
-            "lng": -48.61338
         },
         {
             "orgao": "Prefeitura de Jarinu - SP",
@@ -1453,12 +1570,21 @@
         },
         {
             "orgao": "Prefeitura de Miracatu - SP",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-miracatu-sp-informa-abertura-de-processo-seletivo-com-diversos-cargos",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-miracatu-sp-publica-retificacao-de-processo-seletivo",
             "cargo": "PSICÓLOGO",
             "uf": "SP",
             "municipio": "Miracatu",
             "lat": -24.283929,
             "lng": -47.457104
+        },
+        {
+            "orgao": "Prefeitura de Mirassol - SP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-mirassol-sp-publica-processo-seletivo-com-81-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "SP",
+            "municipio": "Mirassol",
+            "lat": -20.817004,
+            "lng": -49.512139
         },
         {
             "orgao": "Prefeitura de Tarabai - SP",
@@ -1515,6 +1641,15 @@
             "lng": null
         },
         {
+            "orgao": "Prefeitura de Rio Bonito - RJ",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-rio-bonito-rj-lanca-edital-de-processo-seletivo-com-diversas-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "RJ",
+            "municipio": "Rio Bonito",
+            "lat": -22.711272,
+            "lng": -42.625998
+        },
+        {
             "orgao": "UERJ - Universidade do Estado do Rio de Janeiro - RJ",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/uerj-abre-concurso-publico-para-professor-adjunto-na-area-de-historia-teorias-e-sistemas-em-psicologia",
             "cargo": "PROFESSOR ADJUNTO - HISTÓRIA, TEORIAS E SISTEMAS EM PSICOLOGIA",
@@ -1542,17 +1677,8 @@
             "lng": -46.389483
         },
         {
-            "orgao": "Prefeitura de Bela Vista de Minas - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bela-vista-de-minas-mg-abre-inscricoes-para-edital-de-processo-seletivo",
-            "cargo": "PSICÓLOGO",
-            "uf": "MG",
-            "municipio": "Bela Vista De Minas",
-            "lat": -19.825847,
-            "lng": -43.096932
-        },
-        {
             "orgao": "Prefeitura de Bom Sucesso (MG) - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bom-sucesso-mg-abre-26-vagas-em-novo-processo-seletivo",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bom-sucesso-mg-divulga-retificacao-de-processo-seletivo",
             "cargo": "PSICÓLOGO",
             "uf": "MG",
             "municipio": "Bom Sucesso",
@@ -1624,7 +1750,7 @@
         },
         {
             "orgao": "Prefeitura de Imbé de Minas - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-abre-213-vagas-em-novo-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-publica-retificacao-de-concurso-publico",
             "cargo": "PSICÓLOGO",
             "uf": "MG",
             "municipio": "Imbe De Minas",
@@ -1633,7 +1759,7 @@
         },
         {
             "orgao": "Prefeitura de Imbé de Minas - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-abre-213-vagas-em-novo-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-imbe-de-minas-mg-publica-retificacao-de-concurso-publico",
             "cargo": "PSICÓLOGO ESCOLAR",
             "uf": "MG",
             "municipio": "Imbe De Minas",
@@ -1693,15 +1819,6 @@
             "municipio": "Monte Alegre De Minas",
             "lat": -18.869167,
             "lng": -48.877117
-        },
-        {
-            "orgao": "Prefeitura de Palma - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-palma-mg-divulga-retificacao-de-processo-seletivo",
-            "cargo": "PSICÓLOGO",
-            "uf": "MG",
-            "municipio": "Palma",
-            "lat": -21.372561,
-            "lng": -42.315826
         },
         {
             "orgao": "Prefeitura de Piedade do Rio Grande - MG",
@@ -1794,24 +1911,6 @@
             "lng": -46.986472
         },
         {
-            "orgao": "Prefeitura de Sapucaí-Mirim - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sapucai-mirim-mg-divulga-retificacao-de-concurso-publico",
-            "cargo": "PSICÓLOGO",
-            "uf": "MG",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "orgao": "Prefeitura de Sapucaí-Mirim - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sapucai-mirim-mg-divulga-retificacao-de-concurso-publico",
-            "cargo": "PSICÓLOGO ESCOLAR",
-            "uf": "MG",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
             "orgao": "Prefeitura de Uberlândia - MG",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-uberlandia-mg-divulga-retificacao-de-concurso-publico",
             "cargo": "PSICÓLOGO",
@@ -1831,7 +1930,7 @@
         },
         {
             "orgao": "Prefeitura de Varginha - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-varginha-mg-divulga-retificacoes-de-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-varginha-mg-prorroga-inscricoes-de-concurso-publico",
             "cargo": "PSICÓLOGO",
             "uf": "MG",
             "municipio": "Varginha",
@@ -1840,21 +1939,12 @@
         },
         {
             "orgao": "Prefeitura de Varginha - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-varginha-mg-divulga-retificacoes-de-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-varginha-mg-prorroga-inscricoes-de-concurso-publico",
             "cargo": "PSICÓLOGO/ ESCOLAR E EDUCACIONAL",
             "uf": "MG",
             "municipio": "Varginha",
             "lat": -21.55708,
             "lng": -45.431886
-        },
-        {
-            "orgao": "SPDM - Associação Paulista para Desenvolvimento da Medicina (UAICN e UAISO de Uberlândia) - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/spdm-de-uberlandia-mg-publica-retificacao-de-processo-seletivo",
-            "cargo": "PSICÓLOGO",
-            "uf": "MG",
-            "municipio": "Uberlandia",
-            "lat": -18.918999,
-            "lng": -48.27795
         },
         {
             "orgao": "UEMG - Universidade do Estado de Minas Gerais - MG",
@@ -1866,49 +1956,22 @@
             "lng": null
         },
         {
-            "orgao": "UFMG - Universidade Federal de Minas Gerais - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufmg-anuncia-seis-processos-seletivos-para-professor-substituto",
-            "cargo": "PROFESSORES SUBSTITUTOS DO MAGISTÉRIO SUPERIOR - PSICOLOGIA DO DESENVOLVIMENTO: PERSPECTIVAS CLÁSSICAS E CONTEMPORÂNEAS",
+            "orgao": "UFU - Universidade Federal de Uberlândia - MG",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufu-mg-publica-edital-de-processo-seletivo-para-cargo-de-professor",
+            "cargo": "PROFESSRO - PSICOLOGIA",
             "uf": "MG",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
+            "municipio": "Uberlandia",
+            "lat": -18.918999,
+            "lng": -48.27795
         },
         {
-            "orgao": "UFMG - Universidade Federal de Minas Gerais - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufmg-anuncia-seis-processos-seletivos-para-professor-substituto",
-            "cargo": "PROFESSORES SUBSTITUTOS DO MAGISTÉRIO SUPERIOR - PSICOLOGIA SOCIAL, POLÍTICAS PÚBLICAS E SISTEMA DE JUSTIÇA",
-            "uf": "MG",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "orgao": "UFSJ - Universidade Federal de São João Del-Rei - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufsj-lanca-periodo-de-inscricoes-para-edital-de-processo-seletivo",
-            "cargo": "PROFESSOR - PSICOLOGIA EXPERIMENTAL",
-            "uf": "MG",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "orgao": "UFSJ - Universidade Federal de São João Del-Rei - MG",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufsj-lanca-periodo-de-inscricoes-para-edital-de-processo-seletivo",
-            "cargo": "PROFESSOR - PSICOLOGIA SOCIAL",
-            "uf": "MG",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "orgao": "SEGER - Secretaria de Estado de Gestão e Recursos Humanos - ES",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/seger-es-abre-cinco-vagas-em-novo-processo-seletivo",
+            "orgao": "Prefeitura de Afonso Claudio - ES",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-afonso-claudio-es-anuncia-abertura-das-inscricoes-para-edital-de-processo-seletivo",
             "cargo": "PSICÓLOGO",
             "uf": "ES",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
+            "municipio": "Afonso Claudio",
+            "lat": -20.07704,
+            "lng": -41.12546
         },
         {
             "orgao": "CISNOP - Consórcio Intermunicipal de Saúde do Norte do Paraná - PR",
@@ -1918,15 +1981,6 @@
             "municipio": "N/D",
             "lat": null,
             "lng": null
-        },
-        {
-            "orgao": "Prefeitura de Boa Vista da Aparecida - PR",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boa-vista-da-aparecida-pr-informa-abertura-das-inscricoes-para-concurso-publico",
-            "cargo": "PSICÓLOGO",
-            "uf": "PR",
-            "municipio": "Boa Vista Da Aparecida",
-            "lat": -25.430405,
-            "lng": -53.411736
         },
         {
             "orgao": "Prefeitura de Douradina - PR",
@@ -1956,6 +2010,24 @@
             "lng": -50.749309
         },
         {
+            "orgao": "Prefeitura de Itaipulândia - PR",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itaipulandia-pr-abre-inscricoes-para-dois-editais-de-processo-seletivo",
+            "cargo": "PSICÓLOGO",
+            "uf": "PR",
+            "municipio": "Itaipulandia",
+            "lat": -25.138481,
+            "lng": -54.305001
+        },
+        {
+            "orgao": "Prefeitura de Leópolis - PR",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-leopolis-pr-anuncia-concurso-publico-com-25-vagas-e-salarios-de-ate-13-8-mil",
+            "cargo": "PSICÓLOGO",
+            "uf": "PR",
+            "municipio": "Leopolis",
+            "lat": -23.079922,
+            "lng": -50.755125
+        },
+        {
             "orgao": "Prefeitura de Mauá da Serra - PR",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-maua-da-serra-pr-divulga-retificacao-de-concurso-publico",
             "cargo": "PSICÓLOGO",
@@ -1972,6 +2044,15 @@
             "municipio": "Mercedes",
             "lat": -24.44889,
             "lng": -54.164436
+        },
+        {
+            "orgao": "Prefeitura de Nova Fátima - PR",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-nova-fatima-pr-publica-edital-de-processo-seletivo",
+            "cargo": "PSICÓLOGO",
+            "uf": "PR",
+            "municipio": "Nova Fatima",
+            "lat": -23.432359,
+            "lng": -50.562314
         },
         {
             "orgao": "Prefeitura de Nova Prata do Iguaçu - PR",
@@ -2028,6 +2109,15 @@
             "lng": -53.086396
         },
         {
+            "orgao": "Prefeitura de Cachoeira do Sul - RS",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-cachoeira-do-sul-rs-abre-edital-de-processo-seletivo-com-33-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "RS",
+            "municipio": "Cachoeira Do Sul",
+            "lat": -30.04582,
+            "lng": -52.893413
+        },
+        {
             "orgao": "Prefeitura de Condor - RS",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-condor-rs-abre-inscricoes-para-edital-de-concurso-publico",
             "cargo": "PSICÓLOGA",
@@ -2046,13 +2136,13 @@
             "lng": -52.122157
         },
         {
-            "orgao": "Prefeitura de Pontão - RS",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/edital-de-processo-seletivo-e-divulgado-pela-prefeitura-de-pontao-rs",
-            "cargo": "PSICÓLOGO",
+            "orgao": "Prefeitura de Novo Hamburgo - RS",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-novo-hamburgo-rs-abre-inscricoes-para-edital-de-processo-seletivo",
+            "cargo": "PSICÓLOGOS",
             "uf": "RS",
-            "municipio": "Pontao",
-            "lat": -28.061841,
-            "lng": -52.675399
+            "municipio": "Novo Hamburgo",
+            "lat": -29.686326,
+            "lng": -51.128605
         },
         {
             "orgao": "Prefeitura de São José do Ouro - RS",
@@ -2100,17 +2190,8 @@
             "lng": -52.34432
         },
         {
-            "orgao": "Prefeitura de Águas de Chapecó - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-aguas-de-chapeco-sc-retifica-um-de-dois-concursos-publicos-com-salarios-de-ate-18-9-mil",
-            "cargo": "NUTRICIONISTA PSICÓLOGO",
-            "uf": "SC",
-            "municipio": "Aguas De Chapeco",
-            "lat": -27.076213,
-            "lng": -52.987251
-        },
-        {
             "orgao": "Prefeitura de Araranguá - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-ararangua-sc-divulga-dois-editais-de-processos-seletivos",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-ararangua-sc-divulga-retifica-um-de-dois-editais-de-processos-seletivos",
             "cargo": "PSICÓLOGO I",
             "uf": "SC",
             "municipio": "Ararangua",
@@ -2127,22 +2208,13 @@
             "lng": -49.890908
         },
         {
-            "orgao": "Prefeitura de Capivari de Baixo - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-capivari-de-baixo-sc-divulga-processo-seletivo-com-salarios-de-ate-14-4-mil",
+            "orgao": "Prefeitura de Calmon - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-calmon-sc-divulga-retificacao-de-processo-seletivo",
             "cargo": "PSICÓLOGO",
             "uf": "SC",
-            "municipio": "Capivari De Baixo",
-            "lat": -28.449046,
-            "lng": -48.960575
-        },
-        {
-            "orgao": "Prefeitura de Capivari de Baixo - SC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-capivari-de-baixo-sc-divulga-processo-seletivo-com-salarios-de-ate-14-4-mil",
-            "cargo": "PSICÓLOGO - CAPS",
-            "uf": "SC",
-            "municipio": "Capivari De Baixo",
-            "lat": -28.449046,
-            "lng": -48.960575
+            "municipio": "Calmon",
+            "lat": -26.604677,
+            "lng": -51.096635
         },
         {
             "orgao": "Prefeitura de Doutor Pedrinho - SC",
@@ -2181,6 +2253,33 @@
             "lng": -53.525445
         },
         {
+            "orgao": "Prefeitura de Itapoá - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itapoa-sc-abre-processo-seletivo-para-assistente-social-e-psicologo",
+            "cargo": "PSICÓLOGO",
+            "uf": "SC",
+            "municipio": "Itapoa",
+            "lat": -26.006048,
+            "lng": -48.604168
+        },
+        {
+            "orgao": "Prefeitura de Maravilha - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/edital-de-processo-seletivo-e-anunciado-pela-prefeitura-de-maravilha-sc",
+            "cargo": "PSICÓLOGO SOCIAL",
+            "uf": "SC",
+            "municipio": "Maravilha",
+            "lat": -26.761624,
+            "lng": -53.174819
+        },
+        {
+            "orgao": "Prefeitura de Maravilha - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-maravilha-sc-publica-concurso-publico-com-salarios-de-ate-24-2-mil",
+            "cargo": "PSICÓLOGO",
+            "uf": "SC",
+            "municipio": "Maravilha",
+            "lat": -26.761624,
+            "lng": -53.174819
+        },
+        {
             "orgao": "Prefeitura de Rio do Sul - SC",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-rio-do-sul-sc-divulga-retificacao-de-concurso-publico",
             "cargo": "PSICÓLOGO",
@@ -2188,6 +2287,15 @@
             "municipio": "Rio Do Sul",
             "lat": -27.217903,
             "lng": -49.643238
+        },
+        {
+            "orgao": "Prefeitura de São João do Oeste - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-joao-do-oeste-sc-abre-processo-seletivo-para-formar-cadastro-reserva",
+            "cargo": "PSICÓLOGO",
+            "uf": "SC",
+            "municipio": "Sao Joao Do Oeste",
+            "lat": -27.097483,
+            "lng": -53.595967
         },
         {
             "orgao": "Prefeitura de São Lourenço do Oeste - SC",
@@ -2208,6 +2316,24 @@
             "lng": -52.302855
         },
         {
+            "orgao": "Prefeitura de Tangará - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-tangara-sc-informa-abertura-de-concurso-publico-com-diversos-cargos",
+            "cargo": "PSICÓLOGO",
+            "uf": "SC",
+            "municipio": "Tangara",
+            "lat": -27.101011,
+            "lng": -51.245914
+        },
+        {
+            "orgao": "Prefeitura de Tangará - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-tangara-sc-informa-abertura-de-concurso-publico-com-diversos-cargos",
+            "cargo": "PSICÓLOGO SOCIAL",
+            "uf": "SC",
+            "municipio": "Tangara",
+            "lat": -27.101011,
+            "lng": -51.245914
+        },
+        {
             "orgao": "Prefeitura de Vitor Meireles - SC",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-vitor-meireles-sc-abre-edital-de-concurso-publico-com-diversos-cargos",
             "cargo": "PSICÓLOGO ESCOLAR",
@@ -2215,6 +2341,24 @@
             "municipio": "Vitor Meireles",
             "lat": -26.881578,
             "lng": -49.830752
+        },
+        {
+            "orgao": "Prefeitura de Witmarsum - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-witmarsum-sc-abre-concurso-publico-e-processo-seletivo-com-30-vagas",
+            "cargo": "PSICÓLOGA PSF",
+            "uf": "SC",
+            "municipio": "Witmarsum",
+            "lat": -26.926743,
+            "lng": -49.804203
+        },
+        {
+            "orgao": "SES - Secretaria de Estado da Saúde de Santa Catarina - SC",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/ses-sc-divulga-processo-seletivo-para-cargos-de-nivel-superior",
+            "cargo": "PSICÓLOGO",
+            "uf": "SC",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
         },
         {
             "orgao": "SEEDF - Secretaria de Estado de Educação do Distrito Federal - DF",
@@ -2235,22 +2379,22 @@
             "lng": -51.151492
         },
         {
-            "orgao": "UFMS - Universidade Federal de Mato Grosso do Sul - MS",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufms-divulga-concurso-publico-para-professores-do-magisterio-superior",
-            "cargo": "PROFESSOR - CIÊNCIAS HUMANAS/ PSICOLOGIA/ TRATAMENTO E PREVENÇÃO PSICOLÓGICA",
-            "uf": "MS",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
+            "orgao": "Prefeitura de Bela Vista de Goiás - GO",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bela-vista-de-goias-go-divulga-abertura-das-inscricoes-para-dois-processos-seletivos",
+            "cargo": "PSICÓLOGO",
+            "uf": "GO",
+            "municipio": "Bela Vista De Goias",
+            "lat": -16.973121,
+            "lng": -48.952412
         },
         {
-            "orgao": "UFMS - Universidade Federal de Mato Grosso do Sul - MS",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/ufms-divulga-concurso-publico-para-professores-do-magisterio-superior",
-            "cargo": "PROFESSOR - CIÊNCIAS HUMANAS/PSICOLOGIA/PSICOLOGIA DO ENSINO E DA APRENDIZAGEM",
-            "uf": "MS",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
+            "orgao": "SMASMI - Prefeitura de Caldas Novas - GO",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-caldas-novas-go-prorroga-e-retifica-processo-seletivo-com-101-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "GO",
+            "municipio": "Caldas Novas",
+            "lat": -17.743539,
+            "lng": -48.621197
         },
         {
             "orgao": "Prefeitura de Cuiabá - MT",
@@ -2280,6 +2424,15 @@
             "lng": -56.110005
         },
         {
+            "orgao": "Prefeitura de Nova Santa Helena - MT",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-nova-santa-helena-mt-abre-33-vagas-em-novo-concurso-publico",
+            "cargo": "PSICÓLOGO",
+            "uf": "MT",
+            "municipio": "Nova Santa Helena",
+            "lat": -10.851,
+            "lng": -55.183686
+        },
+        {
             "orgao": "Prefeitura de Nova Xavantina - MT",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-nova-xavantina-mt-publica-retificacao-de-concurso-publico",
             "cargo": "PSICÓLOGO",
@@ -2298,6 +2451,15 @@
             "lng": -58.812138
         },
         {
+            "orgao": "ALE - Assembleia Legislativa do Estado do Amazonas - AM",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/ale-am-promove-concurso-publico-com-100-vagas",
+            "cargo": "ANALISTA LEGISLATIVO - PSICÓLOGO",
+            "uf": "AM",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
+        },
+        {
             "orgao": "Prefeitura de Tefé - AM",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-tefe-am-lanca-edital-de-concurso-publico-com-diversas-vagas",
             "cargo": "PSICÓLOGO",
@@ -2305,15 +2467,6 @@
             "municipio": "Tefe",
             "lat": -3.348372,
             "lng": -64.70842
-        },
-        {
-            "orgao": "Prefeitura de Tarauacá - AC",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-tarauaca-ac-abre-processo-seletivo-com-22-vagas",
-            "cargo": "PSICÓLOGO",
-            "uf": "AC",
-            "municipio": "Tarauaca",
-            "lat": -8.155669,
-            "lng": -70.755501
         },
         {
             "orgao": "UFAC - Universidade Federal do Acre - AC",
@@ -2334,13 +2487,13 @@
             "lng": null
         },
         {
-            "orgao": "SESPA - Secretaria de Estado de Saúde Pública - PA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/sespa-pa-abre-46-vagas-em-novo-processo-seletivo",
+            "orgao": "Prefeitura de Laranjal do Jari - AP",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-laranjal-do-jari-ap-abre-79-vagas-em-novo-concurso-publico",
             "cargo": "PSICÓLOGO",
-            "uf": "PA",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
+            "uf": "AP",
+            "municipio": "Laranjal Do Jari",
+            "lat": -0.855665,
+            "lng": -52.539021
         },
         {
             "orgao": "UNIR - Universidade Federal de Rondônia - Porto Velho - RO",
@@ -2350,15 +2503,6 @@
             "municipio": "Porto Velho",
             "lat": -8.768892,
             "lng": -63.831446
-        },
-        {
-            "orgao": "Prefeitura de Boa Vista - RR",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boa-vista-rr-lanca-edital-de-concurso-publico-com-diversas-vagas",
-            "cargo": "PSICÓLOGO",
-            "uf": "RR",
-            "municipio": "Boa Vista",
-            "lat": 2.816682,
-            "lng": -60.670533
         },
         {
             "orgao": "UFRR - Universidade Federal de Roraima - RR",
@@ -2379,24 +2523,6 @@
             "lng": null
         },
         {
-            "orgao": "UFT - Universidade Federal do Tocantins - TO",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/uft-publica-edital-de-concurso-publico-para-cargo-de-professor",
-            "cargo": "PROFESSOR - PSICOLOGIA",
-            "uf": "TO",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
-            "orgao": "UFT - Universidade Federal do Tocantins - TO",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/uft-publica-edital-de-concurso-publico-para-cargo-de-professor",
-            "cargo": "PSICOLOGIA",
-            "uf": "TO",
-            "municipio": "N/D",
-            "lat": null,
-            "lng": null
-        },
-        {
             "orgao": "Hemoba - Fundação de Hematologia e Hemoterapia da Bahia - BA",
             "link_orgao": "https://www.pciconcursos.com.br/noticias/hemoba-publica-retificacao-de-processo-seletivo",
             "cargo": "PSICÓLOGO",
@@ -2404,42 +2530,6 @@
             "municipio": "N/D",
             "lat": null,
             "lng": null
-        },
-        {
-            "orgao": "Prefeitura de Itagibá - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itagiba-ba-lanca-edital-de-processo-seletivo-com-diversos-cargos",
-            "cargo": "NEUROPSICÓLOGO",
-            "uf": "BA",
-            "municipio": "Itagiba",
-            "lat": -14.286514,
-            "lng": -39.848516
-        },
-        {
-            "orgao": "Prefeitura de Itagibá - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itagiba-ba-lanca-edital-de-processo-seletivo-com-diversos-cargos",
-            "cargo": "PSICÓLOGO",
-            "uf": "BA",
-            "municipio": "Itagiba",
-            "lat": -14.286514,
-            "lng": -39.848516
-        },
-        {
-            "orgao": "Prefeitura de Itagibá - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itagiba-ba-lanca-edital-de-processo-seletivo-com-diversos-cargos",
-            "cargo": "PSICÓLOGO - EQUIPE VOLANTE",
-            "uf": "BA",
-            "municipio": "Itagiba",
-            "lat": -14.286514,
-            "lng": -39.848516
-        },
-        {
-            "orgao": "Prefeitura de Itagibá - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itagiba-ba-lanca-edital-de-processo-seletivo-com-diversos-cargos",
-            "cargo": "PSICÓLOGO EDUCACIONAL",
-            "uf": "BA",
-            "municipio": "Itagiba",
-            "lat": -14.286514,
-            "lng": -39.848516
         },
         {
             "orgao": "Prefeitura de Santanópolis - BA",
@@ -2478,31 +2568,31 @@
             "lng": -39.261131
         },
         {
-            "orgao": "Prefeitura de São Francisco do Conde - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-francisco-do-conde-ba-anuncia-processo-seletivo-com-223-vagas",
-            "cargo": "NEUROPSICÓLOGO",
+            "orgao": "UEFS - Universidade Estadual de Feira de Santana - BA",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/uefs-ba-publica-concurso-publico-para-professores-auxiliares",
+            "cargo": "PROFESSOR AUXILIAR - FUNDAMENTOS E PSICOLOGIA GERAL",
             "uf": "BA",
-            "municipio": "Sao Francisco Do Conde",
-            "lat": -12.629983,
-            "lng": -38.675798
+            "municipio": "Feira De Santana",
+            "lat": -12.229284,
+            "lng": -38.960033
         },
         {
-            "orgao": "Prefeitura de São Francisco do Conde - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-francisco-do-conde-ba-anuncia-processo-seletivo-com-223-vagas",
-            "cargo": "PSICÓLOGO",
+            "orgao": "UEFS - Universidade Estadual de Feira de Santana - BA",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/uefs-ba-publica-concurso-publico-para-professores-auxiliares",
+            "cargo": "PROFESSOR AUXILIAR - PSICOLOGIA ORGANIZACIONAL E DO TRABALHO",
             "uf": "BA",
-            "municipio": "Sao Francisco Do Conde",
-            "lat": -12.629983,
-            "lng": -38.675798
+            "municipio": "Feira De Santana",
+            "lat": -12.229284,
+            "lng": -38.960033
         },
         {
-            "orgao": "Prefeitura de Senhor do Bonfim - BA",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-senhor-do-bonfim-ba-prorroga-inscricoes-de-processo-seletivo",
-            "cargo": "PSICÓLOGO",
+            "orgao": "UEFS - Universidade Estadual de Feira de Santana - BA",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/uefs-ba-publica-concurso-publico-para-professores-auxiliares",
+            "cargo": "PROFESSOR AUXILIAR - PSICOLOGIAS DAS RELAÇÕES ÉTNICO-RACIAIS",
             "uf": "BA",
-            "municipio": "Senhor Do Bonfim",
-            "lat": -10.456771,
-            "lng": -40.189985
+            "municipio": "Feira De Santana",
+            "lat": -12.229284,
+            "lng": -38.960033
         },
         {
             "orgao": "UFRB - Universidade Federal do Recôncavo da Bahia - BA",
@@ -2514,22 +2604,22 @@
             "lng": null
         },
         {
+            "orgao": "CPSMA - Consórcio Público de Saúde da Microrregião do Acaraú CE - CE",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/cpsma-ce-publica-concurso-publico-com-mais-de-100-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "CE",
+            "municipio": "Acarau",
+            "lat": -2.885311,
+            "lng": -40.118241
+        },
+        {
             "orgao": "Prefeitura de Beberibe - CE",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-beberibe-ce-abre-inscricoes-para-quatro-editais-de-concurso-publico",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-beberibe-ce-divulga-retificacoes-de-concursos-publicos",
             "cargo": "PSICÓLOGO",
             "uf": "CE",
             "municipio": "Beberibe",
             "lat": -4.174763,
             "lng": -38.123273
-        },
-        {
-            "orgao": "Prefeitura de Crato - CE",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-crato-ce-lanca-edital-de-processo-seletivo-com-diversos-cargos",
-            "cargo": "PSICÓLOGO",
-            "uf": "CE",
-            "municipio": "Crato",
-            "lat": -7.231753,
-            "lng": -39.40839
         },
         {
             "orgao": "Prefeitura de Lavras da Mangabeira - CE",
@@ -2559,13 +2649,40 @@
             "lng": -38.271941
         },
         {
-            "orgao": "Unilab - Universidade da Integração Internacional da Lusofonia Afro-Brasileira - CE",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/unilab-ce-publica-concurso-publico-para-professores-de-magisterio-superior",
-            "cargo": "PROFESSOR - PSICOLOGIA DO DESENVOLVIMENTO E DA APRENDIZAGEM",
-            "uf": "CE",
-            "municipio": "Graca",
-            "lat": -4.046939,
-            "lng": -40.755525
+            "orgao": "Prefeitura de Lima Campos - MA",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-lima-campos-ma-lanca-edital-de-concurso-publico-com-diversas-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "MA",
+            "municipio": "Lima Campos",
+            "lat": -4.517046,
+            "lng": -44.46934
+        },
+        {
+            "orgao": "CRP - Conselho Regional de Psicologia da 13ª Região - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/crp-13-pb-divulga-edital-de-concurso-publico",
+            "cargo": "PSICÓLOGA/O AGENTE DE ÉTICA PROFISSIONAL",
+            "uf": "PB",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
+        },
+        {
+            "orgao": "CRP - Conselho Regional de Psicologia da 13ª Região - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/crp-13-pb-divulga-edital-de-concurso-publico",
+            "cargo": "PSICÓLOGA/O AGENTE DE ORIENTAÇÃO E FISCALIZAÇÃO",
+            "uf": "PB",
+            "municipio": "N/D",
+            "lat": null,
+            "lng": null
+        },
+        {
+            "orgao": "Prefeitura de Água Branca - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-agua-branca-pb-publica-edital-de-processo-seletivo",
+            "cargo": "PSICÓLOGO",
+            "uf": "PB",
+            "municipio": "Agua Branca",
+            "lat": -7.51107,
+            "lng": -37.642209
         },
         {
             "orgao": "Prefeitura de Boa Vista - PB",
@@ -2575,6 +2692,51 @@
             "municipio": "Boa Vista",
             "lat": -7.257913,
             "lng": -36.235374
+        },
+        {
+            "orgao": "Prefeitura de Bonito de Santa Fé - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-bonito-de-santa-fe-pb-lanca-edital-de-concurso-publico-com-diversas-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "PB",
+            "municipio": "Bonito De Santa Fe",
+            "lat": -7.310763,
+            "lng": -38.516495
+        },
+        {
+            "orgao": "Prefeitura de Boqueirão - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boqueirao-pb-publica-concurso-publico-com-103-vagas",
+            "cargo": "PSICÓLOGO - ASSISTÊNCIA SOCIAL",
+            "uf": "PB",
+            "municipio": "Boqueirao",
+            "lat": -7.482648,
+            "lng": -36.133405
+        },
+        {
+            "orgao": "Prefeitura de Boqueirão - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boqueirao-pb-publica-concurso-publico-com-103-vagas",
+            "cargo": "PSICÓLOGO CLÍNICO",
+            "uf": "PB",
+            "municipio": "Boqueirao",
+            "lat": -7.482648,
+            "lng": -36.133405
+        },
+        {
+            "orgao": "Prefeitura de Boqueirão - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boqueirao-pb-publica-concurso-publico-com-103-vagas",
+            "cargo": "PSICÓLOGO EDUCACIONAL",
+            "uf": "PB",
+            "municipio": "Boqueirao",
+            "lat": -7.482648,
+            "lng": -36.133405
+        },
+        {
+            "orgao": "Prefeitura de Brejo do Cruz - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-brejo-do-cruz-pb-lanca-edital-de-concurso-publico-com-diversas-vagas",
+            "cargo": "PSICÓLOGO",
+            "uf": "PB",
+            "municipio": "Brejo Do Cruz",
+            "lat": -6.347708,
+            "lng": -37.500163
         },
         {
             "orgao": "Prefeitura de Congo - PB",
@@ -2604,13 +2766,22 @@
             "lng": -35.048558
         },
         {
-            "orgao": "Prefeitura de Riacho de Santo Antônio - PB",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-riacho-de-santo-antonio-pb-abre-edital-de-concurso-publico-com-diversas-vagas",
+            "orgao": "Prefeitura de Monteiro - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-monteiro-pb-promove-concurso-publico-com-mais-de-100-vagas",
             "cargo": "PSICÓLOGO",
             "uf": "PB",
-            "municipio": "Riacho De Santo Antonio",
-            "lat": -7.690295,
-            "lng": -36.15671
+            "municipio": "Monteiro",
+            "lat": -7.892217,
+            "lng": -37.122681
+        },
+        {
+            "orgao": "Prefeitura de Olivedos - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-olivedos-pb-abre-37-vagas-em-novo-concurso-publico",
+            "cargo": "PSICÓLOGO",
+            "uf": "PB",
+            "municipio": "Olivedos",
+            "lat": -6.988226,
+            "lng": -36.243665
         },
         {
             "orgao": "Prefeitura de São Bentinho - PB",
@@ -2622,13 +2793,22 @@
             "lng": -37.722721
         },
         {
-            "orgao": "Prefeitura de Gravatá - PE",
-            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-gravata-pe-abre-edital-de-processo-seletivo-com-154-vagas",
+            "orgao": "Prefeitura de São Francisco - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-francisco-pb-abre-concurso-publico-para-diversas-areas",
             "cargo": "PSICÓLOGO",
-            "uf": "PE",
-            "municipio": "Gravata",
-            "lat": -8.206,
-            "lng": -35.571492
+            "uf": "PB",
+            "municipio": "Sao Francisco",
+            "lat": -6.61928,
+            "lng": -38.097141
+        },
+        {
+            "orgao": "Prefeitura de São Francisco - PB",
+            "link_orgao": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-francisco-pb-abre-concurso-publico-para-diversas-areas",
+            "cargo": "PSICÓLOGO EDUCACIONAL",
+            "uf": "PB",
+            "municipio": "Sao Francisco",
+            "lat": -6.61928,
+            "lng": -38.097141
         },
         {
             "orgao": "UFPE - Universidade Federal de Pernambuco - PE",

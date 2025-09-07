@@ -176,14 +176,17 @@
             function updateStats() {
                 const totalVagas = state.allVagas.length;
                 const totalFavorited = state.favoritedVagaIds.size;
-                const totalMarked = state.markedVagaIds.size;
-                const totalRemaining = totalVagas - totalMarked;
+                
+                // Uma vaga é considerada "vista" se foi favoritada OU arquivada.
+                // O Set garante que, se uma vaga for as duas coisas, ela seja contada apenas uma vez.
+                const viewedVagaIds = new Set([...state.favoritedVagaIds, ...state.markedVagaIds]);
+                const totalPending = totalVagas - viewedVagaIds.size;
 
                 elements.stats.innerHTML = `
                     <p>
                         <strong class="font-semibold text-white">${totalVagas}</strong> vagas totais | 
-                        <strong class="font-semibold text-yellow-400">${totalFavorited}</strong> favoritas | 
-                        <strong class="font-semibold text-blue-400">${totalRemaining}</strong> pendentes
+                        <strong class="font-semibold text-blue-400">${totalPending}</strong> pendentes |
+                        <strong class="font-semibold text-yellow-400">${totalFavorited}</strong> favoritas
                     </p>
                     <p>Última atualização: <span class="font-semibold text-white" id="last-update-time"></span></p>
                 `;

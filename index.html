@@ -56,7 +56,7 @@
         <div id="lista-container" class="w-full md:w-2/5 lg:w-1/3 bg-gray-900 flex flex-col h-full">
             <header class="p-4 border-b border-gray-700 bg-gray-900">
                 <h1 class="text-2xl font-bold text-white">Buscador de Concursos</h1>
-                <div id="stats" class="text-sm text-gray-400 mt-2"></div>
+                <div id="stats" class="text-sm text-gray-400 mt-2 space-y-1"></div>
                 <div class="mt-4 relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
@@ -171,6 +171,23 @@
             function getVagaId(vaga) {
                 return `${vaga.orgao}|${vaga.cargo}`;
             }
+            
+            // --- Lógica de Atualização de Estatísticas ---
+            function updateStats() {
+                const totalVagas = state.allVagas.length;
+                const totalFavorited = state.favoritedVagaIds.size;
+                const totalMarked = state.markedVagaIds.size;
+                const totalRemaining = totalVagas - totalMarked;
+
+                elements.stats.innerHTML = `
+                    <p>
+                        <strong class="font-semibold text-white">${totalVagas}</strong> vagas totais | 
+                        <strong class="font-semibold text-yellow-400">${totalFavorited}</strong> favoritas | 
+                        <strong class="font-semibold text-blue-400">${totalRemaining}</strong> pendentes
+                    </p>
+                    <p>Última atualização: <span class="font-semibold text-white" id="last-update-time"></span></p>
+                `;
+            }
 
             // --- Lógica Principal de Renderização ---
             async function initializeApp() {
@@ -190,7 +207,9 @@
                         };
                     });
                     
-                    elements.stats.innerHTML = `<p><strong class="font-semibold text-white">${data.total_vagas}</strong> vagas encontradas.</p><p>Última atualização: <span class="font-semibold text-white">${data.data_extracao}</span></p>`;
+                    updateStats(); // Atualiza todas as estatísticas
+                    document.getElementById('last-update-time').textContent = data.data_extracao;
+                    
                     populateUfFilterModal();
                     updateDisplay();
                     lucide.createIcons(); // Renderiza os ícones Lucide
@@ -285,6 +304,7 @@
                         vaga.isMarked = e.target.checked;
                         if (vaga.isMarked) state.markedVagaIds.add(vaga.id); else state.markedVagaIds.delete(vaga.id);
                         saveMarkedVagasToStorage();
+                        updateStats();
                         updateDisplay();
                     });
 
@@ -295,6 +315,7 @@
                         if (vaga.isFavorited) state.favoritedVagaIds.add(vaga.id); else state.favoritedVagaIds.delete(vaga.id);
                         saveFavoritedVagasToStorage();
                         favoriteBtn.classList.toggle('favorited');
+                        updateStats();
                     });
 
                     const marker = state.markers.find(m => m.options.vagaId === vaga.id);
@@ -382,7 +403,7 @@
                     try {
                         const backupData = JSON.parse(e.target.result);
 
-                        if (backupData.markedVagaIds && backupData.favoritedVagaIds) {
+                        if (backupData.markedVagaIds !== undefined && backupData.favoritedVagaIds !== undefined) {
                             localStorage.setItem(MARKED_STORAGE_KEY, JSON.stringify(backupData.markedVagaIds));
                             localStorage.setItem(FAVORITE_STORAGE_KEY, JSON.stringify(backupData.favoritedVagaIds));
 

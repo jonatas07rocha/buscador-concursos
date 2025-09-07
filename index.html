@@ -200,6 +200,23 @@
                     if (!response.ok) throw new Error('Falha ao carregar vagas.json');
                     const data = await response.json();
                     
+                    // --- CORREÇÃO: Limpeza de dados do localStorage ---
+                    // 1. Crie um conjunto com todos os IDs de vagas válidos da lista atual.
+                    const currentVagaIds = new Set(data.vagas.map(v => getVagaId(v)));
+
+                    // 2. Filtre os IDs salvos, mantendo apenas os que ainda existem.
+                    state.markedVagaIds = new Set(
+                        [...state.markedVagaIds].filter(id => currentVagaIds.has(id))
+                    );
+                    state.favoritedVagaIds = new Set(
+                        [...state.favoritedVagaIds].filter(id => currentVagaIds.has(id))
+                    );
+
+                    // 3. Salve os dados limpos de volta no localStorage para consistência futura.
+                    saveMarkedVagasToStorage();
+                    saveFavoritedVagasToStorage();
+                    // --- Fim da Correção ---
+
                     state.allVagas = data.vagas.map(vaga => {
                         const id = getVagaId(vaga);
                         return {
@@ -210,7 +227,7 @@
                         };
                     });
                     
-                    updateStats(); // Atualiza todas as estatísticas
+                    updateStats(); // Agora o cálculo sempre será correto.
                     document.getElementById('last-update-time').textContent = data.data_extracao;
                     
                     populateUfFilterModal();

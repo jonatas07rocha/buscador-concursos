@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <!-- Fontes do Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,6 +77,18 @@
                     </div>
                     <button id="filter-uf-btn" class="text-sm py-2 px-4 bg-gray-800 border-gray-600 rounded-md hover:bg-gray-700">Filtrar por UF</button>
                 </div>
+                <!-- Seção de Backup e Restauração -->
+                <div class="flex space-x-2 mt-3 border-t border-gray-700 pt-3">
+                    <button id="export-btn" class="flex items-center justify-center flex-1 text-sm py-2 px-4 bg-green-800 hover:bg-green-700 rounded-md font-semibold transition-colors">
+                        <i data-lucide="download" class="w-4 h-4 mr-2"></i>
+                        <span>Fazer Backup</span>
+                    </button>
+                    <label for="import-input" class="flex items-center justify-center flex-1 text-sm py-2 px-4 bg-yellow-700 hover:bg-yellow-600 text-gray-900 rounded-md cursor-pointer text-center font-semibold transition-colors">
+                        <i data-lucide="upload" class="w-4 h-4 mr-2"></i>
+                        <span>Restaurar Backup</span>
+                    </label>
+                    <input type="file" id="import-input" class="hidden" accept=".json"/>
+                </div>
             </header>
             
             <div id="lista-vagas" class="overflow-y-auto custom-scrollbar flex-grow p-2 md:p-4 pb-20"></div>
@@ -118,7 +133,9 @@
                 ufCheckboxes: document.getElementById('uf-checkboxes'),
                 clearUfFilterBtn: document.getElementById('clear-uf-filter'),
                 applyUfFilterBtn: document.getElementById('apply-uf-filter'),
-                map: L.map('map', { attributionControl: false }).setView([-14.235, -51.925], 4)
+                map: L.map('map', { attributionControl: false }).setView([-14.235, -51.925], 4),
+                exportBtn: document.getElementById('export-btn'),
+                importInput: document.getElementById('import-input')
             };
 
             // Estado da aplicação
@@ -176,6 +193,7 @@
                     elements.stats.innerHTML = `<p><strong class="font-semibold text-white">${data.total_vagas}</strong> vagas encontradas.</p><p>Última atualização: <span class="font-semibold text-white">${data.data_extracao}</span></p>`;
                     populateUfFilterModal();
                     updateDisplay();
+                    lucide.createIcons(); // Renderiza os ícones Lucide
                 } catch (error) {
                     console.error("Erro ao carregar dados:", error);
                     elements.listaVagas.innerHTML = `<div class="m-4 p-4 bg-red-900/50 text-red-300 rounded-md"><strong>Erro:</strong> Não foi possível carregar os dados.</div>`;
@@ -317,6 +335,72 @@
             elements.toggleListBtn.addEventListener('click', showListView);
             elements.toggleMapBtn.addEventListener('click', showMapView);
             
+            // --- LÓGICA DE BACKUP E RESTAURAÇÃO ---
+            elements.exportBtn.addEventListener('click', () => {
+                try {
+                    const markedVagas = localStorage.getItem(MARKED_STORAGE_KEY);
+                    const favoritedVagas = localStorage.getItem(FAVORITE_STORAGE_KEY);
+
+                    if (!markedVagas && !favoritedVagas) {
+                        alert('Nenhum dado para fazer backup.');
+                        return;
+                    }
+
+                    const backupData = {
+                        markedVagaIds: markedVagas ? JSON.parse(markedVagas) : [],
+                        favoritedVagaIds: favoritedVagas ? JSON.parse(favoritedVagas) : []
+                    };
+
+                    const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    
+                    const date = new Date();
+                    const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+                    a.href = url;
+                    a.download = `backup-concursos-${dateString}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    alert('Backup exportado com sucesso!');
+                } catch (error) {
+                    console.error("Erro ao exportar dados:", error);
+                    alert('Ocorreu um erro ao tentar exportar os dados.');
+                }
+            });
+
+            elements.importInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (!file) {
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const backupData = JSON.parse(e.target.result);
+
+                        if (backupData.markedVagaIds && backupData.favoritedVagaIds) {
+                            localStorage.setItem(MARKED_STORAGE_KEY, JSON.stringify(backupData.markedVagaIds));
+                            localStorage.setItem(FAVORITE_STORAGE_KEY, JSON.stringify(backupData.favoritedVagaIds));
+
+                            alert('Backup restaurado com sucesso! A página será recarregada para aplicar as alterações.');
+                            location.reload(); // Recarrega a página para que o estado seja atualizado
+                        } else {
+                            throw new Error('Formato de arquivo inválido.');
+                        }
+                    } catch (error) {
+                        console.error("Erro ao importar dados:", error);
+                        alert('Erro ao ler o arquivo de backup. Verifique se o arquivo é válido.');
+                    }
+                };
+                reader.readAsText(file);
+                
+                elements.importInput.value = ''; // Limpa o input
+            });
+
             initializeApp();
         });
 
@@ -324,3 +408,4 @@
     </script>
 </body>
 </html>
+
